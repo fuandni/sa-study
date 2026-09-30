@@ -1,0 +1,67 @@
+name: Fetch older official morning sources
+
+on:
+  push:
+    paths:
+      - ".github/workflows/fetch_older_sources.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download official IPA PDFs
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p sources source_text
+          fetch() {
+            local url="$1" out="$2"
+            echo "Fetching $out"
+            curl -fL --retry 3 --retry-delay 2 --connect-timeout 20 "$url" -o "sources/$out"
+            test -s "sources/$out"
+            pdftotext -layout "sources/$out" "source_text/${out%.pdf}.txt" || true
+          }
+
+          fetch "https://www.ipa.go.jp/shiken/mondai-kaiotu/gmcbt80000009sgk-att/2022r04h_koudo_am1_qs.pdf"  "2022r04h_koudo_am1_qs.pdf"
+          fetch "https://www.ipa.go.jp/shiken/mondai-kaiotu/gmcbt80000009sgk-att/2022r04h_koudo_am1_ans.pdf" "2022r04h_koudo_am1_ans.pdf"
+          fetch "https://www.ipa.go.jp/shiken/mondai-kaiotu/gmcbt80000009sgk-att/2022r04h_sa_am2_qs.pdf"     "2022r04h_sa_am2_qs.pdf"
+          fetch "https://www.ipa.go.jp/shiken/mondai-kaiotu/gmcbt80000009sgk-att/2022r04h_sa_am2_ans.pdf"    "2022r04h_sa_am2_ans.pdf"
+
+          fetch "https://www.ipa.go.jp/shiken/mondai-kaiotu/gmcbt8000000d5ru-att/2021r03h_koudo_am1_qs.pdf"  "2021r03h_koudo_am1_qs.pdf"
+          fetch "https://www.ipa.go.jp/shiken/mondai-kaiotu/gmcbt8000000d5ru-att/2021r03h_koudo_am1_ans.pdf" "2021r03h_koudo_am1_ans.pdf"
+          fetch "https://www.ipa.go.jp/shiken/mondai-kaiotu/gmcbt8000000d5ru-att/2021r03h_sa_am2_qs.pdf"     "2021r03h_sa_am2_qs.pdf"
+          fetch "https://www.ipa.go.jp/shiken/mondai-kaiotu/gmcbt8000000d5ru-att/2021r03h_sa_am2_ans.pdf"    "2021r03h_sa_am2_ans.pdf"
+
+          fetch "https://www.ipa.go.jp/shiken/mondai-kaiotu/gmcbt8000000dict-att/2019r01a_koudo_am1_qs.pdf"  "2019r01a_koudo_am1_qs.pdf"
+          fetch "https://www.ipa.go.jp/shiken/mondai-kaiotu/gmcbt8000000dict-att/2019r01a_koudo_am1_ans.pdf" "2019r01a_koudo_am1_ans.pdf"
+          fetch "https://www.ipa.go.jp/shiken/mondai-kaiotu/gmcbt8000000dict-att/2019r01a_sa_am2_qs.pdf"     "2019r01a_sa_am2_qs.pdf"
+          fetch "https://www.ipa.go.jp/shiken/mondai-kaiotu/gmcbt8000000dict-att/2019r01a_sa_am2_ans.pdf"    "2019r01a_sa_am2_ans.pdf"
+
+      - name: Record extraction status
+        run: |
+          {
+            echo "# Older source extraction status"
+            echo
+            echo "Generated: $(date -u +%FT%TZ)"
+            for f in source_text/*.txt; do
+              printf '%s: %s bytes, %s lines\n' "$(basename "$f")" "$(wc -c < "$f")" "$(wc -l < "$f")"
+            done
+          } > source_text/STATUS.md
+
+      - name: Commit downloaded sources and extracted text
+        run: |
+          set -e
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add sources/ source_text/
+          if git diff --cached --quiet; then
+            echo "No changes"
+            exit 0
+          fi
+          git commit -m "Add 2019 2021 2022 official morning sources"
+          git push
