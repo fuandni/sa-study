@@ -5,9 +5,10 @@
   "title": "システムアーキテクト 過去問学習DB",
   "exam": "IPA システムアーキテクト",
   "am2": {
-    "expected_question_count": 100,
+    "expected_question_count": 125,
     "expected_per_year": 25,
     "years": [
+      2021,
       2022,
       2023,
       2024,
