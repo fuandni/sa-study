@@ -1,0 +1,15 @@
+{
+  "source_pdf_count": 30,
+  "source_by_year": {
+    "2023": 10,
+    "2024": 10,
+    "2025": 10
+  },
+  "am2_questions": 75,
+  "pm_index_entries": 17,
+  "master_entrypoint": "index.html",
+  "am2_entrypoint": "am2/index.html",
+  "source_entrypoint": "source_index.html",
+  "pm_reference_entries": 17,
+  "pm_reference_missing_sections": []
+}

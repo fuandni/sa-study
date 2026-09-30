@@ -1,0 +1,106 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "SA AM2 Question",
+  "type": "object",
+  "required": [
+    "id",
+    "year",
+    "section",
+    "question_no",
+    "question_text",
+    "choices",
+    "answer"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Stable ID. Never reuse for another question."
+    },
+    "year": {
+      "type": "integer"
+    },
+    "section": {
+      "type": "string"
+    },
+    "question_no": {
+      "type": "integer"
+    },
+    "question_text": {
+      "type": "string"
+    },
+    "choices": {
+      "type": "object",
+      "required": [
+        "ア",
+        "イ",
+        "ウ",
+        "エ"
+      ],
+      "properties": {
+        "ア": {
+          "type": "string"
+        },
+        "イ": {
+          "type": "string"
+        },
+        "ウ": {
+          "type": "string"
+        },
+        "エ": {
+          "type": "string"
+        }
+      }
+    },
+    "answer": {
+      "enum": [
+        "ア",
+        "イ",
+        "ウ",
+        "エ"
+      ]
+    },
+    "topic": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "category": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "source_page": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "asset_path": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "asset_type": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "source_file": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "audit_status": {
+      "type": [
+        "string",
+        "null"
+      ]
+    }
+  },
+  "additionalProperties": true
+}

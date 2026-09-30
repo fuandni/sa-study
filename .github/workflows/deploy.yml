@@ -1,0 +1,93 @@
+name: Deploy SA to OCI
+
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: sa-production
+  cancel-in-progress: true
+
+jobs:
+  validate-and-deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Validate question data
+        run: |
+          python3 tools/build_data.py
+          python3 tools/validate_data.py
+
+      - name: Prepare SSH
+        env:
+          OCI_SSH_KEY: ${{ secrets.OCI_SSH_KEY }}
+          OCI_HOST: ${{ secrets.OCI_HOST }}
+        run: |
+          set -eu
+          mkdir -p ~/.ssh
+          printf '%s\n' "$OCI_SSH_KEY" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          ssh-keyscan -H "$OCI_HOST" >> ~/.ssh/known_hosts
+
+      - name: Upload release to OCI staging
+        env:
+          OCI_HOST: ${{ secrets.OCI_HOST }}
+          OCI_USER: ${{ secrets.OCI_USER }}
+        run: |
+          set -eu
+          ssh "$OCI_USER@$OCI_HOST" 'rm -rf ~/sa_release_new && mkdir -p ~/sa_release_new'
+          rsync -az --delete \
+            --exclude '.git/' \
+            --exclude '.github/' \
+            ./ "$OCI_USER@$OCI_HOST:~/sa_release_new/"
+
+      - name: Deploy, backup, and health-check
+        env:
+          OCI_HOST: ${{ secrets.OCI_HOST }}
+          OCI_USER: ${{ secrets.OCI_USER }}
+        run: |
+          set -eu
+          ssh "$OCI_USER@$OCI_HOST" 'bash -s' <<'REMOTE'
+          set -euo pipefail
+
+          WEBROOT=/var/www/ichirikutoku/sa
+          STAGING="$HOME/sa_release_new"
+          BACKUPS="$HOME/sa_backups"
+          TS="$(date +%Y%m%d-%H%M%S)"
+
+          test -f "$STAGING/index.html"
+          test -f "$STAGING/data/app_config.js"
+          test -f "$STAGING/data/am2_questions.js"
+
+          mkdir -p "$BACKUPS"
+
+          if [ -d "$WEBROOT" ]; then
+            sudo tar -C "$WEBROOT" -czf "$BACKUPS/sa-$TS.tar.gz" .
+          fi
+
+          sudo mkdir -p "$WEBROOT"
+          sudo rsync -a --delete "$STAGING/" "$WEBROOT/"
+          sudo find "$WEBROOT" -type d -exec chmod 755 {} \;
+          sudo find "$WEBROOT" -type f -exec chmod 644 {} \;
+          if command -v restorecon >/dev/null 2>&1; then
+            sudo restorecon -RF "$WEBROOT" || true
+          fi
+
+          # Keep only the newest 5 deployment backups.
+          ls -1t "$BACKUPS"/sa-*.tar.gz 2>/dev/null | tail -n +6 | xargs -r rm -f
+
+          # Nginx config + local HTTPS health check.
+          sudo nginx -t
+          curl -kfsS https://127.0.0.1/sa/ >/dev/null
+
+          rm -rf "$STAGING"
+          echo "Deploy OK: $TS"
+          REMOTE

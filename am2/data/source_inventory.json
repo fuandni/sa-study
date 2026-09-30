@@ -1,0 +1,212 @@
+[
+  {
+    "filename": "2023r05h_koudo_am1_ans.pdf",
+    "year": 2023,
+    "section": "午前I",
+    "kind": "解答例/出題趣旨",
+    "available": true
+  },
+  {
+    "filename": "2023r05h_koudo_am1_qs.pdf",
+    "year": 2023,
+    "section": "午前I",
+    "kind": "問題",
+    "available": true
+  },
+  {
+    "filename": "2023r05h_sa_am2_ans.pdf",
+    "year": 2023,
+    "section": "午前II",
+    "kind": "解答例/出題趣旨",
+    "available": true
+  },
+  {
+    "filename": "2023r05h_sa_am2_qs.pdf",
+    "year": 2023,
+    "section": "午前II",
+    "kind": "問題",
+    "available": true
+  },
+  {
+    "filename": "2023r05h_sa_pm1_ans.pdf",
+    "year": 2023,
+    "section": "午後I",
+    "kind": "解答例/出題趣旨",
+    "available": true
+  },
+  {
+    "filename": "2023r05h_sa_pm1_cmnt.pdf",
+    "year": 2023,
+    "section": "午後I",
+    "kind": "採点講評",
+    "available": true
+  },
+  {
+    "filename": "2023r05h_sa_pm1_qs.pdf",
+    "year": 2023,
+    "section": "午後I",
+    "kind": "問題",
+    "available": true
+  },
+  {
+    "filename": "2023r05h_sa_pm2_ans.pdf",
+    "year": 2023,
+    "section": "午後II",
+    "kind": "解答例/出題趣旨",
+    "available": true
+  },
+  {
+    "filename": "2023r05h_sa_pm2_cmnt.pdf",
+    "year": 2023,
+    "section": "午後II",
+    "kind": "採点講評",
+    "available": true
+  },
+  {
+    "filename": "2023r05h_sa_pm2_qs.pdf",
+    "year": 2023,
+    "section": "午後II",
+    "kind": "問題",
+    "available": true
+  },
+  {
+    "filename": "2024r06h_koudo_am1_ans.pdf",
+    "year": 2024,
+    "section": "午前I",
+    "kind": "解答例/出題趣旨",
+    "available": true
+  },
+  {
+    "filename": "2024r06h_koudo_am1_qs.pdf",
+    "year": 2024,
+    "section": "午前I",
+    "kind": "問題",
+    "available": true
+  },
+  {
+    "filename": "2024r06h_sa_am2_ans.pdf",
+    "year": 2024,
+    "section": "午前II",
+    "kind": "解答例/出題趣旨",
+    "available": true
+  },
+  {
+    "filename": "2024r06h_sa_am2_qs.pdf",
+    "year": 2024,
+    "section": "午前II",
+    "kind": "問題",
+    "available": true
+  },
+  {
+    "filename": "2024r06h_sa_pm1_ans.pdf",
+    "year": 2024,
+    "section": "午後I",
+    "kind": "解答例/出題趣旨",
+    "available": true
+  },
+  {
+    "filename": "2024r06h_sa_pm1_cmnt.pdf",
+    "year": 2024,
+    "section": "午後I",
+    "kind": "採点講評",
+    "available": true
+  },
+  {
+    "filename": "2024r06h_sa_pm1_qs.pdf",
+    "year": 2024,
+    "section": "午後I",
+    "kind": "問題",
+    "available": true
+  },
+  {
+    "filename": "2024r06h_sa_pm2_ans.pdf",
+    "year": 2024,
+    "section": "午後II",
+    "kind": "解答例/出題趣旨",
+    "available": true
+  },
+  {
+    "filename": "2024r06h_sa_pm2_cmnt.pdf",
+    "year": 2024,
+    "section": "午後II",
+    "kind": "採点講評",
+    "available": true
+  },
+  {
+    "filename": "2024r06h_sa_pm2_qs.pdf",
+    "year": 2024,
+    "section": "午後II",
+    "kind": "問題",
+    "available": true
+  },
+  {
+    "filename": "2025r07h_koudo_am1_ans.pdf",
+    "year": 2025,
+    "section": "午前I",
+    "kind": "解答例/出題趣旨",
+    "available": true
+  },
+  {
+    "filename": "2025r07h_koudo_am1_qs.pdf",
+    "year": 2025,
+    "section": "午前I",
+    "kind": "問題",
+    "available": true
+  },
+  {
+    "filename": "2025r07h_sa_am2_ans.pdf",
+    "year": 2025,
+    "section": "午前II",
+    "kind": "解答例/出題趣旨",
+    "available": true
+  },
+  {
+    "filename": "2025r07h_sa_am2_qs.pdf",
+    "year": 2025,
+    "section": "午前II",
+    "kind": "問題",
+    "available": true
+  },
+  {
+    "filename": "2025r07h_sa_pm1_ans.pdf",
+    "year": 2025,
+    "section": "午後I",
+    "kind": "解答例/出題趣旨",
+    "available": true
+  },
+  {
+    "filename": "2025r07h_sa_pm1_cmnt.pdf",
+    "year": 2025,
+    "section": "午後I",
+    "kind": "採点講評",
+    "available": true
+  },
+  {
+    "filename": "2025r07h_sa_pm1_qs.pdf",
+    "year": 2025,
+    "section": "午後I",
+    "kind": "問題",
+    "available": true
+  },
+  {
+    "filename": "2025r07h_sa_pm2_ans.pdf",
+    "year": 2025,
+    "section": "午後II",
+    "kind": "解答例/出題趣旨",
+    "available": true
+  },
+  {
+    "filename": "2025r07h_sa_pm2_cmnt.pdf",
+    "year": 2025,
+    "section": "午後II",
+    "kind": "採点講評",
+    "available": true
+  },
+  {
+    "filename": "2025r07h_sa_pm2_qs.pdf",
+    "year": 2025,
+    "section": "午後II",
+    "kind": "問題",
+    "available": true
+  }
+]

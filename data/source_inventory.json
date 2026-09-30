@@ -1,0 +1,242 @@
+[
+  {
+    "filename": "2023r05h_koudo_am1_ans.pdf",
+    "year": 2023,
+    "section": "午前I",
+    "kind": "解答例/出題趣旨",
+    "size_bytes": 33321,
+    "sha256": "9c4761d51ec820f2e623886fe935bb41e51fc3e982c293cb6aae9879c31c1d9d"
+  },
+  {
+    "filename": "2023r05h_koudo_am1_qs.pdf",
+    "year": 2023,
+    "section": "午前I",
+    "kind": "問題",
+    "size_bytes": 2244078,
+    "sha256": "d66769ca17df2b0f0d08263330231298ed5b2ed7d106bdef229d905cad0aaa30"
+  },
+  {
+    "filename": "2023r05h_sa_am2_ans.pdf",
+    "year": 2023,
+    "section": "午前II",
+    "kind": "解答例/出題趣旨",
+    "size_bytes": 29134,
+    "sha256": "00eb23bd7a02dc25ab8078d2501ba339c8952f5acc0fc58775c23f444567d266"
+  },
+  {
+    "filename": "2023r05h_sa_am2_qs.pdf",
+    "year": 2023,
+    "section": "午前II",
+    "kind": "問題",
+    "size_bytes": 1920660,
+    "sha256": "7372e2c433fc2770ae5d64a83661a4f46f9fe7e6b04334a111836e8236f9420d"
+  },
+  {
+    "filename": "2023r05h_sa_pm1_ans.pdf",
+    "year": 2023,
+    "section": "午後I",
+    "kind": "解答例/出題趣旨",
+    "size_bytes": 124360,
+    "sha256": "b9f450293cc2a3f9efb82be2392f0340387d365037f2c64b6909bd20640592e4"
+  },
+  {
+    "filename": "2023r05h_sa_pm1_cmnt.pdf",
+    "year": 2023,
+    "section": "午後I",
+    "kind": "採点講評",
+    "size_bytes": 94015,
+    "sha256": "9c0829f895097811e946d05ebea03f9feb06596890a9f1e9fd8b827bce1e3274"
+  },
+  {
+    "filename": "2023r05h_sa_pm1_qs.pdf",
+    "year": 2023,
+    "section": "午後I",
+    "kind": "問題",
+    "size_bytes": 4975674,
+    "sha256": "4d528ef494e9404a86b7cd61249fa476b821b80540857c3e30df3926dfa2520c"
+  },
+  {
+    "filename": "2023r05h_sa_pm2_ans.pdf",
+    "year": 2023,
+    "section": "午後II",
+    "kind": "解答例/出題趣旨",
+    "size_bytes": 68915,
+    "sha256": "c8308370dc9fb315cfc26d35083824006b221844f084641551ac7e13dc9412a0"
+  },
+  {
+    "filename": "2023r05h_sa_pm2_cmnt.pdf",
+    "year": 2023,
+    "section": "午後II",
+    "kind": "採点講評",
+    "size_bytes": 80243,
+    "sha256": "40430cc4b9a089f1db42721a0af2fe2a4e6d956337d1314cbe10f3bc581a6e93"
+  },
+  {
+    "filename": "2023r05h_sa_pm2_qs.pdf",
+    "year": 2023,
+    "section": "午後II",
+    "kind": "問題",
+    "size_bytes": 1274060,
+    "sha256": "61389c19fc03c3ab1bcbe5d67427f55ffdf6ca9c088277cb4e6047c756fc8522"
+  },
+  {
+    "filename": "2024r06h_koudo_am1_ans.pdf",
+    "year": 2024,
+    "section": "午前I",
+    "kind": "解答例/出題趣旨",
+    "size_bytes": 33929,
+    "sha256": "b8a61bdebc21cb91edf8313ce5a14ce61265fee30d3307ff59eb12b6001083cc"
+  },
+  {
+    "filename": "2024r06h_koudo_am1_qs.pdf",
+    "year": 2024,
+    "section": "午前I",
+    "kind": "問題",
+    "size_bytes": 2260952,
+    "sha256": "af5a908f675557dcef3f2de64c97ce8a4e577d3a741bc98039c29fc730f6bb07"
+  },
+  {
+    "filename": "2024r06h_sa_am2_ans.pdf",
+    "year": 2024,
+    "section": "午前II",
+    "kind": "解答例/出題趣旨",
+    "size_bytes": 29946,
+    "sha256": "05fcf591901cf2550189b20c169e6c7faa821d089e0797719444f66de30794a4"
+  },
+  {
+    "filename": "2024r06h_sa_am2_qs.pdf",
+    "year": 2024,
+    "section": "午前II",
+    "kind": "問題",
+    "size_bytes": 1795141,
+    "sha256": "b52b01e152453c59d0e8afafdc4d942dcd859b28ed93dd0cfb2c7f5dc3f54b7e"
+  },
+  {
+    "filename": "2024r06h_sa_pm1_ans.pdf",
+    "year": 2024,
+    "section": "午後I",
+    "kind": "解答例/出題趣旨",
+    "size_bytes": 118670,
+    "sha256": "b3e26ec2069acfd7c8d1eb698206c92503ac88bf1231d03a48e518259d085f1c"
+  },
+  {
+    "filename": "2024r06h_sa_pm1_cmnt.pdf",
+    "year": 2024,
+    "section": "午後I",
+    "kind": "採点講評",
+    "size_bytes": 95286,
+    "sha256": "6d306489fd624fb0bcd576bfb1fbbb98cdb02ca6328dd4726eac533c7e0c8b71"
+  },
+  {
+    "filename": "2024r06h_sa_pm1_qs.pdf",
+    "year": 2024,
+    "section": "午後I",
+    "kind": "問題",
+    "size_bytes": 3639614,
+    "sha256": "ae2eed373953ce292dd88b6fd42dab2d263a9fde3ed3ad9f08ec6a23060e8ede"
+  },
+  {
+    "filename": "2024r06h_sa_pm2_ans.pdf",
+    "year": 2024,
+    "section": "午後II",
+    "kind": "解答例/出題趣旨",
+    "size_bytes": 65665,
+    "sha256": "0fb63cfdaeb9553c1eb43cba28857b02582e1dc15357b385ae12339c41f9c5d6"
+  },
+  {
+    "filename": "2024r06h_sa_pm2_cmnt.pdf",
+    "year": 2024,
+    "section": "午後II",
+    "kind": "採点講評",
+    "size_bytes": 77289,
+    "sha256": "05e8e109cdee201a275600cff76d462bb65fc2f4678914fd64619dcd58d676df"
+  },
+  {
+    "filename": "2024r06h_sa_pm2_qs.pdf",
+    "year": 2024,
+    "section": "午後II",
+    "kind": "問題",
+    "size_bytes": 985576,
+    "sha256": "aabe3ef7cf1a52a71db61d60271372f315fed60198c9f045b76ce6e58f55eaa7"
+  },
+  {
+    "filename": "2025r07h_koudo_am1_ans.pdf",
+    "year": 2025,
+    "section": "午前I",
+    "kind": "解答例/出題趣旨",
+    "size_bytes": 33928,
+    "sha256": "e1121c3c11c0ffe120ab25e688e39de7d6dcdbfb15aafd95ec6f5bb1e4f61f37"
+  },
+  {
+    "filename": "2025r07h_koudo_am1_qs.pdf",
+    "year": 2025,
+    "section": "午前I",
+    "kind": "問題",
+    "size_bytes": 2286500,
+    "sha256": "ad34ffa99163fb1ec0ebe97f3f874dcb129fc0925820d53f43a9abf41f5d9f53"
+  },
+  {
+    "filename": "2025r07h_sa_am2_ans.pdf",
+    "year": 2025,
+    "section": "午前II",
+    "kind": "解答例/出題趣旨",
+    "size_bytes": 29944,
+    "sha256": "d8be94e5a061e1121610bdc30a74dd16206af6df48d534e8437ec4564a3fa4d2"
+  },
+  {
+    "filename": "2025r07h_sa_am2_qs.pdf",
+    "year": 2025,
+    "section": "午前II",
+    "kind": "問題",
+    "size_bytes": 1790648,
+    "sha256": "6bdfc33d2a2f8312bbbe51f3ae7333bb5bcdecb34dc4746c23073e1aee91b130"
+  },
+  {
+    "filename": "2025r07h_sa_pm1_ans.pdf",
+    "year": 2025,
+    "section": "午後I",
+    "kind": "解答例/出題趣旨",
+    "size_bytes": 120640,
+    "sha256": "17a5e6a4fa9e87eccedef545b1afaa35ff81c4a8a34bb2cc1ece62c357488a0b"
+  },
+  {
+    "filename": "2025r07h_sa_pm1_cmnt.pdf",
+    "year": 2025,
+    "section": "午後I",
+    "kind": "採点講評",
+    "size_bytes": 84287,
+    "sha256": "cc881148506f698dd522ff62aaf8b92255f6a50ad1390f3802ecddf314bab477"
+  },
+  {
+    "filename": "2025r07h_sa_pm1_qs.pdf",
+    "year": 2025,
+    "section": "午後I",
+    "kind": "問題",
+    "size_bytes": 3830661,
+    "sha256": "9fd9e8bb078a6f7503406efcd02c7f92c233c48863dc57c123f03dbbeddeec11"
+  },
+  {
+    "filename": "2025r07h_sa_pm2_ans.pdf",
+    "year": 2025,
+    "section": "午後II",
+    "kind": "解答例/出題趣旨",
+    "size_bytes": 60930,
+    "sha256": "64f841e69ec194ef9793cdc63469ececf5abf538b0352bfa90dff0054c9e33c0"
+  },
+  {
+    "filename": "2025r07h_sa_pm2_cmnt.pdf",
+    "year": 2025,
+    "section": "午後II",
+    "kind": "採点講評",
+    "size_bytes": 62416,
+    "sha256": "bcf267a5a2306ffbb74d6da4343add81fa5fdb8d2fccb4dc999d8f6f9698db65"
+  },
+  {
+    "filename": "2025r07h_sa_pm2_qs.pdf",
+    "year": 2025,
+    "section": "午後II",
+    "kind": "問題",
+    "size_bytes": 1007943,
+    "sha256": "a200f3c3a6ca8155ab4555024884a3a08d1c8781fb62f3bb5e79e0dcd951e05f"
+  }
+]
