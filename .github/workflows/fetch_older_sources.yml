@@ -14,6 +14,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Install PDF text tools
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq poppler-utils
+
       - name: Download official IPA PDFs
         shell: bash
         run: |
@@ -24,7 +29,7 @@ jobs:
             echo "Fetching $out"
             curl -fL --retry 3 --retry-delay 2 --connect-timeout 20 "$url" -o "sources/$out"
             test -s "sources/$out"
-            pdftotext -layout "sources/$out" "source_text/${out%.pdf}.txt" || true
+            pdftotext -layout "sources/$out" "source_text/${out%.pdf}.txt"
           }
 
           fetch "https://www.ipa.go.jp/shiken/mondai-kaiotu/gmcbt80000009sgk-att/2022r04h_koudo_am1_qs.pdf"  "2022r04h_koudo_am1_qs.pdf"
@@ -48,6 +53,7 @@ jobs:
             echo "# Older source extraction status"
             echo
             echo "Generated: $(date -u +%FT%TZ)"
+            shopt -s nullglob
             for f in source_text/*.txt; do
               printf '%s: %s bytes, %s lines\n' "$(basename "$f")" "$(wc -c < "$f")" "$(wc -l < "$f")"
             done
