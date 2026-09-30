@@ -1,0 +1,72 @@
+name: OCR image-only morning question PDFs
+
+on:
+  push:
+    paths:
+      - ".github/workflows/ocr_morning_sources.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  ocr:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install OCR tools
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq poppler-utils tesseract-ocr tesseract-ocr-jpn
+      - name: Render and OCR question PDFs
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf source_ocr
+          mkdir -p source_ocr
+          ocr_pdf() {
+            local pdf="$1"
+            local base="$(basename "$pdf" .pdf)"
+            local d="$RUNNER_TEMP/$base"
+            mkdir -p "$d"
+            echo "OCR $pdf"
+            pdftoppm -jpeg -r 180 "$pdf" "$d/page" >/dev/null 2>&1
+            : > "source_ocr/$base.txt"
+            for img in "$d"/page-*.jpg; do
+              printf "\n===== %s =====\n" "$(basename "$img")" >> "source_ocr/$base.txt"
+              tesseract "$img" stdout -l jpn+eng --psm 6 2>/dev/null >> "source_ocr/$base.txt" || true
+            done
+          }
+
+          ocr_pdf sources/2019r01a_koudo_am1_qs.pdf
+          ocr_pdf sources/2019r01a_sa_am2_qs.pdf
+          ocr_pdf sources/2021r03h_koudo_am1_qs.pdf
+          ocr_pdf sources/2021r03h_sa_am2_qs.pdf
+          ocr_pdf sources/2022r04h_koudo_am1_qs.pdf
+          ocr_pdf sources/2022r04h_sa_am2_qs.pdf
+          ocr_pdf sources/2023r05h_koudo_am1_qs.pdf
+          ocr_pdf sources/2024r06h_koudo_am1_qs.pdf
+          ocr_pdf sources/2025r07h_koudo_am1_qs.pdf
+
+      - name: Record OCR status
+        run: |
+          {
+            echo "# Morning OCR status"
+            echo
+            echo "Generated: $(date -u +%FT%TZ)"
+            echo
+            for f in source_ocr/*.txt; do
+              printf "%s: %s bytes, %s lines\n" "$(basename "$f")" "$(wc -c < "$f")" "$(wc -l < "$f")"
+            done
+          } > source_ocr/STATUS.md
+
+      - name: Commit OCR text
+        run: |
+          set -e
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add source_ocr/
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "Add OCR text for morning question sources"
+          git push
