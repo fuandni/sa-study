@@ -1,6 +1,6 @@
 (function(){
 const CONFIG_KEY='sa_sync_config_v1';
-let syncing=false,timer=null,last={state:'idle',message:'未同期',at:null};
+let syncing=false,timer=null,last={state:'idle',message:'未同期',at:null,revision:null};
 function cfg(){try{return {...{enabled:false,endpoint:'/sa-sync/v1/progress',token:''},...JSON.parse(localStorage.getItem(CONFIG_KEY)||'{}')}}catch(e){return {enabled:false,endpoint:'/sa-sync/v1/progress',token:''}}}
 function saveConfig(v){const n={...cfg(),...v};localStorage.setItem(CONFIG_KEY,JSON.stringify(n));window.dispatchEvent(new CustomEvent('sa-sync-config-changed',{detail:n}));return n}
 function status(){return {...last,config:{...cfg(),token:cfg().token?'***':''}}}
@@ -37,7 +37,7 @@ function packageLocal(){
 async function request(method,body){
  const c=cfg();if(!c.token)throw new Error('同期トークンが未設定です');
  const headers={'Authorization':'Bearer '+c.token};if(body)headers['Content-Type']='application/json';
- const res=await fetch(c.endpoint,{method,headers,body:body?JSON.stringify(body):undefined,cache:'no-store'});
+ const res=await fetch(c.endpoint,{method,headers,body:body?JSON.stringify(body):undefined,cache:'no-store',credentials:'same-origin'});
  if(!res.ok){let t='';try{t=await res.text()}catch(e){};throw new Error('同期サーバー '+res.status+(t?': '+t.slice(0,120):''))}
  return res.status===204?null:await res.json();
 }
@@ -52,12 +52,12 @@ async function syncNow(){
      progress:mergeProgress(local.progress,rpayload?.progress||{schema_version:2,questions:{}}),
      recent:mergeRecent(local.recent,rpayload?.recent||[])};
    window.SAStorage.importAll(merged,true);
-   await request('PUT',merged);
-   last={state:'ok',message:'同期済み',at:new Date().toISOString()};
+   const saved=await request('PUT',merged);
+   last={state:'ok',message:'同期済み',at:new Date().toISOString(),revision:saved?.revision??remote?.revision??null};
    window.dispatchEvent(new CustomEvent('sa-sync-completed',{detail:status()}));
    return status();
  }catch(e){
-   last={state:'error',message:e.message||String(e),at:new Date().toISOString()};
+   last={state:'error',message:e.message||String(e),at:new Date().toISOString(),revision:last.revision};
    window.dispatchEvent(new CustomEvent('sa-sync-error',{detail:status()}));
    throw e;
  }finally{
