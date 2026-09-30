@@ -10,14 +10,74 @@
 <div id="status" class="status"></div></section>
 <section class="panel"><h2>安全性と動作</h2><p>トークンはこのブラウザのlocalStorageだけに保存し、GitHubの問題データには含めません。サーバー側は1ユーザー用のSQLiteに履歴JSONを保存します。回答履歴は回答IDまたは時刻・回答内容を使って重複を除き、双方の端末の履歴を統合します。</p>
 <div class="warn">同期APIがまだOCIにインストールされていない場合、このページの設定だけ先に保存しても同期は成功しません。教材自体は影響なく利用できます。</div></section></main>
-<script src="data/app_config.js"></script><script src="data/am2_questions.js"></script><script src="assets/js/storage.js?v=20261001a"></script><script src="assets/js/sync.js?v=20261001a"></script>
+<script src="data/app_config.js"></script><script src="data/am2_questions.js"></script><script src="assets/js/storage.js?v=20261001b"></script><script src="assets/js/sync.js?v=20261001b"></script>
 <script>
-const c=SASync.cfg();enabled.checked=!!c.enabled;endpoint.value=c.endpoint||'/sa-sync/v1/progress';token.value=c.token||'';
-function draw(extra=''){const s=SASync.status();status.textContent=(s.state==='ok'?'✓ ':s.state==='error'?'⚠ ':'')+(extra||s.message)+(s.revision!=null?' / server revision '+s.revision:'')+(s.at?' / '+new Date(s.at).toLocaleString():'')}
-draw();
-save.onclick=()=>{SASync.saveConfig({enabled:enabled.checked,endpoint:endpoint.value.trim()||'/sa-sync/v1/progress',token:token.value.trim()});draw('設定を保存しました')};
-test.onclick=async()=>{save.click();draw('接続確認中…');try{await SASync.syncNow();draw('接続・認証とも正常です')}catch(e){draw('接続失敗: '+e.message)}};
-now.onclick=async()=>{save.click();draw('同期中…');try{await SASync.syncNow();draw()}catch(e){draw('同期失敗: '+e.message)}};
-disable.onclick=()=>{enabled.checked=false;SASync.saveConfig({enabled:false});draw('同期を無効化しました')};
-window.addEventListener('sa-sync-status',()=>draw());window.addEventListener('sa-sync-error',()=>draw());window.addEventListener('sa-sync-completed',()=>draw());
+(() => {
+  const el = {
+    enabled: document.getElementById('enabled'),
+    endpoint: document.getElementById('endpoint'),
+    token: document.getElementById('token'),
+    save: document.getElementById('save'),
+    test: document.getElementById('test'),
+    now: document.getElementById('now'),
+    disable: document.getElementById('disable'),
+    status: document.getElementById('status')
+  };
+  if (!window.SASync) {
+    el.status.textContent = '⚠ 同期スクリプトを読み込めませんでした。Ctrl+F5で再読み込みしてください。';
+    return;
+  }
+  const c = SASync.cfg();
+  el.enabled.checked = !!c.enabled;
+  el.endpoint.value = c.endpoint || '/sa-sync/v1/progress';
+  el.token.value = c.token || '';
+
+  function draw(extra='') {
+    const s = SASync.status();
+    el.status.textContent =
+      (s.state==='ok' ? '✓ ' : s.state==='error' ? '⚠ ' : '') +
+      (extra || s.message) +
+      (s.revision != null ? ' / server revision ' + s.revision : '') +
+      (s.at ? ' / ' + new Date(s.at).toLocaleString() : '');
+  }
+  function saveSettings() {
+    SASync.saveConfig({
+      enabled: el.enabled.checked,
+      endpoint: el.endpoint.value.trim() || '/sa-sync/v1/progress',
+      token: el.token.value.trim()
+    });
+    draw('設定を保存しました');
+  }
+
+  draw();
+  el.save.addEventListener('click', saveSettings);
+  el.test.addEventListener('click', async () => {
+    saveSettings();
+    draw('接続確認中…');
+    try {
+      await SASync.syncNow();
+      draw('接続・認証とも正常です');
+    } catch (e) {
+      draw('接続失敗: ' + (e?.message || String(e)));
+    }
+  });
+  el.now.addEventListener('click', async () => {
+    saveSettings();
+    draw('同期中…');
+    try {
+      await SASync.syncNow();
+      draw();
+    } catch (e) {
+      draw('同期失敗: ' + (e?.message || String(e)));
+    }
+  });
+  el.disable.addEventListener('click', () => {
+    el.enabled.checked = false;
+    SASync.saveConfig({enabled:false});
+    draw('同期を無効化しました');
+  });
+  window.addEventListener('sa-sync-status', () => draw());
+  window.addEventListener('sa-sync-error', () => draw());
+  window.addEventListener('sa-sync-completed', () => draw());
+})();
 </script></body></html>
