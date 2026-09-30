@@ -13,12 +13,13 @@
     },
     "answer": "イ",
     "topic": "アシュアランスケース",
-    "category": "設計・実装",
+    "category": "テスト・品質",
     "source_page": 3,
     "asset_path": null,
     "asset_type": null,
     "source_file": "2023r05h_sa_am2_qs.pdf",
-    "audit_status": "source_transcribed_and_answer_checked"
+    "audit_status": "visual_source_audited_2026-10-01",
+    "subdomain": "品質保証・安全性"
   },
   {
     "id": "SA-2023-AM2-Q02",
@@ -39,7 +40,8 @@
     "asset_path": "assets/2023_q02_dfd.png",
     "asset_type": "diagram",
     "source_file": "2023r05h_sa_am2_qs.pdf",
-    "audit_status": "source_transcribed_and_answer_checked"
+    "audit_status": "visual_source_audited_2026-10-01",
+    "subdomain": "DFD・構造化設計"
   },
   {
     "id": "SA-2023-AM2-Q03",
@@ -60,7 +62,8 @@
     "asset_path": null,
     "asset_type": null,
     "source_file": "2023r05h_sa_am2_qs.pdf",
-    "audit_status": "source_transcribed_and_answer_checked"
+    "audit_status": "visual_source_audited_2026-10-01",
+    "subdomain": "モデリング（SysML/UML）"
   },
   {
     "id": "SA-2023-AM2-Q04",
@@ -81,7 +84,8 @@
     "asset_path": null,
     "asset_type": null,
     "source_file": "2023r05h_sa_am2_qs.pdf",
-    "audit_status": "source_transcribed_and_answer_checked"
+    "audit_status": "visual_source_audited_2026-10-01",
+    "subdomain": "アーキテクチャパターン"
   },
   {
     "id": "SA-2023-AM2-Q05",
@@ -102,7 +106,8 @@
     "asset_path": null,
     "asset_type": null,
     "source_file": "2023r05h_sa_am2_qs.pdf",
-    "audit_status": "source_transcribed_and_answer_checked"
+    "audit_status": "visual_source_audited_2026-10-01",
+    "subdomain": "プログラミング言語・実装"
   },
   {
     "id": "SA-2023-AM2-Q06",
@@ -123,7 +128,8 @@
     "asset_path": null,
     "asset_type": null,
     "source_file": "2023r05h_sa_am2_qs.pdf",
-    "audit_status": "source_transcribed_and_answer_checked"
+    "audit_status": "visual_source_audited_2026-10-01",
+    "subdomain": "デザインパターン"
   },
   {
     "id": "SA-2023-AM2-Q07",
@@ -144,7 +150,8 @@
     "asset_path": null,
     "asset_type": null,
     "source_file": "2023r05h_sa_am2_qs.pdf",
-    "audit_status": "source_transcribed_and_answer_checked"
+    "audit_status": "visual_source_audited_2026-10-01",
+    "subdomain": "AI評価・テスト"
   },
   {
     "id": "SA-2023-AM2-Q08",
@@ -165,7 +172,8 @@
     "asset_path": null,
     "asset_type": null,
     "source_file": "2023r05h_sa_am2_qs.pdf",
-    "audit_status": "source_transcribed_and_answer_checked"
+    "audit_status": "visual_source_audited_2026-10-01",
+    "subdomain": "ソフトウェア品質"
   },
   {
     "id": "SA-2023-AM2-Q09",
@@ -186,7 +194,8 @@
     "asset_path": "assets/2023_q09_uml.png",
     "asset_type": "diagram",
     "source_file": "2023r05h_sa_am2_qs.pdf",
-    "audit_status": "source_transcribed_and_answer_checked"
+    "audit_status": "visual_source_audited_2026-10-01",
+    "subdomain": "UML・状態設計"
   },
   {
     "id": "SA-2023-AM2-Q10",
@@ -202,12 +211,13 @@
     },
     "answer": "エ",
     "topic": "ペアプログラミング",
-    "category": "設計・実装",
+    "category": "要求・開発プロセス",
     "source_page": 9,
     "asset_path": null,
     "asset_type": null,
     "source_file": "2023r05h_sa_am2_qs.pdf",
-    "audit_status": "source_transcribed_and_answer_checked"
+    "audit_status": "visual_source_audited_2026-10-01",
+    "subdomain": "アジャイル・開発手法"
   },
   {
     "id": "SA-2023-AM2-Q11",
@@ -223,12 +233,13 @@
     },
     "answer": "ア",
     "topic": "ソフトウェア受入れテスト",
-    "category": "要求・開発プロセス",
+    "category": "テスト・品質",
     "source_page": 9,
     "asset_path": null,
     "asset_type": null,
     "source_file": "2023r05h_sa_am2_qs.pdf",
-    "audit_status": "source_transcribed_and_answer_checked"
+    "audit_status": "visual_source_audited_2026-10-01",
+    "subdomain": "受入れテスト"
   },
   {
     "id": "SA-2023-AM2-Q12",
@@ -244,12 +255,13 @@
     },
     "answer": "ア",
     "topic": "スクラムのレトロスペクティブ",
-    "category": "マネジメント・契約",
+    "category": "要求・開発プロセス",
     "source_page": 9,
     "asset_path": null,
     "asset_type": null,
     "source_file": "2023r05h_sa_am2_qs.pdf",
-    "audit_status": "source_transcribed_and_answer_checked"
+    "audit_status": "visual_source_audited_2026-10-01",
+    "subdomain": "アジャイル・開発プロセス"
   },
   {
     "id": "SA-2023-AM2-Q13",
@@ -270,7 +282,8 @@
     "asset_path": null,
     "asset_type": null,
     "source_file": "2023r05h_sa_am2_qs.pdf",
-    "audit_status": "source_transcribed_and_answer_checked"
+    "audit_status": "visual_source_audited_2026-10-01",
+    "subdomain": "業務分析・コスト"
   },
   {
     "id": "SA-2023-AM2-Q14",
@@ -291,7 +304,8 @@
     "asset_path": null,
     "asset_type": null,
     "source_file": "2023r05h_sa_am2_qs.pdf",
-    "audit_status": "source_transcribed_and_answer_checked"
+    "audit_status": "visual_source_audited_2026-10-01",
+    "subdomain": "調達・法務"
   },
   {
     "id": "SA-2023-AM2-Q15",
@@ -312,7 +326,8 @@
     "asset_path": null,
     "asset_type": null,
     "source_file": "2023r05h_sa_am2_qs.pdf",
-    "audit_status": "source_transcribed_and_answer_checked"
+    "audit_status": "visual_source_audited_2026-10-01",
+    "subdomain": "契約"
   },
   {
     "id": "SA-2023-AM2-Q16",
@@ -333,7 +348,8 @@
     "asset_path": null,
     "asset_type": null,
     "source_file": "2023r05h_sa_am2_qs.pdf",
-    "audit_status": "source_transcribed_and_answer_checked"
+    "audit_status": "visual_source_audited_2026-10-01",
+    "subdomain": "AI・パーソナルデータ"
   },
   {
     "id": "SA-2023-AM2-Q17",
@@ -354,7 +370,8 @@
     "asset_path": null,
     "asset_type": null,
     "source_file": "2023r05h_sa_am2_qs.pdf",
-    "audit_status": "source_transcribed_and_answer_checked"
+    "audit_status": "visual_source_audited_2026-10-01",
+    "subdomain": "暗号"
   },
   {
     "id": "SA-2023-AM2-Q18",
@@ -375,7 +392,8 @@
     "asset_path": null,
     "asset_type": null,
     "source_file": "2023r05h_sa_am2_qs.pdf",
-    "audit_status": "source_transcribed_and_answer_checked"
+    "audit_status": "visual_source_audited_2026-10-01",
+    "subdomain": "セキュリティハードウェア"
   },
   {
     "id": "SA-2023-AM2-Q19",
@@ -396,7 +414,8 @@
     "asset_path": null,
     "asset_type": null,
     "source_file": "2023r05h_sa_am2_qs.pdf",
-    "audit_status": "source_transcribed_and_answer_checked"
+    "audit_status": "visual_source_audited_2026-10-01",
+    "subdomain": "メールセキュリティ"
   },
   {
     "id": "SA-2023-AM2-Q20",
@@ -417,7 +436,8 @@
     "asset_path": null,
     "asset_type": null,
     "source_file": "2023r05h_sa_am2_qs.pdf",
-    "audit_status": "source_transcribed_and_answer_checked"
+    "audit_status": "visual_source_audited_2026-10-01",
+    "subdomain": "デジタル署名"
   },
   {
     "id": "SA-2023-AM2-Q21",
@@ -438,7 +458,8 @@
     "asset_path": null,
     "asset_type": null,
     "source_file": "2023r05h_sa_am2_qs.pdf",
-    "audit_status": "source_transcribed_and_answer_checked"
+    "audit_status": "visual_source_audited_2026-10-01",
+    "subdomain": "プロセッサ・アーキテクチャ"
   },
   {
     "id": "SA-2023-AM2-Q22",
@@ -459,7 +480,8 @@
     "asset_path": null,
     "asset_type": null,
     "source_file": "2023r05h_sa_am2_qs.pdf",
-    "audit_status": "source_transcribed_and_answer_checked"
+    "audit_status": "visual_source_audited_2026-10-01",
+    "subdomain": "分散処理・RPC"
   },
   {
     "id": "SA-2023-AM2-Q23",
@@ -480,7 +502,8 @@
     "asset_path": null,
     "asset_type": null,
     "source_file": "2023r05h_sa_am2_qs.pdf",
-    "audit_status": "source_transcribed_and_answer_checked"
+    "audit_status": "visual_source_audited_2026-10-01",
+    "subdomain": "クラウド"
   },
   {
     "id": "SA-2023-AM2-Q24",
@@ -501,7 +524,8 @@
     "asset_path": null,
     "asset_type": null,
     "source_file": "2023r05h_sa_am2_qs.pdf",
-    "audit_status": "source_transcribed_and_answer_checked"
+    "audit_status": "visual_source_audited_2026-10-01",
+    "subdomain": "データベース・トランザクション"
   },
   {
     "id": "SA-2023-AM2-Q25",
@@ -522,7 +546,8 @@
     "asset_path": null,
     "asset_type": null,
     "source_file": "2023r05h_sa_am2_qs.pdf",
-    "audit_status": "source_transcribed_and_answer_checked"
+    "audit_status": "visual_source_audited_2026-10-01",
+    "subdomain": "ネットワーク（L2）"
   },
   {
     "id": "SA-2024-AM2-Q01",
@@ -543,7 +568,8 @@
     "asset_path": null,
     "asset_type": null,
     "source_file": "2024r06h_sa_am2_qs.pdf",
-    "audit_status": "source_transcribed_and_answer_checked"
+    "audit_status": "visual_source_audited_2026-10-01",
+    "subdomain": "要求・ユーザーストーリ"
   },
   {
     "id": "SA-2024-AM2-Q02",
@@ -564,7 +590,8 @@
     "asset_path": null,
     "asset_type": null,
     "source_file": "2024r06h_sa_am2_qs.pdf",
-    "audit_status": "source_transcribed_and_answer_checked"
+    "audit_status": "visual_source_audited_2026-10-01",
+    "subdomain": "データベース・組込みDB"
   },
   {
     "id": "SA-2024-AM2-Q03",
@@ -585,7 +612,8 @@
     "asset_path": null,
     "asset_type": null,
     "source_file": "2024r06h_sa_am2_qs.pdf",
-    "audit_status": "source_transcribed_and_answer_checked"
+    "audit_status": "visual_source_audited_2026-10-01",
+    "subdomain": "分散システム・耐障害"
   },
   {
     "id": "SA-2024-AM2-Q04",
@@ -606,7 +634,8 @@
     "asset_path": null,
     "asset_type": null,
     "source_file": "2024r06h_sa_am2_qs.pdf",
-    "audit_status": "source_transcribed_and_answer_checked"
+    "audit_status": "visual_source_audited_2026-10-01",
+    "subdomain": "デザインパターン"
   },
   {
     "id": "SA-2024-AM2-Q05",
@@ -627,7 +656,8 @@
     "asset_path": null,
     "asset_type": null,
     "source_file": "2024r06h_sa_am2_qs.pdf",
-    "audit_status": "source_transcribed_and_answer_checked"
+    "audit_status": "visual_source_audited_2026-10-01",
+    "subdomain": "モジュール設計"
   },
   {
     "id": "SA-2024-AM2-Q06",
@@ -648,7 +678,8 @@
     "asset_path": null,
     "asset_type": null,
     "source_file": "2024r06h_sa_am2_qs.pdf",
-    "audit_status": "source_transcribed_and_answer_checked"
+    "audit_status": "visual_source_audited_2026-10-01",
+    "subdomain": "テスト・デバッグ"
   },
   {
     "id": "SA-2024-AM2-Q07",
@@ -669,7 +700,8 @@
     "asset_path": "assets/2024_q07_aspect.png",
     "asset_type": "diagram",
     "source_file": "2024r06h_sa_am2_qs.pdf",
-    "audit_status": "source_transcribed_and_answer_checked"
+    "audit_status": "visual_source_audited_2026-10-01",
+    "subdomain": "プログラミング技法"
   },
   {
     "id": "SA-2024-AM2-Q08",
@@ -690,7 +722,8 @@
     "asset_path": null,
     "asset_type": null,
     "source_file": "2024r06h_sa_am2_qs.pdf",
-    "audit_status": "source_transcribed_and_answer_checked"
+    "audit_status": "visual_source_audited_2026-10-01",
+    "subdomain": "関数型プログラミング"
   },
   {
     "id": "SA-2024-AM2-Q09",
@@ -711,7 +744,8 @@
     "asset_path": null,
     "asset_type": null,
     "source_file": "2024r06h_sa_am2_qs.pdf",
-    "audit_status": "source_transcribed_and_answer_checked"
+    "audit_status": "visual_source_audited_2026-10-01",
+    "subdomain": "論理型プログラミング"
   },
   {
     "id": "SA-2024-AM2-Q10",
@@ -727,12 +761,13 @@
     },
     "answer": "ア",
     "topic": "JIS X 0160 移行プロセス",
-    "category": "マネジメント・契約",
+    "category": "要求・開発プロセス",
     "source_page": 7,
     "asset_path": null,
     "asset_type": null,
     "source_file": "2024r06h_sa_am2_qs.pdf",
-    "audit_status": "source_transcribed_and_answer_checked"
+    "audit_status": "visual_source_audited_2026-10-01",
+    "subdomain": "ライフサイクル・移行"
   },
   {
     "id": "SA-2024-AM2-Q11",
@@ -748,12 +783,13 @@
     },
     "answer": "ウ",
     "topic": "JIS X 0160 廃棄プロセス",
-    "category": "マネジメント・契約",
+    "category": "要求・開発プロセス",
     "source_page": 8,
     "asset_path": null,
     "asset_type": null,
     "source_file": "2024r06h_sa_am2_qs.pdf",
-    "audit_status": "source_transcribed_and_answer_checked"
+    "audit_status": "visual_source_audited_2026-10-01",
+    "subdomain": "ライフサイクル・廃棄"
   },
   {
     "id": "SA-2024-AM2-Q12",
@@ -769,12 +805,13 @@
     },
     "answer": "イ",
     "topic": "リーンソフトウェア開発",
-    "category": "マネジメント・契約",
+    "category": "要求・開発プロセス",
     "source_page": 8,
     "asset_path": null,
     "asset_type": null,
     "source_file": "2024r06h_sa_am2_qs.pdf",
-    "audit_status": "source_transcribed_and_answer_checked"
+    "audit_status": "visual_source_audited_2026-10-01",
+    "subdomain": "リーン・開発プロセス"
   },
   {
     "id": "SA-2024-AM2-Q13",
@@ -795,7 +832,8 @@
     "asset_path": null,
     "asset_type": null,
     "source_file": "2024r06h_sa_am2_qs.pdf",
-    "audit_status": "source_transcribed_and_answer_checked"
+    "audit_status": "visual_source_audited_2026-10-01",
+    "subdomain": "要求・デザイン思考"
   },
   {
     "id": "SA-2024-AM2-Q14",
@@ -816,7 +854,8 @@
     "asset_path": null,
     "asset_type": null,
     "source_file": "2024r06h_sa_am2_qs.pdf",
-    "audit_status": "source_transcribed_and_answer_checked"
+    "audit_status": "visual_source_audited_2026-10-01",
+    "subdomain": "調達・法務"
   },
   {
     "id": "SA-2024-AM2-Q15",
@@ -837,7 +876,8 @@
     "asset_path": null,
     "asset_type": null,
     "source_file": "2024r06h_sa_am2_qs.pdf",
-    "audit_status": "source_transcribed_and_answer_checked"
+    "audit_status": "visual_source_audited_2026-10-01",
+    "subdomain": "調達・組込み"
   },
   {
     "id": "SA-2024-AM2-Q16",
@@ -853,12 +893,13 @@
     },
     "answer": "エ",
     "topic": "eシール",
-    "category": "設計・実装",
+    "category": "セキュリティ",
     "source_page": 10,
     "asset_path": null,
     "asset_type": null,
     "source_file": "2024r06h_sa_am2_qs.pdf",
-    "audit_status": "source_transcribed_and_answer_checked"
+    "audit_status": "visual_source_audited_2026-10-01",
+    "subdomain": "電子署名・eシール"
   },
   {
     "id": "SA-2024-AM2-Q17",
@@ -874,12 +915,13 @@
     },
     "answer": "ウ",
     "topic": "コードサイニング証明書",
-    "category": "設計・実装",
+    "category": "セキュリティ",
     "source_page": 10,
     "asset_path": null,
     "asset_type": null,
     "source_file": "2024r06h_sa_am2_qs.pdf",
-    "audit_status": "source_transcribed_and_answer_checked"
+    "audit_status": "visual_source_audited_2026-10-01",
+    "subdomain": "コード署名"
   },
   {
     "id": "SA-2024-AM2-Q18",
@@ -900,7 +942,8 @@
     "asset_path": null,
     "asset_type": null,
     "source_file": "2024r06h_sa_am2_qs.pdf",
-    "audit_status": "source_transcribed_and_answer_checked"
+    "audit_status": "visual_source_audited_2026-10-01",
+    "subdomain": "暗号"
   },
   {
     "id": "SA-2024-AM2-Q19",
@@ -921,7 +964,8 @@
     "asset_path": null,
     "asset_type": null,
     "source_file": "2024r06h_sa_am2_qs.pdf",
-    "audit_status": "source_transcribed_and_answer_checked"
+    "audit_status": "visual_source_audited_2026-10-01",
+    "subdomain": "証明書失効確認"
   },
   {
     "id": "SA-2024-AM2-Q20",
@@ -942,7 +986,8 @@
     "asset_path": null,
     "asset_type": null,
     "source_file": "2024r06h_sa_am2_qs.pdf",
-    "audit_status": "source_transcribed_and_answer_checked"
+    "audit_status": "visual_source_audited_2026-10-01",
+    "subdomain": "セキュリティ評価・認証"
   },
   {
     "id": "SA-2024-AM2-Q21",
@@ -963,7 +1008,8 @@
     "asset_path": null,
     "asset_type": null,
     "source_file": "2024r06h_sa_am2_qs.pdf",
-    "audit_status": "source_transcribed_and_answer_checked"
+    "audit_status": "visual_source_audited_2026-10-01",
+    "subdomain": "プロセッサ・アーキテクチャ"
   },
   {
     "id": "SA-2024-AM2-Q22",
@@ -984,7 +1030,8 @@
     "asset_path": null,
     "asset_type": null,
     "source_file": "2024r06h_sa_am2_qs.pdf",
-    "audit_status": "source_transcribed_and_answer_checked"
+    "audit_status": "visual_source_audited_2026-10-01",
+    "subdomain": "ストレージ仮想化"
   },
   {
     "id": "SA-2024-AM2-Q23",
@@ -1005,7 +1052,8 @@
     "asset_path": null,
     "asset_type": null,
     "source_file": "2024r06h_sa_am2_qs.pdf",
-    "audit_status": "source_transcribed_and_answer_checked"
+    "audit_status": "visual_source_audited_2026-10-01",
+    "subdomain": "信頼性・フォールトトレランス"
   },
   {
     "id": "SA-2024-AM2-Q24",
@@ -1026,7 +1074,8 @@
     "asset_path": null,
     "asset_type": null,
     "source_file": "2024r06h_sa_am2_qs.pdf",
-    "audit_status": "source_transcribed_and_answer_checked"
+    "audit_status": "visual_source_audited_2026-10-01",
+    "subdomain": "データベース・デッドロック"
   },
   {
     "id": "SA-2024-AM2-Q25",
@@ -1047,7 +1096,8 @@
     "asset_path": null,
     "asset_type": null,
     "source_file": "2024r06h_sa_am2_qs.pdf",
-    "audit_status": "source_transcribed_and_answer_checked"
+    "audit_status": "visual_source_audited_2026-10-01",
+    "subdomain": "HTTP・Web"
   },
   {
     "id": "SA-2025-AM2-Q01",
@@ -1056,8 +1106,8 @@
     "question_no": 1,
     "question_text": "DFDで用いられる図形要素だけの組みはどれか。",
     "choices": {
-      "ア": "円弧、実体、データストア",
-      "イ": "円弧、データストア、データフロー",
+      "ア": "関連、実体、データストア",
+      "イ": "関連、データストア、データフロー",
       "ウ": "源泉と吸収、実体、プロセス",
       "エ": "源泉と吸収、データフロー、プロセス"
     },
@@ -1068,7 +1118,8 @@
     "asset_path": null,
     "asset_type": null,
     "source_file": "2025r07h_sa_am2_qs.pdf",
-    "audit_status": "source_transcribed_and_answer_checked"
+    "audit_status": "visual_source_audited_2026-10-01",
+    "subdomain": "DFD・構造化設計"
   },
   {
     "id": "SA-2025-AM2-Q02",
@@ -1089,7 +1140,8 @@
     "asset_path": null,
     "asset_type": null,
     "source_file": "2025r07h_sa_am2_qs.pdf",
-    "audit_status": "source_transcribed_and_answer_checked"
+    "audit_status": "visual_source_audited_2026-10-01",
+    "subdomain": "オブジェクト指向設計原則"
   },
   {
     "id": "SA-2025-AM2-Q03",
@@ -1110,7 +1162,8 @@
     "asset_path": null,
     "asset_type": null,
     "source_file": "2025r07h_sa_am2_qs.pdf",
-    "audit_status": "source_transcribed_and_answer_checked"
+    "audit_status": "visual_source_audited_2026-10-01",
+    "subdomain": "認証・SSO"
   },
   {
     "id": "SA-2025-AM2-Q04",
@@ -1131,7 +1184,8 @@
     "asset_path": null,
     "asset_type": null,
     "source_file": "2025r07h_sa_am2_qs.pdf",
-    "audit_status": "source_transcribed_and_answer_checked"
+    "audit_status": "visual_source_audited_2026-10-01",
+    "subdomain": "分散データ処理"
   },
   {
     "id": "SA-2025-AM2-Q05",
@@ -1152,7 +1206,8 @@
     "asset_path": null,
     "asset_type": null,
     "source_file": "2025r07h_sa_am2_qs.pdf",
-    "audit_status": "source_transcribed_and_answer_checked"
+    "audit_status": "visual_source_audited_2026-10-01",
+    "subdomain": "デザインパターン"
   },
   {
     "id": "SA-2025-AM2-Q06",
@@ -1173,14 +1228,15 @@
     "asset_path": null,
     "asset_type": null,
     "source_file": "2025r07h_sa_am2_qs.pdf",
-    "audit_status": "source_transcribed_and_answer_checked"
+    "audit_status": "visual_source_audited_2026-10-01",
+    "subdomain": "静的解析"
   },
   {
     "id": "SA-2025-AM2-Q07",
     "year": 2025,
     "section": "午前II",
     "question_no": 7,
-    "question_text": "プログラムPをテストケースの集合であるテストセットTでテストし、テスト結果が全て想定結果と一致することを確認した。そのテストセットTに不具合を検出できる十分な能力があるかどうかを評価するために、次の手順でテストを行った。このテストを何と呼ぶか。<br><small>① Pのステートメントの1か所に、例えば(a+b)&gt;1を(a+b&gt;1)のようにするというような、軽微な変更を行ったプログラムP₁,P₂,…,Pₙを作成する。この個々のプログラムの変更内容は全て異なっている。<br>② テストセットTを用いて全てのプログラムP₁,P₂,…,Pₙをテストする。<br>③ PᵢからPₙまでのm個のプログラムのうち、プログラムPと異なるテスト結果となったプログラムの総数をNとし、次式によって、テストセットTの有効性の指標Eを算出する。E=N/m</small>",
+    "question_text": "プログラムPをテストケースの集合であるテストセットTでテストし、テスト結果が全て想定結果と一致することを確認した。そのテストセットTに不具合を検出できる十分な能力があるかどうかを評価するために、次の手順でテストを行った。このテストを何と呼ぶか。<br><br>【手順】<br>① プログラムPのステートメントの1か所に、例えば（a＋b＞1）を（a＋b＞0）にするというような、軽微な変更を行ったプログラムP₁、P₂、P₃、…、Pₘを作成する。このm個のプログラムの変更内容は、全て異なっている。<br>② テストセットTを用いて全てのプログラムP₁、P₂、P₃、…、Pₘをテストする。<br>③ P₁からPₘまでのm個のプログラムのうち、プログラムPと異なるテスト結果となったプログラムの総数をNとし、次式によって、テストセットTの有効性の指標Eを算出する。<br>E＝N／m",
     "choices": {
       "ア": "探索的テスト",
       "イ": "ドメイン分析テスト",
@@ -1194,7 +1250,8 @@
     "asset_path": null,
     "asset_type": null,
     "source_file": "2025r07h_sa_am2_qs.pdf",
-    "audit_status": "source_transcribed_and_answer_checked"
+    "audit_status": "visual_source_audited_2026-10-01",
+    "subdomain": "ミューテーションテスト"
   },
   {
     "id": "SA-2025-AM2-Q08",
@@ -1215,7 +1272,8 @@
     "asset_path": "assets/2025_q08_graph.png",
     "asset_type": "diagram",
     "source_file": "2025r07h_sa_am2_qs.pdf",
-    "audit_status": "source_transcribed_and_answer_checked"
+    "audit_status": "visual_source_audited_2026-10-01",
+    "subdomain": "テスト・複雑度"
   },
   {
     "id": "SA-2025-AM2-Q09",
@@ -1230,13 +1288,14 @@
       "エ": "名前呼出し"
     },
     "answer": "ア",
-    "topic": "参照呼出し",
+    "topic": "値呼出し",
     "category": "設計・実装",
     "source_page": 6,
     "asset_path": null,
     "asset_type": null,
     "source_file": "2025r07h_sa_am2_qs.pdf",
-    "audit_status": "source_transcribed_and_answer_checked"
+    "audit_status": "visual_source_audited_2026-10-01",
+    "subdomain": "プログラミング言語・引数"
   },
   {
     "id": "SA-2025-AM2-Q10",
@@ -1257,7 +1316,8 @@
     "asset_path": null,
     "asset_type": null,
     "source_file": "2025r07h_sa_am2_qs.pdf",
-    "audit_status": "source_transcribed_and_answer_checked"
+    "audit_status": "visual_source_audited_2026-10-01",
+    "subdomain": "教育・受入れ支援"
   },
   {
     "id": "SA-2025-AM2-Q11",
@@ -1278,7 +1338,8 @@
     "asset_path": null,
     "asset_type": null,
     "source_file": "2025r07h_sa_am2_qs.pdf",
-    "audit_status": "source_transcribed_and_answer_checked"
+    "audit_status": "visual_source_audited_2026-10-01",
+    "subdomain": "開発プロセス・ユースケース駆動"
   },
   {
     "id": "SA-2025-AM2-Q12",
@@ -1299,7 +1360,8 @@
     "asset_path": null,
     "asset_type": null,
     "source_file": "2025r07h_sa_am2_qs.pdf",
-    "audit_status": "source_transcribed_and_answer_checked"
+    "audit_status": "visual_source_audited_2026-10-01",
+    "subdomain": "要求分析・インタビュー"
   },
   {
     "id": "SA-2025-AM2-Q13",
@@ -1314,13 +1376,14 @@
       "エ": "ユースケース図"
     },
     "answer": "エ",
-    "topic": "コンテキスト図",
+    "topic": "ユースケース図",
     "category": "要求・開発プロセス",
     "source_page": 8,
     "asset_path": null,
     "asset_type": null,
     "source_file": "2025r07h_sa_am2_qs.pdf",
-    "audit_status": "source_transcribed_and_answer_checked"
+    "audit_status": "visual_source_audited_2026-10-01",
+    "subdomain": "要求・ユースケース"
   },
   {
     "id": "SA-2025-AM2-Q14",
@@ -1329,19 +1392,20 @@
     "question_no": 14,
     "question_text": "ラボ契約の特徴はどれか。",
     "choices": {
-      "ア": "依頼員がベンダー企業側の作業担当者を指名して直接指揮命令を行う契約であり、ベンダー企業はこれを前提に要員を割り当てる。",
+      "ア": "依頼元がベンダー企業側の作業担当者を指名して直接指揮命令を行う契約であり、ベンダー企業はこれを前提に要員を割り当てる。",
       "イ": "依頼元は、契約に基づきスキルや人数などの基準を満たすように要員を確保することをベンダー企業に求める代わりに、一定以上の発注を約束する。",
       "ウ": "開発したシステムによって依頼元が将来獲得する売上や利益に応じた報酬をベンダー企業にも分配することを条件に、開発時のベンダー企業への発注金額を抑える。",
       "エ": "ベンダー企業は、契約で定めた最低発注工数を下回って作業を完了した場合、実稼働工数に基づく金額の支払を依頼元に請求しなければならない。"
     },
     "answer": "イ",
-    "topic": "準委任契約",
+    "topic": "ラボ契約",
     "category": "マネジメント・契約",
     "source_page": 8,
     "asset_path": null,
     "asset_type": null,
     "source_file": "2025r07h_sa_am2_qs.pdf",
-    "audit_status": "source_transcribed_and_answer_checked"
+    "audit_status": "visual_source_audited_2026-10-01",
+    "subdomain": "契約"
   },
   {
     "id": "SA-2025-AM2-Q15",
@@ -1362,14 +1426,15 @@
     "asset_path": null,
     "asset_type": null,
     "source_file": "2025r07h_sa_am2_qs.pdf",
-    "audit_status": "source_transcribed_and_answer_checked"
+    "audit_status": "visual_source_audited_2026-10-01",
+    "subdomain": "レコメンデーション"
   },
   {
     "id": "SA-2025-AM2-Q16",
     "year": 2025,
     "section": "午前II",
     "question_no": 16,
-    "question_text": "ウォータリングホール（水飲み場型）攻撃はどれか。",
+    "question_text": "オープンリゾルバを悪用した攻撃はどれか。",
     "choices": {
       "ア": "ICMPパケットの送信元を偽装し、多数の宛先に送ることによって、攻撃対象のコンピュータに大量の偽のICMPパケットの応答を送る。",
       "イ": "PC内のhostsファイルにある、ドメインとIPアドレスとの対応付けを大量に書き換え、偽のWebサイトに誘導し、大量のコンテンツをダウンロードさせる。",
@@ -1377,20 +1442,21 @@
       "エ": "誰でも管理ツールの送信ができるメールサーバを踏み台にして、電子メールの送信元アドレスを詐称したなりすましメールを大量に送信する。"
     },
     "answer": "ウ",
-    "topic": "水飲み場型攻撃",
+    "topic": "オープンリゾルバを悪用した攻撃",
     "category": "セキュリティ",
     "source_page": 9,
     "asset_path": null,
     "asset_type": null,
     "source_file": "2025r07h_sa_am2_qs.pdf",
-    "audit_status": "source_transcribed_and_answer_checked"
+    "audit_status": "visual_source_audited_2026-10-01",
+    "subdomain": "DNS・DDoS"
   },
   {
     "id": "SA-2025-AM2-Q17",
     "year": 2025,
     "section": "午前II",
     "question_no": 17,
-    "question_text": "ある企業でのリスク分析結果は次のとおりであった。情報漏えい対策のうち、事象Cが年間発生確率を最も低くなるものはどれか。ここで、対策前の事象Xの年間発生確率をQ₀とし、事象Xへの対策によって事象Xの発生を防止できる確率をdₓとするとき、事象Xへの対策による事象Cの年間発生確率Pは、Q₀(1−dₓ)で計算する。<br><small>対策前のマルウェア感染（事象A）の年間発生確率：40%<br>対策前の外部ネットワークからの侵入（事象B）の年間発生確率：10%<br>情報漏えい（事象C）は、マルウェア感染又は外部ネットワークからの侵入の発生によって発生する。</small>",
+    "question_text": "ある企業でのリスク分析結果は次のとおりであった。情報漏えい対策のうち、事象Cの年間発生確率が最も低くなるものはどれか。ここで、対策前の事象Xの年間発生確率をQ₀とし、事象Xへの対策によって事象Xの発生を防止できる確率をdₓとするとき、事象Xへの対策をしたときの事象Xの年間発生確率（Pₓ）は、Q₀（1－dₓ）で計算する。また、事象A又は事象Bが発生することによって事象Cが発生するとき、事象Cが発生する確率（P꜀）は、1－（1－Pₐ）（1－Pᵦ）で計算する。<br><br>【リスク分析結果】<br>・対策前のマルウェア感染（事象A）の年間発生確率（Qₐ）：40％<br>・対策前の外部ネットワークからの侵入（事象B）の年間発生確率（Qᵦ）：10％<br>・情報漏えい（事象C）は、マルウェア感染又は外部ネットワークからの侵入の発生によって、発生する。",
     "choices": {
       "ア": "dₐ=40%のマルウェア対策ソフトとdᵦ=60%のIPSを導入する。",
       "イ": "dₐ=50%のマルウェア対策ソフトとdᵦ=50%のIPSを導入する。",
@@ -1399,12 +1465,13 @@
     },
     "answer": "ウ",
     "topic": "リスク分析と対策効果",
-    "category": "設計・実装",
+    "category": "セキュリティ",
     "source_page": 10,
     "asset_path": null,
     "asset_type": null,
     "source_file": "2025r07h_sa_am2_qs.pdf",
-    "audit_status": "source_transcribed_and_answer_checked"
+    "audit_status": "visual_source_audited_2026-10-01",
+    "subdomain": "リスク分析"
   },
   {
     "id": "SA-2025-AM2-Q18",
@@ -1419,13 +1486,14 @@
       "エ": "SSH"
     },
     "answer": "エ",
-    "topic": "RADIUS",
+    "topic": "SSH",
     "category": "セキュリティ",
     "source_page": 10,
     "asset_path": null,
     "asset_type": null,
     "source_file": "2025r07h_sa_am2_qs.pdf",
-    "audit_status": "source_transcribed_and_answer_checked"
+    "audit_status": "visual_source_audited_2026-10-01",
+    "subdomain": "リモートアクセス・SSH"
   },
   {
     "id": "SA-2025-AM2-Q19",
@@ -1446,7 +1514,8 @@
     "asset_path": null,
     "asset_type": null,
     "source_file": "2025r07h_sa_am2_qs.pdf",
-    "audit_status": "source_transcribed_and_answer_checked"
+    "audit_status": "visual_source_audited_2026-10-01",
+    "subdomain": "メールセキュリティ"
   },
   {
     "id": "SA-2025-AM2-Q20",
@@ -1462,12 +1531,13 @@
     },
     "answer": "ウ",
     "topic": "セットアソシアティブ方式",
-    "category": "設計・実装",
+    "category": "コンピュータ・DB・ネットワーク",
     "source_page": 11,
     "asset_path": null,
     "asset_type": null,
     "source_file": "2025r07h_sa_am2_qs.pdf",
-    "audit_status": "source_transcribed_and_answer_checked"
+    "audit_status": "visual_source_audited_2026-10-01",
+    "subdomain": "キャッシュメモリ"
   },
   {
     "id": "SA-2025-AM2-Q21",
@@ -1488,7 +1558,8 @@
     "asset_path": null,
     "asset_type": null,
     "source_file": "2025r07h_sa_am2_qs.pdf",
-    "audit_status": "source_transcribed_and_answer_checked"
+    "audit_status": "visual_source_audited_2026-10-01",
+    "subdomain": "コンテナ・オーケストレーション"
   },
   {
     "id": "SA-2025-AM2-Q22",
@@ -1509,7 +1580,8 @@
     "asset_path": null,
     "asset_type": null,
     "source_file": "2025r07h_sa_am2_qs.pdf",
-    "audit_status": "source_transcribed_and_answer_checked"
+    "audit_status": "visual_source_audited_2026-10-01",
+    "subdomain": "性能・キャッシュ"
   },
   {
     "id": "SA-2025-AM2-Q23",
@@ -1524,13 +1596,14 @@
       "エ": "ブロックコード"
     },
     "answer": "ウ",
-    "topic": "コード体系と順序性",
+    "topic": "ニモニックコード",
     "category": "設計・実装",
     "source_page": 12,
     "asset_path": null,
     "asset_type": null,
     "source_file": "2025r07h_sa_am2_qs.pdf",
-    "audit_status": "source_transcribed_and_answer_checked"
+    "audit_status": "visual_source_audited_2026-10-01",
+    "subdomain": "コード設計"
   },
   {
     "id": "SA-2025-AM2-Q24",
@@ -1551,7 +1624,8 @@
     "asset_path": "assets/2025_q24_table.png",
     "asset_type": "table",
     "source_file": "2025r07h_sa_am2_qs.pdf",
-    "audit_status": "source_transcribed_and_answer_checked"
+    "audit_status": "visual_source_audited_2026-10-01",
+    "subdomain": "データベース・トランザクション"
   },
   {
     "id": "SA-2025-AM2-Q25",
@@ -1572,6 +1646,7 @@
     "asset_path": null,
     "asset_type": null,
     "source_file": "2025r07h_sa_am2_qs.pdf",
-    "audit_status": "source_transcribed_and_answer_checked"
+    "audit_status": "visual_source_audited_2026-10-01",
+    "subdomain": "ネットワーク（L2）"
   }
 ]
