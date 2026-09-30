@@ -1,0 +1,160 @@
+{
+  "purpose": "午前問題の拡張用公式ソース索引。2020年度は通常のSA実施回として扱わず、2019→2021→2022→2023→2024→2025の6実施回を対象とする。",
+  "source": "IPA公式過去問題",
+  "years": {
+    "2019": {
+      "am1": {
+        "question_url": "https://www.ipa.go.jp/shiken/mondai-kaiotu/gmcbt8000000dict-att/2019r01a_koudo_am1_qs.pdf",
+        "answer_url": "https://www.ipa.go.jp/shiken/mondai-kaiotu/gmcbt8000000dict-att/2019r01a_koudo_am1_ans.pdf",
+        "answers": [
+          "ア",
+          "イ",
+          "ウ",
+          "エ",
+          "イ",
+          "ウ",
+          "イ",
+          "ウ",
+          "エ",
+          "ア",
+          "ウ",
+          "エ",
+          "エ",
+          "ウ",
+          "ウ",
+          "ア",
+          "エ",
+          "ウ",
+          "ウ",
+          "エ",
+          "ウ",
+          "ア",
+          "エ",
+          "イ",
+          "エ",
+          "ア",
+          "ウ",
+          "ア",
+          "ア",
+          "エ"
+        ],
+        "answer_key_status": "official_answer_verified"
+      },
+      "am2": {
+        "question_url": "https://www.ipa.go.jp/shiken/mondai-kaiotu/gmcbt8000000dict-att/2019r01a_sa_am2_qs.pdf",
+        "answer_url": "https://www.ipa.go.jp/shiken/mondai-kaiotu/gmcbt8000000dict-att/2019r01a_sa_am2_ans.pdf",
+        "answers": [
+          "イ",
+          "ウ",
+          "イ",
+          "ア",
+          "ウ",
+          "ア",
+          "イ",
+          "ア",
+          "エ",
+          "エ",
+          "ウ",
+          "イ",
+          "イ",
+          "ア",
+          "ウ",
+          "エ",
+          "エ",
+          "エ",
+          "エ",
+          "ア",
+          "ウ",
+          "ア",
+          "ウ",
+          "ア",
+          "ウ"
+        ],
+        "answer_key_status": "official_answer_verified"
+      }
+    },
+    "2021": {
+      "am1": {
+        "question_url": "https://www.ipa.go.jp/shiken/mondai-kaiotu/gmcbt8000000d5ru-att/2021r03h_koudo_am1_qs.pdf",
+        "answer_url": "https://www.ipa.go.jp/shiken/mondai-kaiotu/gmcbt8000000d5ru-att/2021r03h_koudo_am1_ans.pdf",
+        "answers": [
+          "ア",
+          "ウ",
+          "ウ",
+          "イ",
+          "エ",
+          "エ",
+          "エ",
+          "ウ",
+          "エ",
+          "ウ",
+          "エ",
+          "ア",
+          "ア",
+          "ウ",
+          "イ",
+          "ア",
+          "ア",
+          "ア",
+          "ア",
+          "エ",
+          "ア",
+          "ウ",
+          "ウ",
+          "ア",
+          "ウ",
+          "ウ",
+          "イ",
+          "ウ",
+          "イ",
+          "イ"
+        ],
+        "answer_key_status": "official_answer_verified"
+      },
+      "am2": {
+        "question_url": "https://www.ipa.go.jp/shiken/mondai-kaiotu/gmcbt8000000d5ru-att/2021r03h_sa_am2_qs.pdf",
+        "answer_url": "https://www.ipa.go.jp/shiken/mondai-kaiotu/gmcbt8000000d5ru-att/2021r03h_sa_am2_ans.pdf",
+        "answer_key_status": "official_answer_url_verified; glyph extraction pending"
+      }
+    },
+    "2022": {
+      "am1": {
+        "question_url": "https://www.ipa.go.jp/shiken/mondai-kaiotu/gmcbt80000009sgk-att/2022r04h_koudo_am1_qs.pdf",
+        "answer_url": "https://www.ipa.go.jp/shiken/mondai-kaiotu/gmcbt80000009sgk-att/2022r04h_koudo_am1_ans.pdf",
+        "answer_key_status": "official_url_verified; key extraction pending"
+      },
+      "am2": {
+        "question_url": "https://www.ipa.go.jp/shiken/mondai-kaiotu/gmcbt80000009sgk-att/2022r04h_sa_am2_qs.pdf",
+        "answer_url": "https://www.ipa.go.jp/shiken/mondai-kaiotu/gmcbt80000009sgk-att/2022r04h_sa_am2_ans.pdf",
+        "answers": [
+          "イ",
+          "イ",
+          "エ",
+          "イ",
+          "イ",
+          "イ",
+          "イ",
+          "エ",
+          "ウ",
+          "ア",
+          "エ",
+          "イ",
+          "エ",
+          "ウ",
+          "イ",
+          "エ",
+          "ア",
+          "イ",
+          "ウ",
+          "エ",
+          "イ",
+          "エ",
+          "エ",
+          "イ",
+          "ア"
+        ],
+        "answer_key_status": "official_answer_verified"
+      }
+    }
+  }
+}
