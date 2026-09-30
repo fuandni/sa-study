@@ -1,0 +1,50 @@
+name: Render morning audit pages
+
+on:
+  push:
+    paths:
+      - ".github/workflows/render_morning_audit.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install PDF renderer
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq poppler-utils
+      - name: Render PDFs
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf audit_pages
+          mkdir -p audit_pages
+          render() {
+            local pdf="$1"
+            local base="$(basename "$pdf" .pdf)"
+            mkdir -p "audit_pages/$base"
+            pdftoppm -jpeg -jpegopt quality=88 -r 150 "$pdf" "audit_pages/$base/page" >/dev/null 2>&1
+          }
+          render sources/2019r01a_koudo_am1_qs.pdf
+          render sources/2019r01a_sa_am2_qs.pdf
+          render sources/2021r03h_koudo_am1_qs.pdf
+          render sources/2021r03h_sa_am2_qs.pdf
+          render sources/2022r04h_koudo_am1_qs.pdf
+          render sources/2022r04h_sa_am2_qs.pdf
+          render sources/2023r05h_koudo_am1_qs.pdf
+          render sources/2024r06h_koudo_am1_qs.pdf
+          render sources/2025r07h_koudo_am1_qs.pdf
+          find audit_pages -type f -name '*.jpg' | sort > audit_pages/FILES.txt
+      - name: Upload audit pages
+        uses: actions/upload-artifact@v4
+        with:
+          name: morning-audit-pages
+          path: audit_pages
+          retention-days: 7
+          compression-level: 6
