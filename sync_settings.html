@@ -6,17 +6,18 @@
 <div class="row"><label><input id="enabled" type="checkbox"> 端末間同期を有効にする</label></div>
 <div class="row"><label>同期API</label><input id="endpoint" class="secret" value="/sa-sync/v1/progress"></div>
 <div class="row"><label>同期トークン</label><input id="token" class="secret" type="password" autocomplete="off" placeholder="サーバー初期設定時に表示されるトークン"></div>
-<button id="save" class="primary">設定を保存</button> <button id="now">今すぐ同期</button> <button id="disable">同期を無効化</button>
+<button id="save" class="primary">設定を保存</button> <button id="test">接続テスト</button> <button id="now">今すぐ同期</button> <button id="disable">同期を無効化</button>
 <div id="status" class="status"></div></section>
 <section class="panel"><h2>安全性と動作</h2><p>トークンはこのブラウザのlocalStorageだけに保存し、GitHubの問題データには含めません。サーバー側は1ユーザー用のSQLiteに履歴JSONを保存します。回答履歴は回答IDまたは時刻・回答内容を使って重複を除き、双方の端末の履歴を統合します。</p>
 <div class="warn">同期APIがまだOCIにインストールされていない場合、このページの設定だけ先に保存しても同期は成功しません。教材自体は影響なく利用できます。</div></section></main>
-<script src="data/app_config.js"></script><script src="data/am2_questions.js"></script><script src="assets/js/storage.js"></script><script src="assets/js/sync.js"></script>
+<script src="data/app_config.js"></script><script src="data/am2_questions.js"></script><script src="assets/js/storage.js?v=20261001a"></script><script src="assets/js/sync.js?v=20261001a"></script>
 <script>
 const c=SASync.cfg();enabled.checked=!!c.enabled;endpoint.value=c.endpoint||'/sa-sync/v1/progress';token.value=c.token||'';
-function draw(extra=''){const s=SASync.status();status.textContent=(s.state==='ok'?'✓ ':s.state==='error'?'⚠ ':'')+(extra||s.message)+(s.at?' / '+new Date(s.at).toLocaleString():'')}
+function draw(extra=''){const s=SASync.status();status.textContent=(s.state==='ok'?'✓ ':s.state==='error'?'⚠ ':'')+(extra||s.message)+(s.revision!=null?' / server revision '+s.revision:'')+(s.at?' / '+new Date(s.at).toLocaleString():'')}
 draw();
 save.onclick=()=>{SASync.saveConfig({enabled:enabled.checked,endpoint:endpoint.value.trim()||'/sa-sync/v1/progress',token:token.value.trim()});draw('設定を保存しました')};
-now.onclick=async()=>{save.click();draw('同期中…');try{await SASync.syncNow();draw()}catch(e){draw(e.message)}};
+test.onclick=async()=>{save.click();draw('接続確認中…');try{await SASync.syncNow();draw('接続・認証とも正常です')}catch(e){draw('接続失敗: '+e.message)}};
+now.onclick=async()=>{save.click();draw('同期中…');try{await SASync.syncNow();draw()}catch(e){draw('同期失敗: '+e.message)}};
 disable.onclick=()=>{enabled.checked=false;SASync.saveConfig({enabled:false});draw('同期を無効化しました')};
 window.addEventListener('sa-sync-status',()=>draw());window.addEventListener('sa-sync-error',()=>draw());window.addEventListener('sa-sync-completed',()=>draw());
 </script></body></html>
