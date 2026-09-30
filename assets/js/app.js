@@ -3,6 +3,7 @@ const C=window.SA_APP_CONFIG,Q=window.SA_AM2_QUESTIONS,S=window.SAStorage;
 let progress=S.load(), session=null, questionStart=0, answered=false;
 const $=s=>document.querySelector(s), esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
 const cats=()=>{let d=[...new Set(Q.map(q=>q.category).filter(Boolean))];let o=C.category_order||[];return [...o.filter(x=>d.includes(x)),...d.filter(x=>!o.includes(x)).sort()]};
+const subs=(cat='')=>[...new Set(Q.filter(q=>!cat||q.category===cat).map(q=>q.subdomain).filter(Boolean))].sort();
 function agg(id){return S.aggregate(progress,id)}
 function allStats(list=Q){let a=list.map(q=>agg(q.id));let exp=a.filter(x=>x.tries>0).length, tries=a.reduce((n,x)=>n+x.tries,0), cor=a.reduce((n,x)=>n+x.correct,0);return {exp,tries,cor,rate:tries?cor/tries:null}}
 function fmtPct(v){return v==null?'—':Math.round(v*100)+'%'}
@@ -32,16 +33,19 @@ function setup(pref={}){
  app.innerHTML=nav('practice')+`<main><section class="panel"><h2>演習条件</h2>
  <div class="formrow"><label>年度</label><div class="checks">${years.map(y=>`<label><input type="checkbox" name="year" value="${y}" checked> ${y}</label>`).join('')}</div></div>
  <div class="formrow"><label>カテゴリ</label><select id="category"><option value="">全カテゴリ</option>${cats().map(c=>`<option>${esc(c)}</option>`).join('')}</select></div>
+ <div class="formrow"><label>細分類</label><select id="subdomain"><option value="">全細分類</option>${subs().map(c=>`<option>${esc(c)}</option>`).join('')}</select></div>
  <div class="formrow"><label>対象</label><select id="mode"><option value="all">全問</option><option value="wrong">誤答経験あり</option><option value="unanswered">未回答のみ</option><option value="weak">正答率${C.am2.weak_threshold_percent}%以下</option><option value="flagged">要復習フラグ</option></select></div>
  <div class="formrow"><label>問題数</label><select id="count"><option value="10">10問</option><option value="25">25問</option><option value="all">該当する全問</option></select></div>
  <div class="formrow"><label>順序</label><select id="order"><option value="random">ランダム</option><option value="fixed">年度・問番号順</option></select></div>
  <button class="primary" id="go">演習開始</button></section></main>`;
  bindNav();
  if(pref.category)$('#category').value=pref.category;
- $('#go').onclick=()=>{let ys=[...document.querySelectorAll('input[name=year]:checked')].map(x=>Number(x.value));start({years:ys,categories:$('#category').value?[$('#category').value]:[],mode:$('#mode').value,count:$('#count').value,order:$('#order').value})};
+ const refreshSubs=()=>{const cur=$('#subdomain').value;$('#subdomain').innerHTML='<option value="">全細分類</option>'+subs($('#category').value).map(c=>`<option>${esc(c)}</option>`).join('');if([...$('#subdomain').options].some(o=>o.value===cur))$('#subdomain').value=cur};
+ $('#category').onchange=refreshSubs; refreshSubs();
+ $('#go').onclick=()=>{let ys=[...document.querySelectorAll('input[name=year]:checked')].map(x=>Number(x.value));start({years:ys,categories:$('#category').value?[$('#category').value]:[],subdomains:$('#subdomain').value?[$('#subdomain').value]:[],mode:$('#mode').value,count:$('#count').value,order:$('#order').value})};
 }
 function filter(opts){
- let a=Q.filter(q=>(!opts.years?.length||opts.years.includes(q.year))&&(!opts.categories?.length||opts.categories.includes(q.category)));
+ let a=Q.filter(q=>(!opts.years?.length||opts.years.includes(q.year))&&(!opts.categories?.length||opts.categories.includes(q.category))&&(!opts.subdomains?.length||opts.subdomains.includes(q.subdomain)));
  if(opts.mode==='wrong')a=a.filter(q=>agg(q.id).wrong>0);
  if(opts.mode==='unanswered')a=a.filter(q=>agg(q.id).tries===0);
  if(opts.mode==='weak')a=a.filter(q=>agg(q.id).tries>0 && agg(q.id).rate<=C.am2.weak_threshold_percent/100);
@@ -62,7 +66,7 @@ function start(opts){
  let list=filter(opts); if(!list.length){alert('条件に該当する問題がありません。');return}
  session={schema_version:2,id:'s_'+Date.now(),questionIds:list.map(q=>q.id),index:0,started_at:new Date().toISOString(),answeredCount:0,correctCount:0,label:opts.label||describe(opts),options:opts};S.saveSession(session);practice();
 }
-function describe(o){let p=[];if(o.years?.length&&o.years.length<3)p.push(o.years.join('/'));if(o.categories?.length)p.push(o.categories.join('/'));if(o.mode&&o.mode!=='all')p.push(o.mode);p.push(o.count==='all'?'全問':o.count+'問');return p.join('・')}
+function describe(o){let p=[];if(o.years?.length&&o.years.length<3)p.push(o.years.join('/'));if(o.categories?.length)p.push(o.categories.join('/'));if(o.subdomains?.length)p.push(o.subdomains.join('/'));if(o.mode&&o.mode!=='all')p.push(o.mode);p.push(o.count==='all'?'全問':o.count+'問');return p.join('・')}
 function resumeSession(){session=S.loadSession();if(!session||!session.questionIds?.length){home();return}practice()}
 function current(){return Q.find(q=>q.id===session.questionIds[session.index])}
 function practice(){
@@ -70,7 +74,7 @@ function practice(){
  let q=current(); if(!q){finish();return}
  answered=false;questionStart=performance.now();const a=agg(q.id), asset=q.asset_path?C.am2.asset_base+q.asset_path:null, src=q.source_file?C.am2.source_base+q.source_file+(q.source_page?'#page='+q.source_page:''):'';
  app.innerHTML=nav('practice')+`<main><section class="sessionbar"><span>${session.index+1} / ${session.questionIds.length}</span><b>${esc(session.label)}</b><button id="end">途中終了</button></section>
- <section class="question"><div class="qmeta">${q.year}年度　問${q.question_no}　${esc(q.category||'')}　<span>${esc(q.topic||'')}</span></div>
+ <section class="question"><div class="qmeta">${q.year}年度　問${q.question_no}　${esc(q.category||'')}${q.subdomain?' / '+esc(q.subdomain):''}　<span>${esc(q.topic||'')}</span></div>
  <div class="qtext">${q.question_text}</div>${asset?`<img class="qasset" src="${asset}" alt="${esc(q.asset_type||'図表')}">`:''}
  <div class="choices">${C.am2.choice_keys.map((k,i)=>`<button data-choice="${k}"><kbd>${i+1}</kbd><b>${k}</b><span>${q.choices[k]}</span></button>`).join('')}</div>
  <div class="qfoot"><button id="flag">${a.flagged?'★ 要復習を解除':'☆ 要復習にする'}</button>${src?`<a target="_blank" href="${src}">原本 p.${q.source_page||''}</a>`:''}<span>履歴 ${a.tries}回 / ${fmtPct(a.rate)}</span></div><div id="feedback"></div></section>
@@ -96,7 +100,7 @@ function finish(interrupted=false){
 function stats(){
  const overall=allStats(), groups=(field)=>[...new Set(Q.map(q=>q[field]))].sort().map(v=>{let z=Q.filter(q=>q[field]===v),s=allStats(z);return {v,n:z.length,...s}});
  app.innerHTML=nav('stats')+`<main><section class="cards"><div class="metric"><b>${overall.exp}/${Q.length}</b><span>回答経験</span></div><div class="metric"><b>${overall.tries}</b><span>累積回答</span></div><div class="metric"><b>${overall.cor}</b><span>累積正解</span></div><div class="metric"><b>${fmtPct(overall.rate)}</b><span>正答率</span></div></section>
- <section class="panel"><h2>年度別</h2>${table(groups('year'))}</section><section class="panel"><h2>カテゴリ別</h2>${table(groups('category'))}</section>
+ <section class="panel"><h2>年度別</h2>${table(groups('year'))}</section><section class="panel"><h2>カテゴリ別</h2>${table(groups('category'))}</section><section class="panel"><h2>細分類別</h2>${table(groups('subdomain'))}</section>
  <section class="panel"><h2>履歴のバックアップ</h2><button id="export">JSONを書き出す</button><label class="filebtn">JSONを読み込む<input id="import" type="file" accept=".json,application/json"></label><p class="muted">分類やUIを変更しても、問題IDが同じなら履歴を引き継げます。</p></section></main>`;
  bindNav();$('#export').onclick=()=>S.exportAll(progress);$('#import').onchange=async e=>{try{let obj=JSON.parse(await e.target.files[0].text());progress=S.importAll(obj);alert('履歴を読み込みました。');stats()}catch(err){alert(err.message)}};
 }
