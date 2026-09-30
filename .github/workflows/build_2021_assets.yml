@@ -1,0 +1,40 @@
+name: Build 2021 AM2 visual assets
+
+on:
+  push:
+    paths:
+      - ".github/workflows/build_2021_assets.yml"
+      - "tools/build_2021_assets.py"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install tools
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq poppler-utils
+          python3 -m pip install --quiet pillow
+      - name: Render source pages
+        run: |
+          rm -rf _tmp_2021_render
+          mkdir -p _tmp_2021_render
+          for p in 5 7 13; do
+            pdftoppm -f "$p" -l "$p" -singlefile -jpeg -jpegopt quality=88 -r 150 sources/2021r03h_sa_am2_qs.pdf "_tmp_2021_render/tmp"
+            mv _tmp_2021_render/tmp.jpg "_tmp_2021_render/page-$(printf '%02d' "$p").jpg"
+          done
+      - name: Crop figure/table assets
+        run: python3 tools/build_2021_assets.py
+      - name: Commit assets
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add am2/assets/2021_*.png
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "Add 2021 AM2 diagram assets"
+          git push
