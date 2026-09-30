@@ -1,0 +1,166 @@
+{
+  "scope": "高度試験共通 午前I 2023-2025",
+  "question_count": 90,
+  "taxonomy_note": "学習用の内容分類。IPAが公表する固定出題配分ではない。",
+  "domain_counts": {
+    "overall": [
+      {
+        "domain": "テクノロジ",
+        "count": 57
+      },
+      {
+        "domain": "マネジメント",
+        "count": 14
+      },
+      {
+        "domain": "ストラテジ",
+        "count": 19
+      }
+    ],
+    "by_year": [
+      {
+        "year": 2023,
+        "counts": [
+          {
+            "domain": "テクノロジ",
+            "count": 19
+          },
+          {
+            "domain": "マネジメント",
+            "count": 5
+          },
+          {
+            "domain": "ストラテジ",
+            "count": 6
+          }
+        ]
+      },
+      {
+        "year": 2024,
+        "counts": [
+          {
+            "domain": "テクノロジ",
+            "count": 19
+          },
+          {
+            "domain": "マネジメント",
+            "count": 4
+          },
+          {
+            "domain": "ストラテジ",
+            "count": 7
+          }
+        ]
+      },
+      {
+        "year": 2025,
+        "counts": [
+          {
+            "domain": "テクノロジ",
+            "count": 19
+          },
+          {
+            "domain": "マネジメント",
+            "count": 5
+          },
+          {
+            "domain": "ストラテジ",
+            "count": 6
+          }
+        ]
+      }
+    ]
+  },
+  "subdomain_counts": [
+    {
+      "subdomain": "コンピュータシステム",
+      "count": 11,
+      "share": 0.1222
+    },
+    {
+      "subdomain": "セキュリティ",
+      "count": 11,
+      "share": 0.1222
+    },
+    {
+      "subdomain": "システム開発・品質",
+      "count": 7,
+      "share": 0.0778
+    },
+    {
+      "subdomain": "基礎理論",
+      "count": 6,
+      "share": 0.0667
+    },
+    {
+      "subdomain": "ネットワーク",
+      "count": 6,
+      "share": 0.0667
+    },
+    {
+      "subdomain": "システム監査",
+      "count": 6,
+      "share": 0.0667
+    },
+    {
+      "subdomain": "システム戦略",
+      "count": 6,
+      "share": 0.0667
+    },
+    {
+      "subdomain": "アルゴリズム・データ構造",
+      "count": 5,
+      "share": 0.0556
+    },
+    {
+      "subdomain": "プロジェクト管理",
+      "count": 5,
+      "share": 0.0556
+    },
+    {
+      "subdomain": "データベース",
+      "count": 4,
+      "share": 0.0444
+    },
+    {
+      "subdomain": "ビジネス・会計",
+      "count": 4,
+      "share": 0.0444
+    },
+    {
+      "subdomain": "マルチメディア",
+      "count": 3,
+      "share": 0.0333
+    },
+    {
+      "subdomain": "サービス管理",
+      "count": 3,
+      "share": 0.0333
+    },
+    {
+      "subdomain": "経営戦略",
+      "count": 3,
+      "share": 0.0333
+    },
+    {
+      "subdomain": "法務・標準",
+      "count": 3,
+      "share": 0.0333
+    },
+    {
+      "subdomain": "ビジネスインダストリ",
+      "count": 3,
+      "share": 0.0333
+    },
+    {
+      "subdomain": "IoT・組込み",
+      "count": 2,
+      "share": 0.0222
+    },
+    {
+      "subdomain": "AI・データ",
+      "count": 2,
+      "share": 0.0222
+    }
+  ]
+}
