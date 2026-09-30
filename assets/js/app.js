@@ -8,7 +8,7 @@ function allStats(list=Q){let a=list.map(q=>agg(q.id));let exp=a.filter(x=>x.tri
 function fmtPct(v){return v==null?'—':Math.round(v*100)+'%'}
 function nav(active){return `<header><div><h1>${esc(C.title)}</h1><div class="sub">${esc(C.exam)} / データとUIを分離した拡張版</div></div><nav>
 <button class="${active==='home'?'on':''}" data-nav="home">ホーム</button><button class="${active==='practice'?'on':''}" data-nav="setup">演習</button><button class="${active==='stats'?'on':''}" data-nav="stats">成績</button>
-<a href="${C.links.morning_distribution||'morning_distribution.html'}">午前配分</a><a href="${C.links.pm_reference}">午後I・II</a><a href="${C.links.source_index}">原資料</a></nav></header>`}
+<a href="${C.links.morning_distribution||'morning_distribution.html'}">午前配分</a><a href="${C.links.pm_reference}">午後I・II</a><a href="${C.links.source_index}">原資料</a><a href="sync_settings.html">同期</a></nav></header>`}
 function bindNav(){document.querySelectorAll('[data-nav]').forEach(b=>b.onclick=()=>({home,setup,stats}[b.dataset.nav]||home)())}
 function home(){
  const st=allStats(), recent=S.loadRecent(), active=S.loadSession();
@@ -107,5 +107,6 @@ window.addEventListener('keydown',e=>{
  else if(e.key==='ArrowRight'){if(session.index<session.questionIds.length-1){session.index++;S.saveSession(session);practice()}}
  else if(e.key==='ArrowLeft'){if(session.index>0){session.index--;S.saveSession(session);practice()}}
 });
+window.addEventListener('sa-sync-completed',()=>{progress=S.load();if(!session)home()});
 window.SAApp={home,setup,stats};home();
 })();
