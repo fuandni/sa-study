@@ -2,7 +2,7 @@ from pathlib import Path
 import json, sys
 ROOT=Path(__file__).resolve().parents[1]
 cfg=json.loads((ROOT/'data/app_config.json').read_text(encoding='utf-8'))
-qs=json.loads((ROOT/'am2/data/am2_questions_75.json').read_text(encoding='utf-8'))
+qs=json.loads((ROOT/'am2/data/am2_questions.json').read_text(encoding='utf-8'))
 errors=[]; warnings=[]
 ids=[q.get('id') for q in qs]
 if len(ids)!=len(set(ids)): errors.append('duplicate question IDs')
