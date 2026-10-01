@@ -12,7 +12,7 @@ function load(){
 function save(p,quiet=false){p.schema_version=2;p.updated_at=new Date().toISOString();localStorage.setItem(PROGRESS_KEY,JSON.stringify(p));if(!quiet)notify('progress')}
 function migrateLegacy(p){
   let changed=false;
-  for(const q of (window.SA_AM2_QUESTIONS||[])){
+  for(const q of ([...(window.SA_A1_QUESTIONS||[]),...(window.SA_AM2_QUESTIONS||[])])){
     const oldKey='sa_'+q.id; const raw=localStorage.getItem(oldKey);
     if(!raw) continue;
     let old; try{old=JSON.parse(raw)}catch(e){continue}
@@ -38,7 +38,7 @@ function answer(p,id,choice,correct,elapsed){
   const r=rec(p,id);
   const aid=(globalThis.crypto&&crypto.randomUUID)?crypto.randomUUID():'a_'+Date.now()+'_'+Math.random().toString(36).slice(2);
   r.attempts.push({id:aid,ts:new Date().toISOString(),choice,correct:!!correct,elapsed_ms:Math.max(0,Math.round(elapsed||0))});
-  const max=cfg().am2.max_attempts_per_question||50;if(r.attempts.length>max)r.attempts=r.attempts.slice(-max);save(p);
+  const max=cfg().common?.max_attempts_per_question||cfg().am2.max_attempts_per_question||50;if(r.attempts.length>max)r.attempts=r.attempts.slice(-max);save(p);
 }
 function toggleFlag(p,id){const r=rec(p,id);r.flagged=!r.flagged;r.flag_updated_at=new Date().toISOString();save(p);return r.flagged}
 function exportAll(p){
@@ -54,6 +54,6 @@ function loadSession(){try{return JSON.parse(localStorage.getItem(SESSION_KEY)||
 function clearSession(){localStorage.removeItem(SESSION_KEY)}
 function loadRecent(){try{return JSON.parse(localStorage.getItem(RECENT_KEY)||'[]')}catch(e){return []}}
 function setRecent(a,quiet=false){localStorage.setItem(RECENT_KEY,JSON.stringify(Array.isArray(a)?a:[]));if(!quiet)notify('recent')}
-function addRecent(s){let a=loadRecent();a.unshift(s);a=a.slice(0,cfg().am2.recent_sessions_limit||20);setRecent(a)}
+function addRecent(s){let a=loadRecent();a.unshift(s);a=a.slice(0,cfg().common?.recent_sessions_limit||cfg().am2.recent_sessions_limit||20);setRecent(a)}
 window.SAStorage={load,save,aggregate,answer,toggleFlag,exportAll,importAll,saveSession,loadSession,clearSession,loadRecent,setRecent,addRecent};
 })();
