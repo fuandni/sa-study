@@ -33,6 +33,9 @@
     "recent_sessions_limit": 20
   },
   "category_order": [
+    "テクノロジ",
+    "マネジメント",
+    "ストラテジ",
     "要求・開発プロセス",
     "設計・実装",
     "テスト・品質",
@@ -47,5 +50,33 @@
     "legacy_am2": "am2/index.html",
     "legacy_home": "legacy_index.html",
     "morning_distribution": "morning_distribution.html"
+  },
+  "a1": {
+    "expected_question_count": 30,
+    "expected_per_year": 30,
+    "years": [
+      2025
+    ],
+    "choice_keys": [
+      "ア",
+      "イ",
+      "ウ",
+      "エ"
+    ],
+    "asset_base": "a1/",
+    "source_base": "sources/",
+    "session_sizes": [
+      10,
+      30,
+      "all"
+    ],
+    "weak_threshold_percent": 60,
+    "max_attempts_per_question": 50,
+    "recent_sessions_limit": 20
+  },
+  "common": {
+    "weak_threshold_percent": 60,
+    "max_attempts_per_question": 50,
+    "recent_sessions_limit": 20
   }
 }
