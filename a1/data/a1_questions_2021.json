@@ -17,8 +17,8 @@
     "learning_domain": "テクノロジ",
     "subdomain": "基礎理論",
     "source_page": 3,
-    "asset_path": "assets/2021_q01_boolean.png",
-    "asset_type": "diagram",
+    "asset_path": null,
+    "asset_type": null,
     "source_file": "2021r03h_koudo_am1_qs.pdf",
     "audit_status": "visual_source_audited_2026-10-01"
   },
@@ -40,8 +40,8 @@
     "learning_domain": "テクノロジ",
     "subdomain": "アルゴリズム・データ構造",
     "source_page": 3,
-    "asset_path": "assets/2021_q02_stack.png",
-    "asset_type": "diagram",
+    "asset_path": null,
+    "asset_type": null,
     "source_file": "2021r03h_koudo_am1_qs.pdf",
     "audit_status": "visual_source_audited_2026-10-01"
   },
