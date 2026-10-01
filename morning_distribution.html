@@ -3,12 +3,12 @@
 .dist-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}.bar{height:10px;background:#e8ebef;border-radius:999px;overflow:hidden}.bar>i{display:block;height:100%;background:#1f5fbf}.note{font-size:.9rem;color:#68707b}.rank td:nth-child(2),.rank td:nth-child(3){text-align:right}.yeargrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.mini{border:1px solid #e0e3e8;border-radius:10px;padding:12px;background:#fff}.mini b{display:block;font-size:1.15rem;margin-bottom:5px}@media(max-width:760px){.dist-grid,.yeargrid{grid-template-columns:1fr}}
 </style></head><body><header><div><h1>午前問題・出題配分</h1><div class="sub">実際の過去問を学習用分類で集計</div></div><nav><a href="index.html">ホーム</a><a href="pm_reference.html">午後I・II</a><a href="source_index.html">原資料</a></nav></header>
 <main>
-<section class="panel"><h2>読み方</h2><p>ここに示す割合は、IPAが固定比率として公表したものではなく、収録済みの実問題を学習用に分類した実測値です。午前Iは2019・2021〜2025の180問、午前IIは同6実施回150問を集計しています。2023〜2025午前IIは原本目視監査済み、2019・2021・2022は公式問題PDFのOCRを使ったトピック分類で、最終目視監査待ちです。</p></section>
+<section class="panel"><h2>読み方</h2><p>ここに示す割合は、IPAが固定比率として公表したものではなく、収録済みの実問題を学習用に分類した実測値です。午前Iは2019・2021〜2025の180問、午前IIは同6実施回150問を集計しています。午前IIは6実施回150問すべて原本目視監査済みです。午前Iは2023〜2025を画像確認済み、2019・2021・2022はOCR仮分類で、全文演習化の最終目視監査を進めています。</p></section>
 <div class="dist-grid"><section class="panel"><h2>午前I：大分類（180問）</h2><div id="a1domains"></div></section><section class="panel"><h2>午前II：大分類（150問）</h2><div id="a2cats"></div></section></div>
 <section class="panel"><h2>午前I：年度別</h2><div id="a1years" class="yeargrid"></div></section>
 <section class="panel"><h2>午前I：細分類ランキング</h2><table class="rank"><thead><tr><th>細分類</th><th>問数</th><th>割合</th></tr></thead><tbody id="a1sub"></tbody></table></section>
 <section class="panel"><h2>午前II：年度別カテゴリ</h2><table><thead><tr><th>分類</th><th>2023</th><th>2024</th><th>2025</th><th>計</th><th>割合</th></tr></thead><tbody id="a2table"></tbody></table></section>
-<section class="panel"><h2>現在の母数</h2><p><b>午前I 180問 + 午前II 150問 = 330問</b>を配分分析の対象にしています。</p><p class="note">2019・2021・2022はOCRベースの仮分類なので、出題配分の大勢を見る用途には使えますが、細分類1問単位の確定値は最終目視監査後に固定します。</p></section>
+<section class="panel"><h2>現在の母数</h2><p><b>午前I 180問 + 午前II 150問 = 330問</b>を配分分析の対象にしています。</p><p class="note">午前IIの150問は原本監査済み。午前Iの2019・2021・2022はOCRベースの仮分類なので、細分類1問単位の確定値は午前I全文監査後に固定します。</p></section>
 </main>
 <script src="data/a1_distribution_6runs.js"></script><script src="data/am2_distribution_6runs.js"></script>
 <script>
