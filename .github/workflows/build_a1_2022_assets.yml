@@ -1,0 +1,40 @@
+name: Build 2022 A1 visual assets
+
+on:
+  push:
+    paths:
+      - ".github/workflows/build_a1_2022_assets.yml"
+      - "tools/build_a1_2022_assets.py"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install tools
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq poppler-utils
+          python3 -m pip install --quiet pillow
+      - name: Render source pages
+        run: |
+          rm -rf _tmp_a1_2022_render
+          mkdir -p _tmp_a1_2022_render
+          for p in 5 9 10; do
+            pdftoppm -f "$p" -l "$p" -singlefile -jpeg -jpegopt quality=88 -r 150 sources/2022r04h_koudo_am1_qs.pdf "_tmp_a1_2022_render/tmp"
+            mv _tmp_a1_2022_render/tmp.jpg "_tmp_a1_2022_render/page-$(printf '%02d' "$p").jpg"
+          done
+      - name: Crop figure assets
+        run: python3 tools/build_a1_2022_assets.py
+      - name: Commit assets
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add a1/assets/2022_*.png
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "Add 2022 A1 diagram assets"
+          git push
