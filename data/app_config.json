@@ -52,9 +52,10 @@
     "morning_distribution": "morning_distribution.html"
   },
   "a1": {
-    "expected_question_count": 30,
+    "expected_question_count": 60,
     "expected_per_year": 30,
     "years": [
+      2024,
       2025
     ],
     "choice_keys": [
