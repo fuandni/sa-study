@@ -58,25 +58,48 @@ jobs:
           ssh "$OCI_USER@$OCI_HOST" 'bash -s' <<'REMOTE'
           set -euo pipefail
 
-          WEBROOT=/var/www/ichirikutoku/sa
+          WEBROOT=/var/www/sa
           STAGING="$HOME/sa_release_new"
+          PUBLIC_STAGING="$HOME/sa_public_new"
           BACKUPS="$HOME/sa_backups"
           TS="$(date +%Y%m%d-%H%M%S)"
 
           test -f "$STAGING/index.html"
           test -f "$STAGING/data/app_config.js"
+          test -f "$STAGING/data/a1_questions.js"
           test -f "$STAGING/data/am2_questions.js"
 
           mkdir -p "$BACKUPS"
+          rm -rf "$PUBLIC_STAGING"
+          mkdir -p "$PUBLIC_STAGING/a1" "$PUBLIC_STAGING/am2"
+
+          # Build the public release explicitly. Repository-only tooling and
+          # maintenance files are not exposed under the web root.
+          for f in index.html morning_distribution.html morning_status.html pm_reference.html source_index.html sync_settings.html; do
+            cp "$STAGING/$f" "$PUBLIC_STAGING/$f"
+          done
+          cp -a "$STAGING/assets" "$PUBLIC_STAGING/"
+          cp -a "$STAGING/data" "$PUBLIC_STAGING/"
+          cp -a "$STAGING/sources" "$PUBLIC_STAGING/"
+          cp -a "$STAGING/a1/assets" "$PUBLIC_STAGING/a1/"
+          cp -a "$STAGING/am2/assets" "$PUBLIC_STAGING/am2/"
 
           if [ -d "$WEBROOT" ]; then
             sudo tar -C "$WEBROOT" -czf "$BACKUPS/sa-$TS.tar.gz" .
           fi
 
           sudo mkdir -p "$WEBROOT"
-          sudo rsync -a --delete --exclude 'server/' "$STAGING/" "$WEBROOT/"
+          sudo rsync -a --delete "$PUBLIC_STAGING/" "$WEBROOT/"
           sudo find "$WEBROOT" -type d -exec chmod 755 {} \;
           sudo find "$WEBROOT" -type f -exec chmod 644 {} \;
+
+          # Maintenance scripts are kept outside the public web root.
+          if [ -d "$STAGING/scripts" ]; then
+            sudo mkdir -p /opt/sa-maintenance
+            sudo rsync -a --delete "$STAGING/scripts/" /opt/sa-maintenance/
+            sudo find /opt/sa-maintenance -type d -exec chmod 755 {} \;
+            sudo find /opt/sa-maintenance -type f -exec chmod 755 {} \;
+          fi
 
           # Sync backend source is deployed outside the public web root.
           if [ -d "$STAGING/server" ]; then
@@ -101,6 +124,6 @@ jobs:
           sudo nginx -t
           curl -kfsS https://127.0.0.1/sa/ >/dev/null
 
-          rm -rf "$STAGING"
+          rm -rf "$STAGING" "$PUBLIC_STAGING"
           echo "Deploy OK: $TS"
           REMOTE
