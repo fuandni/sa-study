@@ -22,7 +22,7 @@ function home(){
  <section class="panel"><h2>すぐ始める</h2><div class="quick"><button class="primary" data-quick="random10">全範囲から10問</button><button data-quick="priority10">頻出×弱点 10問</button><button data-quick="a1_30">午前I ランダム30問</button><button data-quick="am2_25">午前II ランダム25問</button><button data-quick="wrong">誤答経験あり</button><button data-quick="unanswered">未回答</button><button data-quick="weak">正答率${threshold()}%以下</button><button data-quick="flagged">要復習フラグ</button></div></section>
  <section class="panel"><h2>分野から解く</h2><div class="chips">${cats().map(c=>`<button data-cat="${esc(c)}">${esc(c)} <small>${Q.filter(q=>q.category===c).length}問</small></button>`).join('')}</div></section>
  <section class="panel"><h2>最近の演習</h2>${recent.length?`<table><thead><tr><th>日時</th><th>範囲</th><th>回答</th><th>正解</th></tr></thead><tbody>${recent.slice(0,8).map(r=>`<tr><td>${new Date(r.ended_at).toLocaleString()}</td><td>${esc(r.label)}</td><td>${r.answered}/${r.total}</td><td>${r.correct}</td></tr>`).join('')}</tbody></table>`:'<p class="muted">まだ演習履歴はありません。</p>'}</section>
- <section class="panel slim"><div id="health"></div><a href="docs/EXTENDING.md">拡張方法</a> · <a href="docs/DATA_MODEL.md">データモデル</a></section>
+ <section class="panel slim"><div id="health"></div></section>
  </main>`;
  bindNav();
  if($('#resume'))$('#resume').onclick=()=>resumeSession();
