@@ -7,24 +7,38 @@
 - `OCI_USER`: 通常は `opc`
 - `OCI_SSH_KEY`: SSH接続に使用している秘密鍵の全文
 
-## 配置先
-`/var/www/ichirikutoku/sa/`
+## 配置
+- 公開Web: `/var/www/sa/`
+- 同期API: `/opt/sa-sync/`
+- メンテナンススクリプト: `/opt/sa-maintenance/`
+- 同期DB: `/var/lib/sa-sync/progress.db`
 
-## 動作
-`main` への push で:
-1. 問題データを再生成
+一陸特の `/var/www/ichirikutoku/` とは独立させる。
+
+## 公開URL
+Nginxで `/sa/` を `/var/www/sa/` に割り当てる。
+URL階層とファイルシステム階層は一致させない。
+
+## main push時
+1. 問題データ再生成
 2. 構造検証
-3. OCI の `~/sa_release_new/` へ転送
-4. 現行版を `~/sa_backups/` へバックアップ
-5. `/var/www/ichirikutoku/sa/` へ反映
-6. Nginx設定検証
-7. `https://127.0.0.1/sa/` をヘルスチェック
-8. バックアップを最新5世代に整理
+3. OCIの一時領域へ転送
+4. 公開に必要なファイルだけでreleaseを生成
+5. 現行 `/var/www/sa/` をバックアップ
+6. `/var/www/sa/` へ反映
+7. 同期APIとメンテナンススクリプトを `/opt/` 配下へ反映
+8. Nginx設定検証
+9. `https://127.0.0.1/sa/` をヘルスチェック
+10. バックアップを最新5世代に整理
+
+GitHubの `tools/`, `docs/`, `.github/`, OCR作業データ等は公開Webルートへ配置しない。
 
 ## ロールバック
-OCIへSSHして、このリポジトリの `scripts/rollback_latest.sh` と同内容を実行するか、
-サーバーにコピーして実行する。
+OCIで:
+
+```bash
+sudo /opt/sa-maintenance/rollback_latest.sh
+```
 
 ## 注意
-GitHub Actions のSSHユーザーが `sudo` 時にパスワードを要求される構成の場合、
-自動デプロイは停止する。その場合は対象コマンドだけNOPASSWDにする。
+GitHub ActionsのSSHユーザーがsudo時にパスワードを要求される構成では自動デプロイは停止する。
