@@ -25,7 +25,7 @@
 GitHub Actionsの最新版が成功した後、OCIで:
 
 ```bash
-sudo bash /var/www/ichirikutoku/sa/scripts/install_sync_server.sh
+sudo bash /opt/sa-maintenance/install_sync_server.sh
 ```
 
 スクリプトが同期トークンとNginx用location設定を表示する。
