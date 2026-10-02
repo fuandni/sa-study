@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
-WEBROOT=/var/www/ichirikutoku/sa
+WEBROOT=/var/www/sa
 BACKUPS="$HOME/sa_backups"
 
 latest="$(ls -1t "$BACKUPS"/sa-*.tar.gz 2>/dev/null | head -1 || true)"
