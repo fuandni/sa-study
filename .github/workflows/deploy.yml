@@ -59,6 +59,7 @@ jobs:
           set -eu
           ssh "opc@$OCI_HOST" 'bash -s' <<'REMOTE'
           set -euo pipefail
+          trap 'rc=$?; echo "DEPLOY FAILED rc=$rc line=$LINENO"; sudo systemctl status sa-sync --no-pager -l || true; sudo journalctl -u sa-sync -n 80 --no-pager || true; exit $rc' ERR
 
           WEBROOT=/var/www/sa
           STAGING="$HOME/sa_release_new"
