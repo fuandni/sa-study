@@ -107,10 +107,29 @@ jobs:
             sudo rsync -a --delete "$STAGING/server/" /opt/sa-sync/
             sudo find /opt/sa-sync -type d -exec chmod 755 {} \;
             sudo find /opt/sa-sync -type f -exec chmod 644 {} \;
-            if sudo systemctl is-active --quiet sa-sync 2>/dev/null; then
+
+            if [ ! -x /opt/sa-sync-venv/bin/python ]; then
+              sudo /usr/bin/python3 -m venv /opt/sa-sync-venv
+            fi
+            sudo /opt/sa-sync-venv/bin/pip install --disable-pip-version-check --quiet oracledb
+
+            if sudo systemctl cat sa-sync >/dev/null 2>&1; then
+              sudo test -f /etc/sa-sync.env
+              sudo grep -q '^ORACLE_USER=' /etc/sa-sync.env
+              sudo grep -q '^ORACLE_PASSWORD=' /etc/sa-sync.env
+              sudo grep -q '^ORACLE_DSN=' /etc/sa-sync.env
+
+              sudo mkdir -p /etc/systemd/system/sa-sync.service.d
+              printf '%s\n' \
+                '[Service]' \
+                'ExecStart=' \
+                'ExecStart=/opt/sa-sync-venv/bin/python /opt/sa-sync/sync_server.py' \
+                | sudo tee /etc/systemd/system/sa-sync.service.d/oracle.conf >/dev/null
+
+              sudo systemctl daemon-reload
               sudo systemctl restart sa-sync
               sleep 1
-              curl -fsS http://127.0.0.1:8787/health >/dev/null
+              curl -fsS http://127.0.0.1:8787/health | grep -q '"database":"oracle"'
             fi
           fi
           if command -v restorecon >/dev/null 2>&1; then
