@@ -61,6 +61,7 @@ ProtectSystem=strict
 WantedBy=multi-user.target
 UNITEOF
 
+sudo rm -f /etc/systemd/system/sa-sync.service.d/oracle.conf
 sudo systemctl daemon-reload
 sudo systemctl enable --now sa-sync
 sleep 1
