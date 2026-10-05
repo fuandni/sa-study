@@ -8,7 +8,7 @@
 <div class="row"><label>同期トークン</label><input id="token" class="secret" type="password" autocomplete="off" placeholder="サーバー初期設定時に表示されるトークン"></div>
 <button id="save" class="primary">設定を保存</button> <button id="test">接続テスト</button> <button id="now">今すぐ同期</button> <button id="disable">同期を無効化</button>
 <div id="status" class="status"></div></section>
-<section class="panel"><h2>安全性と動作</h2><p>トークンはこのブラウザのlocalStorageだけに保存し、GitHubの問題データには含めません。サーバー側は1ユーザー用のSQLiteに履歴JSONを保存します。回答履歴は回答IDまたは時刻・回答内容を使って重複を除き、双方の端末の履歴を統合します。</p>
+<section class="panel"><h2>安全性と動作</h2><p>トークンはこのブラウザのlocalStorageだけに保存し、GitHubの問題データには含めません。サーバー側はOracle AI Databaseに履歴JSONを保存します。回答履歴は回答IDまたは時刻・回答内容を使って重複を除き、双方の端末の履歴を統合します。</p>
 <div class="warn">同期APIがまだOCIにインストールされていない場合、このページの設定だけ先に保存しても同期は成功しません。教材自体は影響なく利用できます。</div></section></main>
 <script src="data/app_config.js"></script><script src="data/am2_questions.js"></script><script src="assets/js/storage.js?v=20261001b"></script><script src="assets/js/sync.js?v=20261001b"></script>
 <script>
