@@ -14,8 +14,9 @@
 
 ## サーバー
 
-- Python標準ライブラリのみ
-- SQLite: `/var/lib/sa-sync/progress.db`
+- Python + `python-oracledb`
+- 保存先: Oracle AI Database（`SA_APP.STATE`）
+- Python環境: `/opt/sa-sync-venv/`
 - localhost:8787
 - systemd: `sa-sync.service`
 - Nginx: `/sa-sync/` を `127.0.0.1:8787/` へreverse proxy
@@ -28,7 +29,7 @@ GitHub Actionsの最新版が成功した後、OCIで:
 sudo bash /opt/sa-maintenance/install_sync_server.sh
 ```
 
-スクリプトが同期トークンとNginx用location設定を表示する。
+事前に `/etc/sa-sync.env` へ `ORACLE_USER`、`ORACLE_PASSWORD`、`ORACLE_DSN` を設定する。スクリプトは `python-oracledb` 用venvを用意し、同期トークンとNginx用location設定を表示する。
 Nginxの既存HTTPS serverブロックにlocationを追加し、
 `sudo nginx -t && sudo systemctl reload nginx` を行う。
 
@@ -36,6 +37,4 @@ Nginxの既存HTTPS serverブロックにlocationを追加し、
 
 ## バックアップ
 
-同期DBは小さいSQLiteファイルなので、必要になったら
-`/var/lib/sa-sync/progress.db` を通常のサーバーバックアップ対象へ追加する。
-ブラウザ側のJSON書き出し機能も引き続き利用できる。
+同期データはOracle AI Databaseの `SA_APP.STATE` に保存する。移行前の `/var/lib/sa-sync/progress.db` は当面ロールバック用バックアップとして保持する。ブラウザ側のJSON書き出し機能も引き続き利用できる。
