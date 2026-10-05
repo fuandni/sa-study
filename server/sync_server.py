@@ -44,18 +44,26 @@ class Handler(BaseHTTPRequestHandler):
         return bool(supplied) and hmac.compare_digest(supplied,TOKEN)
     def do_GET(self):
         if self.path=="/health":
-            return self._json(200,{"ok":True,"service":"sa-sync"})
+            return self._json(200,{"ok":True,"service":"sa-sync","database":"oracle"})
         if self.path!="/v1/progress":
             return self._json(404,{"error":"not_found"})
         if not self._auth():
             return self._json(401,{"error":"unauthorized"})
-        with conn() as c:
-            row=c.execute("SELECT body,updated_at,revision FROM state WHERE id=1").fetchone()
-        if not row:
-            return self._json(200,{"payload":None,"revision":0,"updated_at":None})
-        try: payload=json.loads(row[0])
+        c=conn()
+        try:
+            cur=c.cursor()
+            cur.execute("SELECT body,updated_at,revision FROM state WHERE id=1")
+            row=cur.fetchone()
+            if not row:
+                return self._json(200,{"payload":None,"revision":0,"updated_at":None})
+            body=lob_text(row[0])
+            updated_at=row[1]
+            revision=int(row[2])
+        finally:
+            c.close()
+        try: payload=json.loads(body)
         except Exception: payload=None
-        return self._json(200,{"payload":payload,"revision":row[2],"updated_at":row[1]})
+        return self._json(200,{"payload":payload,"revision":revision,"updated_at":updated_at})
     def do_PUT(self):
         if self.path!="/v1/progress":
             return self._json(404,{"error":"not_found"})
