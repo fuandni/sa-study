@@ -44,22 +44,20 @@ jobs:
       - name: Upload release to OCI staging
         env:
           OCI_HOST: ${{ secrets.OCI_HOST }}
-          OCI_USER: ${{ secrets.OCI_USER }}
         run: |
           set -eu
-          ssh "$OCI_USER@$OCI_HOST" 'rm -rf ~/sa_release_new && mkdir -p ~/sa_release_new'
+          ssh "opc@$OCI_HOST" 'rm -rf ~/sa_release_new && mkdir -p ~/sa_release_new'
           rsync -az --delete \
             --exclude '.git/' \
             --exclude '.github/' \
-            ./ "$OCI_USER@$OCI_HOST:~/sa_release_new/"
+            ./ "opc@$OCI_HOST:~/sa_release_new/"
 
       - name: Deploy, backup, and health-check
         env:
           OCI_HOST: ${{ secrets.OCI_HOST }}
-          OCI_USER: ${{ secrets.OCI_USER }}
         run: |
           set -eu
-          ssh "$OCI_USER@$OCI_HOST" 'bash -s' <<'REMOTE'
+          ssh "opc@$OCI_HOST" 'bash -s' <<'REMOTE'
           set -euo pipefail
 
           WEBROOT=/var/www/sa
