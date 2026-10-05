@@ -26,6 +26,10 @@ jobs:
           python3 tools/build_data.py
           python3 tools/validate_data.py
 
+      - name: Validate sync backend syntax
+        run: |
+          python3 -m py_compile server/sync_server.py server/oracle_backend.py
+
       - name: Prepare SSH
         env:
           OCI_SSH_KEY: ${{ secrets.OCI_SSH_KEY }}
