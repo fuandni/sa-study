@@ -2,6 +2,7 @@
 set -euo pipefail
 
 APPDIR=/opt/sa-sync
+VENVDIR=/opt/sa-sync-venv
 DATADIR=/var/lib/sa-sync
 ENVFILE=/etc/sa-sync.env
 UNIT=/etc/systemd/system/sa-sync.service
@@ -21,11 +22,23 @@ sudo chmod 700 "$DATADIR"
 
 if [ ! -f "$ENVFILE" ]; then
   TOKEN="$(openssl rand -hex 32)"
-  printf 'SA_SYNC_TOKEN=%s\nSA_SYNC_DB=%s/progress.db\nSA_SYNC_HOST=127.0.0.1\nSA_SYNC_PORT=8787\n' "$TOKEN" "$DATADIR" | sudo tee "$ENVFILE" >/dev/null
+  printf 'SA_SYNC_TOKEN=%s\nSA_SYNC_HOST=127.0.0.1\nSA_SYNC_PORT=8787\n' "$TOKEN" | sudo tee "$ENVFILE" >/dev/null
   sudo chmod 600 "$ENVFILE"
 else
   TOKEN="$(sudo sed -n 's/^SA_SYNC_TOKEN=//p' "$ENVFILE" | head -1)"
 fi
+
+for key in ORACLE_USER ORACLE_PASSWORD ORACLE_DSN; do
+  if ! sudo grep -q "^$key=" "$ENVFILE"; then
+    echo "$ENVFILE に $key を設定してください。" >&2
+    exit 1
+  fi
+done
+
+if [ ! -x "$VENVDIR/bin/python" ]; then
+  sudo /usr/bin/python3 -m venv "$VENVDIR"
+fi
+sudo "$VENVDIR/bin/pip" install --disable-pip-version-check --quiet oracledb
 
 sudo tee "$UNIT" >/dev/null <<'UNITEOF'
 [Unit]
@@ -37,13 +50,12 @@ Type=simple
 User=sa-sync
 Group=sa-sync
 EnvironmentFile=/etc/sa-sync.env
-ExecStart=/usr/bin/python3 /opt/sa-sync/sync_server.py
+ExecStart=/opt/sa-sync-venv/bin/python /opt/sa-sync/sync_server.py
 Restart=on-failure
 RestartSec=2
 NoNewPrivileges=true
 PrivateTmp=true
 ProtectSystem=strict
-ReadWritePaths=/var/lib/sa-sync
 
 [Install]
 WantedBy=multi-user.target
@@ -52,10 +64,11 @@ UNITEOF
 sudo systemctl daemon-reload
 sudo systemctl enable --now sa-sync
 sleep 1
-curl -fsS http://127.0.0.1:8787/health
+curl -fsS http://127.0.0.1:8787/health | grep -q '"database":"oracle"'
 echo
 echo
-echo "同期API本体は起動しました。"
+echo
+echo "同期API本体はOracle AI Databaseを使用して起動しました。"
 echo "ブラウザへ入力する同期トークン:"
 echo "$TOKEN"
 echo
