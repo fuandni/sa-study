@@ -11,7 +11,8 @@
 - 公開Web: `/var/www/sa/`
 - 同期API: `/opt/sa-sync/`
 - メンテナンススクリプト: `/opt/sa-maintenance/`
-- 同期DB: `/var/lib/sa-sync/progress.db`
+- 同期DB: Oracle AI Database（`SA_APP.STATE`）
+- 同期API Python環境: `/opt/sa-sync-venv/`
 
 一陸特の `/var/www/ichirikutoku/` とは独立させる。
 
@@ -27,9 +28,11 @@ URL階層とファイルシステム階層は一致させない。
 5. 現行 `/var/www/sa/` をバックアップ
 6. `/var/www/sa/` へ反映
 7. 同期APIとメンテナンススクリプトを `/opt/` 配下へ反映
-8. Nginx設定検証
-9. `https://127.0.0.1/sa/` をヘルスチェック
-10. バックアップを最新5世代に整理
+8. `python-oracledb` のvenvを確認し、Oracle版 `sa-sync` を再起動
+9. Oracle版同期APIの `/health` を確認
+10. Nginx設定検証
+11. `https://127.0.0.1/sa/` をヘルスチェック
+12. バックアップを最新5世代に整理
 
 GitHubの `tools/`, `docs/`, `.github/`, OCR作業データ等は公開Webルートへ配置しない。
 
