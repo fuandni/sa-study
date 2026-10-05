@@ -1,30 +1,22 @@
 #!/usr/bin/env python3
-import os, json, sqlite3, hmac
+import os, json, hmac
+from oracle_backend import conn
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from datetime import datetime, timezone
-from pathlib import Path
 
 HOST=os.environ.get("SA_SYNC_HOST","127.0.0.1")
 PORT=int(os.environ.get("SA_SYNC_PORT","8787"))
 TOKEN=os.environ.get("SA_SYNC_TOKEN","")
-DB=Path(os.environ.get("SA_SYNC_DB","/var/lib/sa-sync/progress.db"))
 MAX_BODY=int(os.environ.get("SA_SYNC_MAX_BODY","5242880"))
 
 if not TOKEN:
     raise SystemExit("SA_SYNC_TOKEN is required")
-DB.parent.mkdir(parents=True,exist_ok=True)
-
-def conn():
-    c=sqlite3.connect(DB,timeout=10)
-    c.execute("CREATE TABLE IF NOT EXISTS state (id INTEGER PRIMARY KEY CHECK(id=1), body TEXT NOT NULL, updated_at TEXT NOT NULL, revision INTEGER NOT NULL)")
-    c.commit()
-    return c
 
 def now():
     return datetime.now(timezone.utc).isoformat()
 
 class Handler(BaseHTTPRequestHandler):
-    server_version="SAProgressSync/1.0"
+    server_version="SAProgressSync/2.0"
     def log_message(self,fmt,*args):
         print("%s - %s" % (self.address_string(),fmt%args),flush=True)
     def _json(self,status,obj):
@@ -40,7 +32,7 @@ class Handler(BaseHTTPRequestHandler):
         return bool(supplied) and hmac.compare_digest(supplied,TOKEN)
     def do_GET(self):
         if self.path=="/health":
-            return self._json(200,{"ok":True,"service":"sa-sync"})
+            return self._json(200,{"ok":True,"service":"sa-sync","database":"oracle"})
         if self.path!="/v1/progress":
             return self._json(404,{"error":"not_found"})
         if not self._auth():
@@ -80,5 +72,5 @@ class Handler(BaseHTTPRequestHandler):
 
 if __name__=="__main__":
     with conn(): pass
-    print(f"SA sync listening on http://{HOST}:{PORT}",flush=True)
+    print(f"SA sync (Oracle) listening on http://{HOST}:{PORT}",flush=True)
     ThreadingHTTPServer((HOST,PORT),Handler).serve_forever()
