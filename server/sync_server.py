@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-import os, json, sqlite3, hmac
+import os, json, hmac\nimport oracledb
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from datetime import datetime, timezone
 from pathlib import Path
@@ -15,10 +15,14 @@ if not TOKEN:
 DB.parent.mkdir(parents=True,exist_ok=True)
 
 def conn():
-    c=sqlite3.connect(DB,timeout=10)
-    c.execute("CREATE TABLE IF NOT EXISTS state (id INTEGER PRIMARY KEY CHECK(id=1), body TEXT NOT NULL, updated_at TEXT NOT NULL, revision INTEGER NOT NULL)")
-    c.commit()
-    return c
+    return oracledb.connect(user=ORACLE_USER,password=ORACLE_PASSWORD,dsn=ORACLE_DSN)
+
+def lob_text(value):
+    if value is None:
+        return None
+    if hasattr(value,"read"):
+        return value.read()
+    return value
 
 def now():
     return datetime.now(timezone.utc).isoformat()
