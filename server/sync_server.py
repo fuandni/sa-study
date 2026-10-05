@@ -1,24 +1,32 @@
 #!/usr/bin/env python3
-import os, json, sqlite3, hmac
+import os, json, hmac
+import oracledb
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from datetime import datetime, timezone
-from pathlib import Path
 
 HOST=os.environ.get("SA_SYNC_HOST","127.0.0.1")
 PORT=int(os.environ.get("SA_SYNC_PORT","8787"))
 TOKEN=os.environ.get("SA_SYNC_TOKEN","")
-DB=Path(os.environ.get("SA_SYNC_DB","/var/lib/sa-sync/progress.db"))
+ORACLE_USER=os.environ.get("ORACLE_USER","")
+ORACLE_PASSWORD=os.environ.get("ORACLE_PASSWORD","")
+ORACLE_DSN=os.environ.get("ORACLE_DSN","")
 MAX_BODY=int(os.environ.get("SA_SYNC_MAX_BODY","5242880"))
 
 if not TOKEN:
     raise SystemExit("SA_SYNC_TOKEN is required")
-DB.parent.mkdir(parents=True,exist_ok=True)
+if not ORACLE_USER: raise SystemExit("ORACLE_USER is required")
+if not ORACLE_PASSWORD: raise SystemExit("ORACLE_PASSWORD is required")
+if not ORACLE_DSN: raise SystemExit("ORACLE_DSN is required")
 
 def conn():
-    c=sqlite3.connect(DB,timeout=10)
-    c.execute("CREATE TABLE IF NOT EXISTS state (id INTEGER PRIMARY KEY CHECK(id=1), body TEXT NOT NULL, updated_at TEXT NOT NULL, revision INTEGER NOT NULL)")
-    c.commit()
-    return c
+    return oracledb.connect(user=ORACLE_USER,password=ORACLE_PASSWORD,dsn=ORACLE_DSN)
+
+def lob_text(value):
+    if value is None:
+        return None
+    if hasattr(value,"read"):
+        return value.read()
+    return value
 
 def now():
     return datetime.now(timezone.utc).isoformat()
