@@ -37,6 +37,8 @@ jobs:
           unzip -t /tmp/sa550/sa_550_release_preflight_checked.zip >/dev/null
           unzip -q /tmp/sa550/sa_550_release_preflight_checked.zip -d /tmp/sa550/extracted
           test -f /tmp/sa550/extracted/sa_550_release/apply_to_checkout.py
+      - name: Install preflight image dependency
+        run: python -m pip install Pillow
       - name: Merge and validate actual 550 questions
         run: |
           set -euo pipefail
