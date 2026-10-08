@@ -1,0 +1,65 @@
+name: Import SA 550 staging bundle
+
+on:
+  workflow_dispatch:
+    inputs:
+      release_tag:
+        description: "Release tag containing sa_550_release_preflight_checked.zip"
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sa550-staging-import
+  cancel-in-progress: false
+
+jobs:
+  import:
+    if: github.ref == 'refs/heads/staging/sa-550-questions-20261008'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: staging/sa-550-questions-20261008
+          persist-credentials: true
+      - name: Download attached staging ZIP
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ inputs.release_tag }}
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/sa550
+          gh release download "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" --pattern 'sa_550_release_preflight_checked.zip' --dir /tmp/sa550
+          test -s /tmp/sa550/sa_550_release_preflight_checked.zip
+          unzip -t /tmp/sa550/sa_550_release_preflight_checked.zip >/dev/null
+          unzip -q /tmp/sa550/sa_550_release_preflight_checked.zip -d /tmp/sa550/extracted
+          test -f /tmp/sa550/extracted/sa_550_release/apply_to_checkout.py
+      - name: Merge and validate actual 550 questions
+        run: |
+          set -euo pipefail
+          python /tmp/sa550/extracted/sa_550_release/preflight_release.py
+          python /tmp/sa550/extracted/sa_550_release/apply_to_checkout.py
+          python tools/validate_data.py
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          a1=json.loads(Path('a1/data/a1_questions.json').read_text())
+          am2=json.loads(Path('am2/data/am2_questions.json').read_text())
+          assert (len(a1), len(am2)) == (300,250)
+          assert len({q['id'] for q in a1+am2}) == 550
+          print('Actual 550 question data validated.')
+          PY
+      - name: Commit to staging branch only
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add a1/data/a1_questions.json am2/data/am2_questions.json data/app_config.json data/*.js a1/assets am2/assets sources
+          if git diff --cached --quiet; then
+            echo "Nothing to commit"; exit 1
+          fi
+          git commit -m "Stage 2015-2018 exam questions: 550 total"
+          git push origin HEAD:staging/sa-550-questions-20261008
