@@ -1,12 +1,9 @@
 name: Import SA 550 staging bundle
 
 on:
-  workflow_dispatch:
-    inputs:
-      release_tag:
-        description: "Release tag containing sa_550_release_preflight_checked.zip"
-        required: true
-        type: string
+  push:
+    branches:
+      - staging/sa-550-questions-20261008
 
 permissions:
   contents: write
@@ -28,7 +25,7 @@ jobs:
       - name: Download attached staging ZIP
         env:
           GH_TOKEN: ${{ github.token }}
-          RELEASE_TAG: ${{ inputs.release_tag }}
+          RELEASE_TAG: a
         run: |
           set -euo pipefail
           mkdir -p /tmp/sa550
