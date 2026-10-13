@@ -40,6 +40,22 @@ function answer(p,id,choice,correct,elapsed){
   r.attempts.push({id:aid,ts:new Date().toISOString(),choice,correct:!!correct,elapsed_ms:Math.max(0,Math.round(elapsed||0))});
   const max=cfg().common?.max_attempts_per_question||cfg().am2.max_attempts_per_question||50;if(r.attempts.length>max)r.attempts=r.attempts.slice(-max);save(p);
 }
+function commitSession(p,session){
+ const answers=session?.answers||{}, entries=Object.entries(answers);
+ if(!entries.length)return p;
+ for(const [qid,a] of entries){
+  if(!a||a.choice==null)continue;
+  const r=rec(p,qid), id=String(session.id)+':'+qid;
+  const item={id,ts:a.answered_at||new Date().toISOString(),choice:a.choice,
+    correct:!!a.correct,elapsed_ms:Math.max(0,Math.round(Number(a.elapsed_ms)||0))};
+  const old=r.attempts.findIndex(x=>x.id===id);
+  if(old>=0)r.attempts[old]=item;else r.attempts.push(item);
+  const max=cfg().common?.max_attempts_per_question||cfg().am2.max_attempts_per_question||50;
+  if(r.attempts.length>max)r.attempts=r.attempts.slice(-max);
+ }
+ save(p);
+ return p;
+}
 function toggleFlag(p,id){const r=rec(p,id);r.flagged=!r.flagged;r.flag_updated_at=new Date().toISOString();save(p);return r.flagged}
 function exportAll(p){
  const blob=new Blob([JSON.stringify({format:'sa-progress',version:2,exported_at:new Date().toISOString(),progress:p,recent:loadRecent()},null,2)],{type:'application/json'});
@@ -55,5 +71,5 @@ function clearSession(){localStorage.removeItem(SESSION_KEY)}
 function loadRecent(){try{return JSON.parse(localStorage.getItem(RECENT_KEY)||'[]')}catch(e){return []}}
 function setRecent(a,quiet=false){localStorage.setItem(RECENT_KEY,JSON.stringify(Array.isArray(a)?a:[]));if(!quiet)notify('recent')}
 function addRecent(s){let a=loadRecent();a.unshift(s);a=a.slice(0,cfg().common?.recent_sessions_limit||cfg().am2.recent_sessions_limit||20);setRecent(a)}
-window.SAStorage={load,save,aggregate,answer,toggleFlag,exportAll,importAll,saveSession,loadSession,clearSession,loadRecent,setRecent,addRecent};
+window.SAStorage={load,save,aggregate,answer,commitSession,toggleFlag,exportAll,importAll,saveSession,loadSession,clearSession,loadRecent,setRecent,addRecent};
 })();
