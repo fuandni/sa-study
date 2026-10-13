@@ -34,7 +34,7 @@
     ],
     "weak_threshold_percent": 60,
     "max_attempts_per_question": 50,
-    "recent_sessions_limit": 20
+    "recent_sessions_limit": 100
   },
   "category_order": [
     "テクノロジ",
@@ -85,11 +85,11 @@
     ],
     "weak_threshold_percent": 60,
     "max_attempts_per_question": 50,
-    "recent_sessions_limit": 20
+    "recent_sessions_limit": 100
   },
   "common": {
     "weak_threshold_percent": 60,
     "max_attempts_per_question": 50,
-    "recent_sessions_limit": 20
+    "recent_sessions_limit": 100
   }
 }

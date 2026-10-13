@@ -35,9 +35,11 @@ function home(){
 }
 function setup(pref={}){
  const years=[...new Set(Q.map(q=>q.year))].sort();
+ const pairs=[];for(let i=0;i<years.length;i+=2)pairs.push(years.slice(i,i+2));
  app.innerHTML=nav('practice')+`<main><section class="panel"><h2>演習条件</h2>
  <div class="formrow"><label>科目</label><div class="checks"><label><input type="checkbox" name="section" value="午前I" checked> 午前I</label><label><input type="checkbox" name="section" value="午前II" checked> 午前II</label></div></div>
  <div class="formrow"><label>年度</label><div class="checks">${years.map(y=>`<label><input type="checkbox" name="year" value="${y}" checked> ${y}</label>`).join('')}</div></div>
+ <div class="formrow"><label>2年度セット</label><div class="quick">${pairs.map(ys=>`<button type="button" data-year-pair="${ys.join(',')}">${ys.join('/')}</button>`).join('')}<button type="button" id="all-years">全年度</button></div></div>
  <div class="formrow"><label>カテゴリ</label><select id="category"><option value="">全カテゴリ</option>${cats().map(c=>`<option>${esc(c)}</option>`).join('')}</select></div>
  <div class="formrow"><label>細分類</label><select id="subdomain"><option value="">全細分類</option>${subs().map(c=>`<option>${esc(c)}</option>`).join('')}</select></div>
  <div class="formrow"><label>対象</label><select id="mode"><option value="all">全問</option><option value="wrong">誤答経験あり</option><option value="unanswered">未回答のみ</option><option value="weak">正答率${threshold()}%以下</option><option value="flagged">要復習フラグ</option></select></div>
@@ -50,6 +52,8 @@ function setup(pref={}){
  const refreshCategories=()=>{const cur=$('#category').value;$('#category').innerHTML='<option value="">全カテゴリ</option>'+cats(selectedSections()).map(c=>`<option>${esc(c)}</option>`).join('');if([...$('#category').options].some(o=>o.value===cur))$('#category').value=cur;refreshSubs()};
  const refreshSubs=()=>{const cur=$('#subdomain').value;$('#subdomain').innerHTML='<option value="">全細分類</option>'+subs($('#category').value,selectedSections()).map(c=>`<option>${esc(c)}</option>`).join('');if([...$('#subdomain').options].some(o=>o.value===cur))$('#subdomain').value=cur};
  $('#category').onchange=refreshSubs;document.querySelectorAll('input[name=section]').forEach(x=>x.onchange=refreshCategories);refreshCategories();
+ document.querySelectorAll('[data-year-pair]').forEach(btn=>btn.onclick=()=>{const ys=btn.dataset.yearPair.split(',').map(Number);document.querySelectorAll('input[name=year]').forEach(box=>box.checked=ys.includes(Number(box.value)))});
+ $('#all-years').onclick=()=>document.querySelectorAll('input[name=year]').forEach(box=>box.checked=true);
  $('#go').onclick=()=>{let ys=[...document.querySelectorAll('input[name=year]:checked')].map(x=>Number(x.value));start({sections:selectedSections(),years:ys,categories:$('#category').value?[$('#category').value]:[],subdomains:$('#subdomain').value?[$('#subdomain').value]:[],mode:$('#mode').value,count:$('#count').value,order:$('#order').value})};
 }
 function filter(opts){
@@ -75,7 +79,16 @@ function quick(kind){
 }
 function start(opts){
  let list=filter(opts); if(!list.length){alert('条件に該当する問題がありません。');return}
- session={schema_version:2,id:'s_'+Date.now(),questionIds:list.map(q=>q.id),index:0,started_at:new Date().toISOString(),answers:{},answeredCount:0,correctCount:0,label:opts.label||describe(opts),options:opts};S.saveSession(session);practice();
+ return startIds(list.map(q=>q.id),opts.label||describe(opts),opts);
+}
+function startIds(ids,label,opts={}){
+ const eligible=new Set(Q.map(q=>q.id)), uniq=[...new Set(ids)].filter(id=>eligible.has(id));
+ if(!uniq.length){alert('演習対象の問題がありません。');return}
+ const pending=S.loadSession();
+ if(pending?.questionIds?.length&&!confirm('途中の演習があります。破棄して新しい演習を始めますか？'))return;
+ session={schema_version:2,id:'s_'+Date.now()+'_'+Math.random().toString(36).slice(2,7),
+  questionIds:uniq,index:0,started_at:new Date().toISOString(),answers:{},answeredCount:0,correctCount:0,label,options:opts};
+ S.saveSession(session);practice();
 }
 function describe(o){let p=[];if(o.sections?.length&&o.sections.length<2)p.push(o.sections.join('/'));if(o.years?.length&&o.years.length<[...new Set(Q.map(q=>q.year))].length)p.push(o.years.join('/'));if(o.categories?.length)p.push(o.categories.join('/'));if(o.subdomains?.length)p.push(o.subdomains.join('/'));if(o.mode&&o.mode!=='all')p.push(o.mode);p.push(o.count==='all'?'全問':o.count+'問');return p.join('・')}
 function resumeSession(){session=S.loadSession();if(!session||!session.questionIds?.length){home();return}practice()}
@@ -141,7 +154,10 @@ function reviewListHtml(summary,filter){
  <div class="review-grid">${g.items.map(item=>`<button type="button" class="review-tile ${item.status}" data-review-id="${esc(item.id)}" title="${esc(item.question.topic||'')}">
  <span>問${item.no}</span><small>${item.status==='correct'?'正解':item.status==='wrong'?'不正解':'未回答'}${item.flagged?' ★':''}</small></button>`).join('')}</div></details>`).join('');
 }
-function showResult(summary,filter=null){
+let resultOrigin=null;
+function showResult(summary,filter=null,origin=undefined){
+ if(origin!==undefined)resultOrigin=origin;
+ else if(filter===null)resultOrigin=null;
  const hasDetail=Array.isArray(summary.questionIds)&&summary.questionIds.length>0;
  const rows=hasDetail?reportRows(summary):[];
  const all=R.counts(rows), initial=all.firstCorrect;
@@ -152,6 +168,8 @@ function showResult(summary,filter=null){
  <div class="result-summary"><div><div class="resultbig">${summary.correct} / ${summary.total}</div><p>最終正答率：${fmtPct(summary.total?summary.correct/summary.total:null)}</p></div>
  <div><b>${summary.answered} / ${summary.total}</b><p>回答済み</p></div>
  ${hasDetail?`<div><b>${initial} / ${summary.total}</b><p>初回正答数（解き直す前）</p></div>`:''}</div>
+ ${summary.answered>summary.total||summary.correct>summary.answered||summary.correct>summary.total?
+   '<p class="invalid-panel">この記録には旧版の重複加算による可能性がある集計不整合があります。年度別の成績比較から除外します。</p>':''}
  <p class="muted">未回答は分母に含め、0点として計算。試験終了後の見直しで得点は変わりません。</p>
  <h3>年度・科目別の結果</h3>${yearScoreTable(summary.breakdown||[])}
  </section>
@@ -161,8 +179,9 @@ function showResult(summary,filter=null){
  <div id="result-review-list">${reviewListHtml(summary,picked)}</div>`
  :'<p class="muted">この演習は詳細履歴の保存開始前に終了しているため、当時の回答選択は復元できません。集計結果は表示できます。</p>'}
  </section>
- <section class="panel result-actions"><button id="homebtn">ホーム</button><button class="primary" id="setupbtn">別の演習を始める</button><button id="statsbtn">全年度の成績</button></section></main>`;
+ <section class="panel result-actions">${resultOrigin?`<button id="year-history-back">← ${resultOrigin.year}年度・${esc(resultOrigin.section)}の履歴</button>`:'' }<button id="homebtn">ホーム</button><button class="primary" id="setupbtn">別の演習を始める</button><button id="statsbtn">全年度の成績</button></section></main>`;
  bindNav();$('#homebtn').onclick=home;$('#setupbtn').onclick=()=>setup();$('#statsbtn').onclick=stats;
+ if($('#year-history-back'))$('#year-history-back').onclick=()=>showYearDetail(resultOrigin.year,resultOrigin.section);
  document.querySelectorAll('[data-result-filter]').forEach(b=>b.onclick=()=>showResult(summary,b.dataset.resultFilter));
  document.querySelectorAll('[data-review-id]').forEach(b=>b.onclick=()=>showReviewQuestion(summary,b.dataset.reviewId,picked));
 }
@@ -199,13 +218,90 @@ function yearScoreTable(rows){
  if(!rows.length)return '<p class="muted">該当する結果はありません。</p>';
  return `<div class="table-scroll"><table><thead><tr><th>年度</th><th>区分</th><th>正解 / 全問</th><th>回答済み</th><th>正解率</th></tr></thead><tbody>${rows.map(r=>`<tr><td>${r.year}</td><td>${esc(r.section)}</td><td>${r.correct} / ${r.total}</td><td>${r.answered} / ${r.total}</td><td>${fmtPct(r.correct/r.total)}</td></tr>`).join('')}</tbody></table></div>`;
 }
+
+function yearData(){return window.SAYearAnalysis.build(Q,S.loadRecent(),progress)}
+function matrixCell(row){
+ const f=row.latestFull,p=row.latestPartial;
+ const score=f?`<b>${f.correct} / ${row.total}（${fmtPct(f.correct/row.total)}）</b>`:'<b>完答記録なし</b>';
+ const latest=p&&!f?`<small>部分演習：${p.answered} / ${row.total}問回答</small>`:'';
+ const flag=row.flagged?`<small class="flagged-note">★ 要復習 ${row.flagged}問</small>`:'';
+ const warn=row.invalidCount?`<small class="invalid-note">旧集計に不整合 ${row.invalidCount}件</small>`:'';
+ return `<button class="year-cell" data-year-detail="${row.year}|${esc(row.section)}">${score}${latest}${flag}${warn}<small>詳細を見る →</small></button>`;
+}
+function yearMatrix(rows){
+ const years=[...new Set(rows.map(x=>x.year))].sort((a,b)=>b-a);
+ return `<div class="table-scroll"><table class="year-matrix"><thead><tr><th>年度</th><th>午前I（30問）</th><th>午前II（25問）</th></tr></thead><tbody>${years.map(y=>`<tr><th>${y}</th><td>${matrixCell(window.SAYearAnalysis.yearRow(rows,y,'午前I'))}</td><td>${matrixCell(window.SAYearAnalysis.yearRow(rows,y,'午前II'))}</td></tr>`).join('')}</tbody></table></div>`;
+}
+function bindYearButtons(){
+ document.querySelectorAll('[data-year-detail]').forEach(btn=>btn.onclick=()=>{
+  const [year,section]=btn.dataset.yearDetail.split('|');
+  showYearDetail(Number(year),section);
+ });
+}
+function showYearDetail(year,section){
+ const row=window.SAYearAnalysis.yearRow(yearData(),year,section);
+ if(!row){stats();return}
+ const f=row.latestFull;
+ const title=year+'年度・'+section;
+ const list=row.history;
+ app.innerHTML=nav('stats')+`<main><section class="panel">
+ <button id="back-stats">← 全年度一覧へ</button><h2 class="year-detail-title">${esc(title)}</h2>
+ <div class="year-detail-metrics">
+ <div><strong>${f?`${f.correct} / ${row.total}`:'—'}</strong><span>直近の完答得点</span></div>
+ <div><strong>${list.filter(x=>x.complete).length}</strong><span>完答した回数</span></div>
+ <div><strong>${row.flagged}</strong><span>★ 要復習</span></div>
+ </div>
+ <p class="muted">複数年度をまとめた演習も、${esc(title)}の部分だけを抽出して表示。25問または30問をすべて回答した記録だけを「完答」として比較します。</p>
+ ${row.invalidCount?`<p class="invalid-panel">旧集計で回答数が出題数を超えるなどの不整合を${row.invalidCount}件検出。該当記録は成績比較から除外しています。</p>`:''}
+ <div class="result-actions"><button class="primary" id="year-all-practice">${esc(title)}を全問解く（${row.total}問）</button>
+ <button id="year-flag-practice" ${row.flagged?'':'disabled'}>★ 要復習だけ解く（${row.flagged}問）</button></div>
+ </section>
+ <section class="panel"><h2>受験履歴・得点推移</h2>
+ ${list.length?`<div class="table-scroll"><table><thead><tr><th>日時</th><th>正解 / 出題</th><th>回答済み</th><th>状態</th><th>見直し</th></tr></thead><tbody>
+ ${list.map(s=>`<tr><td>${s.ended_at?new Date(s.ended_at).toLocaleString():'—'}</td>
+ <td>${s.correct} / ${s.total}（${fmtPct(s.total?s.correct/s.total:null)}）</td>
+ <td>${s.answered} / ${s.total}</td><td>${s.complete?'完答':'部分演習'}</td>
+ <td><button data-year-session="${esc(s.id)}">結果を見る</button></td></tr>`).join('')}</tbody></table></div>`
+ :'<p class="muted">この年度・科目の成績記録はまだありません。</p>'}
+ </section></main>`;
+ bindNav();
+ $('#back-stats').onclick=stats;
+ $('#year-all-practice').onclick=()=>startIds(row.questionIds,title+'・全問',{years:[year],sections:[section],mode:'all',count:'all',order:'fixed'});
+ $('#year-flag-practice').onclick=()=>startIds(row.questionIds.filter(id=>agg(id).flagged),title+'・要復習',{years:[year],sections:[section],mode:'flagged',count:'all',order:'fixed'});
+ document.querySelectorAll('[data-year-session]').forEach(btn=>btn.onclick=()=>{
+  const history=S.loadRecent().find(s=>s.id===btn.dataset.yearSession);
+  if(history)showResult(history,null,{year,section});
+ });
+}
 function stats(){
+ progress=S.load();
  const overall=allStats(), groups=(field)=>[...new Set(Q.map(q=>q[field]))].sort().map(v=>{let z=Q.filter(q=>q[field]===v),s=allStats(z);return {v,n:z.length,...s}});
- app.innerHTML=nav('stats')+`<main><section class="cards"><div class="metric"><b>${overall.exp}/${Q.length}</b><span>回答経験</span></div><div class="metric"><b>${overall.tries}</b><span>累積回答</span></div><div class="metric"><b>${overall.cor}</b><span>累積正解</span></div><div class="metric"><b>${fmtPct(overall.rate)}</b><span>正答率</span></div></section>
- <section class="panel"><h2>年度 × 午前I・午前II（各問の最新回答）</h2><p class="muted">各問の最新の確定回答だけを集計。回答数が増えても分母は各年度・科目の問題数のままです。</p>${yearScoreTable(E.latestByYear(Q,progress))}</section><section class="panel"><h2>科目別</h2>${table(groups('section'))}</section><section class="panel"><h2>年度別</h2>${table(groups('year'))}</section><section class="panel"><h2>カテゴリ別</h2>${table(groups('category'))}</section><section class="panel"><h2>細分類別</h2>${table(groups('subdomain'))}</section>
- <section class="panel"><h2>学習優先度</h2>${window.SAPriority?priorityTable(SAPriority.groupRows(Q,agg)):'<p class="muted">優先度データを読み込めません。</p>'}</section>
- <section class="panel"><h2>履歴のバックアップ</h2><button id="export">JSONを書き出す</button><label class="filebtn">JSONを読み込む<input id="import" type="file" accept=".json,application/json"></label><p class="muted">分類やUIを変更しても、問題IDが同じなら履歴を引き継げます。</p></section></main>`;
- bindNav();$('#export').onclick=()=>S.exportAll(progress);$('#import').onchange=async e=>{try{let obj=JSON.parse(await e.target.files[0].text());progress=S.importAll(obj);alert('履歴を読み込みました。');stats()}catch(err){alert(err.message)}};
+ const years=yearData();
+ const completeCount=years.filter(x=>x.latestFull).length,flagged=Q.filter(q=>agg(q.id).flagged).length;
+ app.innerHTML=nav('stats')+`<main>
+ <section class="panel"><h2>全年度の成績比較</h2>
+ <p>午前I・午前IIの<strong>直近の完答結果</strong>を表示。年度を開くと、以前の試験の点数も比較できます。</p>
+ <div class="year-summary"><span>完答済み：${completeCount} / ${years.length}区分</span><span>★ 要復習：${flagged}問</span></div>
+ ${yearMatrix(years)}</section>
+ <section class="panel"><h2>要復習の確認</h2>
+ <p>知識が足りない問題は、あなたが付けた★を基準に抽出するわ。正答率による自動的な習熟度判定はしません。</p>
+ <button class="primary" id="all-flagged-practice" ${flagged?'':'disabled'}>★ 要復習${flagged}問を演習する</button></section>
+ <details class="panel secondary-stats"><summary>累積回答・ジャンル別などの参考集計を表示</summary>
+ <section class="cards"><div class="metric"><b>${overall.exp}/${Q.length}</b><span>回答経験</span></div><div class="metric"><b>${overall.tries}</b><span>累積回答</span></div><div class="metric"><b>${overall.cor}</b><span>累積正解</span></div><div class="metric"><b>${fmtPct(overall.rate)}</b><span>累積回答の正答率</span></div></section>
+ <h3>各問の最新回答（受験結果とは別集計）</h3>${yearScoreTable(E.latestByYear(Q,progress))}
+ <h3>科目別</h3>${table(groups('section'))}
+ <h3>年度別</h3>${table(groups('year'))}
+ <h3>カテゴリ別</h3>${table(groups('category'))}
+ <h3>細分類別</h3>${table(groups('subdomain'))}
+ <h3>学習優先度（参考）</h3>${window.SAPriority?priorityTable(SAPriority.groupRows(Q,agg)):'<p class="muted">優先度データを読み込めません。</p>'}
+ </details>
+ <section class="panel"><h2>履歴のバックアップ</h2>
+ <button id="export">JSONを書き出す</button><label class="filebtn">JSONを読み込む<input id="import" type="file" accept=".json,application/json"></label>
+ <p class="muted">旧形式の演習で設問別回答が保存されていない場合、点数は表示できても回答選択は復元できません。</p></section></main>`;
+ bindNav();bindYearButtons();
+ $('#all-flagged-practice').onclick=()=>startIds(Q.filter(q=>agg(q.id).flagged).sort((a,b)=>a.year-b.year||a.question_no-b.question_no).map(q=>q.id),'★ 要復習・全年度',{mode:'flagged',count:'all',order:'fixed'});
+ $('#export').onclick=()=>S.exportAll(progress);
+ $('#import').onchange=async e=>{try{let obj=JSON.parse(await e.target.files[0].text());progress=S.importAll(obj);alert('履歴を読み込みました。');stats()}catch(err){alert(err.message)}};
 }
 function priorityTable(rows){return '<p class="muted">過去6実施回の平均出題数 × 平滑化した誤答率で算出。未回答は正答率50%相当から開始します。</p><table><thead><tr><th>科目</th><th>細分類</th><th>平均出題/回</th><th>回答経験</th><th>正答率</th><th>優先度</th></tr></thead><tbody>'+rows.slice(0,20).map(r=>'<tr><td>'+esc(r.section)+'</td><td>'+esc(r.subdomain)+'</td><td>'+r.freq.toFixed(2)+'</td><td>'+r.experienced+'/'+r.count+'</td><td>'+fmtPct(r.rate)+'</td><td>'+r.priority.toFixed(2)+'</td></tr>').join('')+'</tbody></table>'}
 function table(rows){return `<table><thead><tr><th>区分</th><th>収録</th><th>回答経験</th><th>累積回答</th><th>正答率</th></tr></thead><tbody>${rows.map(r=>`<tr><td>${esc(r.v)}</td><td>${r.n}</td><td>${r.exp}</td><td>${r.tries}</td><td>${fmtPct(r.rate)}</td></tr>`).join('')}</tbody></table>`}
