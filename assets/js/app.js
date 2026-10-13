@@ -161,6 +161,8 @@ function showResult(summary,filter=null){
  <div class="result-summary"><div><div class="resultbig">${summary.correct} / ${summary.total}</div><p>最終正答率：${fmtPct(summary.total?summary.correct/summary.total:null)}</p></div>
  <div><b>${summary.answered} / ${summary.total}</b><p>回答済み</p></div>
  ${hasDetail?`<div><b>${initial} / ${summary.total}</b><p>初回正答数（解き直す前）</p></div>`:''}</div>
+ ${summary.answered>summary.total||summary.correct>summary.answered||summary.correct>summary.total?
+   '<p class="invalid-panel">この記録には旧版の重複加算による可能性がある集計不整合があります。年度別の成績比較から除外します。</p>':''}
  <p class="muted">未回答は分母に含め、0点として計算。試験終了後の見直しで得点は変わりません。</p>
  <h3>年度・科目別の結果</h3>${yearScoreTable(summary.breakdown||[])}
  </section>
