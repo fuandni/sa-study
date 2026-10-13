@@ -43,3 +43,31 @@ table{border-collapse:collapse;width:100%}th,td{text-align:left;padding:9px 8px;
 .neutralbox{background:#f3f4f6;color:#39424e}
 .result-actions{display:flex;gap:10px;flex-wrap:wrap}
 @media(max-width:720px){.result-summary{gap:16px}.review-grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
+
+/* Year-by-year exam overview: two independent scores per calendar year. */
+.year-summary{display:flex;gap:18px;flex-wrap:wrap;margin:12px 0;color:#4c5764;font-weight:600}
+.year-matrix{table-layout:fixed;min-width:490px}
+.year-matrix th:first-child{width:76px}
+.year-matrix td{padding:8px 6px;vertical-align:top}
+.year-cell{width:100%;display:flex;flex-direction:column;text-align:left;gap:6px;min-height:86px;align-items:start}
+.year-cell b{font-size:1.01rem;font-variant-numeric:tabular-nums}
+.year-cell small{font-size:.78rem;color:#66717b}
+.flagged-note{color:#97620b!important}
+.invalid-note{color:#a42c2c!important}
+.year-detail-title{font-size:1.35rem;margin:18px 0 12px}
+.year-detail-metrics{display:flex;gap:12px;flex-wrap:wrap;margin:16px 0}
+.year-detail-metrics>div{background:#f7f9fc;border:1px solid var(--line);border-radius:10px;min-width:135px;padding:12px}
+.year-detail-metrics strong{display:block;font-size:1.5rem;font-variant-numeric:tabular-nums}
+.year-detail-metrics span{font-size:.85rem;color:#65707d}
+.invalid-panel{border:1px solid #e8b0a8;background:#fff2ef;color:#982d24;padding:12px;border-radius:8px}
+.secondary-stats>summary{font-weight:700;cursor:pointer;margin-bottom:10px}
+.secondary-stats .cards{margin:16px 0}
+.secondary-stats h3{margin:20px 0 8px}
+@media(max-width:720px){
+ .year-matrix{min-width:0}
+ .year-matrix th:first-child{width:50px}
+ .year-matrix th,.year-matrix td{padding:7px 3px}
+ .year-cell{padding:8px 5px;min-height:94px}
+ .year-cell b{font-size:.91rem}
+ .year-detail-metrics>div{flex:1;min-width:100px}
+}
