@@ -17,7 +17,7 @@ w.SA_APP_CONFIG={title:'テスト',exam:'SA',
  common:{max_attempts_per_question:50,recent_sessions_limit:20,weak_threshold_percent:60},
  links:{morning_distribution:'#',pm_reference:'#',source_index:'#'}};
 w.SAValidator={run:()=>({ok:true,question_count:165,a1_count:90,am2_count:75,errors:[]})};
-for(const p of ['assets/js/storage.js','assets/js/session_results.js','assets/js/review.js','assets/js/app.js'])w.eval(fs.readFileSync(p,'utf8'));
+for(const p of ['assets/js/storage.js','assets/js/session_results.js','assets/js/review.js','assets/js/year_analysis.js','assets/js/app.js'])w.eval(fs.readFileSync(p,'utf8'));
 const click=sel=>{const x=doc.querySelector(sel);assert.ok(x,'missing '+sel);x.click();};
 const current=()=>w.SAStorage.loadSession();
 function start(sections){
