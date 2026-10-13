@@ -45,6 +45,7 @@ function setup(pref={}){
  <div class="formrow"><label>対象</label><select id="mode"><option value="all">全問</option><option value="wrong">誤答経験あり</option><option value="unanswered">未回答のみ</option><option value="weak">正答率${threshold()}%以下</option><option value="flagged">要復習フラグ</option></select></div>
  <div class="formrow"><label>問題数</label><select id="count"><option value="10">10問</option><option value="25">25問</option><option value="30">30問</option><option value="all" selected>該当する全問</option></select></div>
  <div class="formrow"><label>順序</label><select id="order"><option value="random">ランダム</option><option value="priority">学習優先度順</option><option value="fixed" selected>年度・問番号順</option></select></div>
+ <div id="selection-preview" class="panel selection-preview" role="status" aria-live="polite"></div>
  <button class="primary" id="go">演習開始</button></section></main>`;
  bindNav();
  if(pref.category)$('#category').value=pref.category;
@@ -52,9 +53,40 @@ function setup(pref={}){
  const refreshCategories=()=>{const cur=$('#category').value;$('#category').innerHTML='<option value="">全カテゴリ</option>'+cats(selectedSections()).map(c=>`<option>${esc(c)}</option>`).join('');if([...$('#category').options].some(o=>o.value===cur))$('#category').value=cur;refreshSubs()};
  const refreshSubs=()=>{const cur=$('#subdomain').value;$('#subdomain').innerHTML='<option value="">全細分類</option>'+subs($('#category').value,selectedSections()).map(c=>`<option>${esc(c)}</option>`).join('');if([...$('#subdomain').options].some(o=>o.value===cur))$('#subdomain').value=cur};
  $('#category').onchange=refreshSubs;document.querySelectorAll('input[name=section]').forEach(x=>x.onchange=refreshCategories);refreshCategories();
- document.querySelectorAll('[data-year-pair]').forEach(btn=>btn.onclick=()=>{const ys=btn.dataset.yearPair.split(',').map(Number);document.querySelectorAll('input[name=year]').forEach(box=>box.checked=ys.includes(Number(box.value)))});
- $('#all-years').onclick=()=>document.querySelectorAll('input[name=year]').forEach(box=>box.checked=true);
- $('#go').onclick=()=>{let ys=[...document.querySelectorAll('input[name=year]:checked')].map(x=>Number(x.value));start({sections:selectedSections(),years:ys,categories:$('#category').value?[$('#category').value]:[],subdomains:$('#subdomain').value?[$('#subdomain').value]:[],mode:$('#mode').value,count:$('#count').value,order:$('#order').value})};
+ const readOpts=()=>({
+   sections:selectedSections(),
+   years:[...document.querySelectorAll('input[name="year"]:checked')].map(x=>Number(x.value)),
+   categories:$('#category').value?[$('#category').value]:[],
+   subdomains:$('#subdomain').value?[$('#subdomain').value]:[],
+   mode:$('#mode').value,count:$('#count').value,order:$('#order').value
+ });
+ const preview=()=>{
+   const o=readOpts();
+   const n=o.years.length&&o.sections.length?filter(o).length:0;
+   const y=o.years.length?o.years.join(' / '):'未選択';
+   const sect=o.sections.length?o.sections.join('・'):'未選択';
+   $('#selection-preview').textContent=`出題予定：${sect} / ${y}年度 / ${n}問`;
+   $('#go').disabled=!n;
+   document.querySelectorAll('[data-year-pair]').forEach(btn=>{
+     const set=btn.dataset.yearPair.split(',').map(Number);
+     btn.classList.toggle('primary',o.years.length===set.length&&set.every(y=>o.years.includes(y)));
+   });
+ };
+ document.querySelectorAll('[data-year-pair]').forEach(btn=>btn.onclick=()=>{
+   const ys=btn.dataset.yearPair.split(',').map(Number);
+   document.querySelectorAll('input[name="year"]').forEach(box=>{box.checked=ys.includes(Number(box.value))});
+   preview();
+ });
+ $('#all-years').onclick=()=>{document.querySelectorAll('input[name="year"]').forEach(box=>{box.checked=true});preview()};
+ document.querySelectorAll('input[name="year"],input[name="section"],select').forEach(el=>el.addEventListener('change',preview));
+ $('#go').onclick=()=>{
+   const opts=readOpts();
+   if(!opts.years.length||!opts.sections.length){alert('年度と科目をそれぞれ1つ以上選択してください');return}
+   const expected=filter(opts).length;
+   if(!expected){alert('演習対象が0問です。選択条件を確認してください。');return}
+   start(opts);
+ };
+ preview();
 }
 function filter(opts){
  let a=Q.filter(q=>(!opts.sections?.length||opts.sections.includes(q.section))&&(!opts.years?.length||opts.years.includes(q.year))&&(!opts.categories?.length||opts.categories.includes(q.category))&&(!opts.subdomains?.length||opts.subdomains.includes(q.subdomain)));

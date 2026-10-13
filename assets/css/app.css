@@ -71,3 +71,5 @@ table{border-collapse:collapse;width:100%}th,td{text-align:left;padding:9px 8px;
  .year-cell b{font-size:.91rem}
  .year-detail-metrics>div{flex:1;min-width:100px}
 }
+
+.selection-preview{background:#eaf2ff;font-weight:700;color:#173c75;margin:12px 0;padding:12px}#go:disabled{opacity:.5;cursor:not-allowed}
