@@ -1,0 +1,34 @@
+name: Test SA session state and results
+on:
+  push:
+    branches: [ "feature/sa-exam-state-and-year-results-20261013" ]
+  pull_request:
+    paths:
+      - "assets/js/app.js"
+      - "assets/js/session_results.js"
+      - "assets/js/storage.js"
+      - "assets/css/app.css"
+      - "tests/test_exam_state.cjs"
+      - ".github/workflows/test-session-state.yml"
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify JavaScript syntax
+        run: |
+          node --check assets/js/app.js
+          node --check assets/js/storage.js
+          node --check assets/js/session_results.js
+          node --check tests/test_exam_state.cjs
+      - name: Install isolated DOM test dependency
+        run: npm install --no-save --no-package-lock --ignore-scripts jsdom@26
+      - name: Test session navigation, regrading and year summaries
+        run: node tests/test_exam_state.cjs
+      - name: Verify all 550 question records
+        run: |
+          python3 tools/build_data.py
+          python3 tools/validate_data.py
