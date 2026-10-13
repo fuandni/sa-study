@@ -35,9 +35,11 @@ function home(){
 }
 function setup(pref={}){
  const years=[...new Set(Q.map(q=>q.year))].sort();
+ const pairs=[];for(let i=0;i<years.length;i+=2)pairs.push(years.slice(i,i+2));
  app.innerHTML=nav('practice')+`<main><section class="panel"><h2>演習条件</h2>
  <div class="formrow"><label>科目</label><div class="checks"><label><input type="checkbox" name="section" value="午前I" checked> 午前I</label><label><input type="checkbox" name="section" value="午前II" checked> 午前II</label></div></div>
  <div class="formrow"><label>年度</label><div class="checks">${years.map(y=>`<label><input type="checkbox" name="year" value="${y}" checked> ${y}</label>`).join('')}</div></div>
+ <div class="formrow"><label>2年度セット</label><div class="quick">${pairs.map(ys=>`<button type="button" data-year-pair="${ys.join(',')}">${ys.join('/')}</button>`).join('')}<button type="button" id="all-years">全年度</button></div></div>
  <div class="formrow"><label>カテゴリ</label><select id="category"><option value="">全カテゴリ</option>${cats().map(c=>`<option>${esc(c)}</option>`).join('')}</select></div>
  <div class="formrow"><label>細分類</label><select id="subdomain"><option value="">全細分類</option>${subs().map(c=>`<option>${esc(c)}</option>`).join('')}</select></div>
  <div class="formrow"><label>対象</label><select id="mode"><option value="all">全問</option><option value="wrong">誤答経験あり</option><option value="unanswered">未回答のみ</option><option value="weak">正答率${threshold()}%以下</option><option value="flagged">要復習フラグ</option></select></div>
@@ -50,6 +52,8 @@ function setup(pref={}){
  const refreshCategories=()=>{const cur=$('#category').value;$('#category').innerHTML='<option value="">全カテゴリ</option>'+cats(selectedSections()).map(c=>`<option>${esc(c)}</option>`).join('');if([...$('#category').options].some(o=>o.value===cur))$('#category').value=cur;refreshSubs()};
  const refreshSubs=()=>{const cur=$('#subdomain').value;$('#subdomain').innerHTML='<option value="">全細分類</option>'+subs($('#category').value,selectedSections()).map(c=>`<option>${esc(c)}</option>`).join('');if([...$('#subdomain').options].some(o=>o.value===cur))$('#subdomain').value=cur};
  $('#category').onchange=refreshSubs;document.querySelectorAll('input[name=section]').forEach(x=>x.onchange=refreshCategories);refreshCategories();
+ document.querySelectorAll('[data-year-pair]').forEach(btn=>btn.onclick=()=>{const ys=btn.dataset.yearPair.split(',').map(Number);document.querySelectorAll('input[name=year]').forEach(box=>box.checked=ys.includes(Number(box.value)))});
+ $('#all-years').onclick=()=>document.querySelectorAll('input[name=year]').forEach(box=>box.checked=true);
  $('#go').onclick=()=>{let ys=[...document.querySelectorAll('input[name=year]:checked')].map(x=>Number(x.value));start({sections:selectedSections(),years:ys,categories:$('#category').value?[$('#category').value]:[],subdomains:$('#subdomain').value?[$('#subdomain').value]:[],mode:$('#mode').value,count:$('#count').value,order:$('#order').value})};
 }
 function filter(opts){
@@ -150,7 +154,10 @@ function reviewListHtml(summary,filter){
  <div class="review-grid">${g.items.map(item=>`<button type="button" class="review-tile ${item.status}" data-review-id="${esc(item.id)}" title="${esc(item.question.topic||'')}">
  <span>問${item.no}</span><small>${item.status==='correct'?'正解':item.status==='wrong'?'不正解':'未回答'}${item.flagged?' ★':''}</small></button>`).join('')}</div></details>`).join('');
 }
-function showResult(summary,filter=null){
+let resultOrigin=null;
+function showResult(summary,filter=null,origin=undefined){
+ if(origin!==undefined)resultOrigin=origin;
+ else if(filter===null)resultOrigin=null;
  const hasDetail=Array.isArray(summary.questionIds)&&summary.questionIds.length>0;
  const rows=hasDetail?reportRows(summary):[];
  const all=R.counts(rows), initial=all.firstCorrect;
@@ -172,8 +179,9 @@ function showResult(summary,filter=null){
  <div id="result-review-list">${reviewListHtml(summary,picked)}</div>`
  :'<p class="muted">この演習は詳細履歴の保存開始前に終了しているため、当時の回答選択は復元できません。集計結果は表示できます。</p>'}
  </section>
- <section class="panel result-actions"><button id="homebtn">ホーム</button><button class="primary" id="setupbtn">別の演習を始める</button><button id="statsbtn">全年度の成績</button></section></main>`;
+ <section class="panel result-actions">${resultOrigin?`<button id="year-history-back">← ${resultOrigin.year}年度・${esc(resultOrigin.section)}の履歴</button>`:'' }<button id="homebtn">ホーム</button><button class="primary" id="setupbtn">別の演習を始める</button><button id="statsbtn">全年度の成績</button></section></main>`;
  bindNav();$('#homebtn').onclick=home;$('#setupbtn').onclick=()=>setup();$('#statsbtn').onclick=stats;
+ if($('#year-history-back'))$('#year-history-back').onclick=()=>showYearDetail(resultOrigin.year,resultOrigin.section);
  document.querySelectorAll('[data-result-filter]').forEach(b=>b.onclick=()=>showResult(summary,b.dataset.resultFilter));
  document.querySelectorAll('[data-review-id]').forEach(b=>b.onclick=()=>showReviewQuestion(summary,b.dataset.reviewId,picked));
 }
@@ -262,7 +270,7 @@ function showYearDetail(year,section){
  $('#year-flag-practice').onclick=()=>startIds(row.questionIds.filter(id=>agg(id).flagged),title+'・要復習',{years:[year],sections:[section],mode:'flagged',count:'all',order:'fixed'});
  document.querySelectorAll('[data-year-session]').forEach(btn=>btn.onclick=()=>{
   const history=S.loadRecent().find(s=>s.id===btn.dataset.yearSession);
-  if(history)showResult(history);
+  if(history)showResult(history,null,{year,section});
  });
 }
 function stats(){
