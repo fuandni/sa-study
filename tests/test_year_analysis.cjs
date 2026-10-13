@@ -50,6 +50,8 @@ assert.equal(year(2023).invalidCount,1);
 assert.equal(year(2019,'午前I').latestFull,null);
 w.SAApp.setup();
 click('[data-year-pair="2019,2021"]');
+assert.match(doc.querySelector('#selection-preview').textContent,/2019 \/ 2021年度/);
+assert.match(doc.querySelector('#selection-preview').textContent,/110問/);
 assert.deepEqual([...doc.querySelectorAll('input[name=year]:checked')].map(x=>Number(x.value)),[2019,2021]);
 click('#all-years');
 assert.equal(doc.querySelectorAll('input[name=year]:checked').length,4);
