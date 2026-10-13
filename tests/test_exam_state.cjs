@@ -30,6 +30,7 @@ const right=()=>click('[data-choice="ア"]');
 const flagged=()=>click('#flag');
 const label=()=>doc.querySelector('#feedback').textContent;
 const keys=['ア','イ','ウ','エ'];
+const plain=x=>JSON.parse(JSON.stringify(x));
 function startAM2(){
  w.SAApp.setup();
  const sections=[...doc.querySelectorAll('input[name="section"]')];
@@ -78,7 +79,7 @@ const recent=w.SAStorage.loadRecent();
 assert.equal(recent[0].total,25);
 assert.equal(recent[0].answered,25);
 assert.equal(recent[0].correct,25);
-assert.deepEqual(recent[0].breakdown.map(r=>[r.year,r.section,r.total,r.answered,r.correct]),[[2015,'午前II',25,25,25]]);
+assert.deepEqual(plain(recent[0].breakdown.map(r=>[r.year,r.section,r.total,r.answered,r.correct])),[[2015,'午前II',25,25,25]]);
 assert.match(doc.querySelector('.resultbig').textContent,/25\s*\/\s*25/);
 assert.ok(doc.querySelector('.table-scroll').textContent.includes('午前II'));
 assert.equal(w.SAStorage.loadSession(),null);
@@ -89,7 +90,7 @@ assert.equal(relevant.reduce((s,x)=>s+x.tries,0),25);
 w.SAApp.stats();
 assert.match(doc.querySelector('main').textContent,/年度 × 午前I・午前II/);
 const rows=w.SAExam.latestByYear([...w.SA_A1_QUESTIONS,...w.SA_AM2_QUESTIONS],saved);
-assert.deepEqual(rows.map(x=>[x.section,x.total,x.answered,x.correct]),[
+assert.deepEqual(plain(rows.map(x=>[x.section,x.total,x.answered,x.correct])),[
  ['午前I',30,0,0],['午前II',25,25,25]
 ]);
 // Completing a 30-question session does not alter previous 25-question results.
