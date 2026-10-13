@@ -23,7 +23,7 @@ w.SA_AM2_QUESTIONS[0].asset_type='source_page';
 w.SA_AM2_QUESTIONS[0].asset_path='assets/test-page.png';
 w.SA_AM2_QUESTIONS[0].question_text='公式問題冊子の問1を画像で参照';
 w.SAValidator={run:()=>({ok:true,errors:[],question_count:55,a1_count:30,am2_count:25})};
-for(const src of ['assets/js/storage.js','assets/js/session_results.js','assets/js/review.js','assets/js/app.js']){
+for(const src of ['assets/js/storage.js','assets/js/session_results.js','assets/js/review.js','assets/js/year_analysis.js','assets/js/app.js']){
  w.eval(fs.readFileSync(src,'utf8')+'\n//# sourceURL='+src);
 }
 const click=(q)=>{const el=doc.querySelector(q);assert.ok(el,'missing '+q);el.click()};
@@ -115,7 +115,7 @@ const relevant=w.SA_AM2_QUESTIONS.map(q=>w.SAStorage.aggregate(saved,q.id));
 assert.ok(relevant.every(x=>x.tries===1&&x.correct===1),'no duplicate attempts');
 assert.equal(relevant.reduce((s,x)=>s+x.tries,0),25);
 w.SAApp.stats();
-assert.match(doc.querySelector('main').textContent,/年度 × 午前I・午前II/);
+assert.match(doc.querySelector('main').textContent,/全年度の成績比較/);
 const rows=w.SAExam.latestByYear([...w.SA_A1_QUESTIONS,...w.SA_AM2_QUESTIONS],saved);
 assert.deepEqual(plain(rows.map(x=>[x.section,x.total,x.answered,x.correct])),[
  ['午前I',30,0,0],['午前II',25,25,25]
