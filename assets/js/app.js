@@ -1,5 +1,5 @@
 (function(){
-const C=window.SA_APP_CONFIG,Q=[...(window.SA_A1_QUESTIONS||[]),...(window.SA_AM2_QUESTIONS||[])],S=window.SAStorage;
+const C=window.SA_APP_CONFIG,Q=[...(window.SA_A1_QUESTIONS||[]),...(window.SA_AM2_QUESTIONS||[])],S=window.SAStorage,R=window.SAReview;
 let progress=S.load(), session=null, questionStart=0;
 const E=window.SAExam;
 const $=s=>document.querySelector(s), esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
@@ -22,7 +22,7 @@ function home(){
  ${active&&active.questionIds?.length?`<section class="panel"><h2>途中の演習</h2><p>${esc(active.label||'演習')}　${Math.min(active.index+1,active.questionIds.length)} / ${active.questionIds.length}</p><button class="primary" id="resume">続きから再開</button><button id="discard">このセッションを終了</button></section>`:''}
  <section class="panel"><h2>すぐ始める</h2><div class="quick"><button class="primary" data-quick="random10">全範囲から10問</button><button data-quick="priority10">頻出×弱点 10問</button><button data-quick="a1_30">午前I ランダム30問</button><button data-quick="am2_25">午前II ランダム25問</button><button data-quick="wrong">誤答経験あり</button><button data-quick="unanswered">未回答</button><button data-quick="weak">正答率${threshold()}%以下</button><button data-quick="flagged">要復習フラグ</button></div></section>
  <section class="panel"><h2>分野から解く</h2><div class="chips">${cats().map(c=>`<button data-cat="${esc(c)}">${esc(c)} <small>${Q.filter(q=>q.category===c).length}問</small></button>`).join('')}</div></section>
- <section class="panel"><h2>最近の演習</h2>${recent.length?`<table><thead><tr><th>日時</th><th>範囲</th><th>回答</th><th>正解</th></tr></thead><tbody>${recent.slice(0,8).map(r=>`<tr><td>${new Date(r.ended_at).toLocaleString()}</td><td>${esc(r.label)}</td><td>${r.answered}/${r.total}</td><td>${r.correct}</td></tr>`).join('')}</tbody></table>`:'<p class="muted">まだ演習履歴はありません。</p>'}</section>
+ <section class="panel"><h2>最近の演習</h2>${recent.length?`<div class="table-scroll"><table><thead><tr><th>日時</th><th>範囲</th><th>回答</th><th>正解</th><th>結果</th></tr></thead><tbody>${recent.slice(0,8).map(r=>`<tr><td>${new Date(r.ended_at).toLocaleString()}</td><td>${esc(r.label)}</td><td>${r.answered}/${r.total}</td><td>${r.correct}</td><td><button data-past-result="${esc(r.id)}">結果を見る</button></td></tr>`).join('')}</tbody></table></div>`:'<p class="muted">まだ演習履歴はありません。</p>'}</section>
  <section class="panel slim"><div id="health"></div></section>
  </main>`;
  bindNav();
@@ -30,6 +30,7 @@ function home(){
  if($('#discard'))$('#discard').onclick=()=>{S.clearSession();home()};
  document.querySelectorAll('[data-quick]').forEach(b=>b.onclick=()=>quick(b.dataset.quick));
  document.querySelectorAll('[data-cat]').forEach(b=>b.onclick=()=>start({categories:[b.dataset.cat],count:'all',mode:'all',order:'random',label:b.dataset.cat}));
+ document.querySelectorAll('[data-past-result]').forEach(b=>b.onclick=()=>{const r=S.loadRecent().find(x=>x.id===b.dataset.pastResult);if(r)showResult(r)});
  const v=window.SAValidator.run();$('#health').innerHTML=v.ok?`<span class="good">構造検証 OK：${v.question_count}問（午前I ${v.a1_count||0} / 午前II ${v.am2_count||0}）</span>`:`<span class="bad">構造エラー ${v.errors.length}件</span>`;
 }
 function setup(pref={}){
@@ -122,16 +123,77 @@ function finish(interrupted=false){
  const rows=E.breakdown(questions,session.answers||{});
  const summary={id:session.id,label:session.label,total:session.questionIds.length,
   answered:result.answered,correct:result.correct,breakdown:rows,
+  questionIds:[...session.questionIds],answers:JSON.parse(JSON.stringify(session.answers||{})),
   started_at:session.started_at,ended_at:new Date().toISOString(),interrupted:!!interrupted};
- // Confirm the final selection once per question. Navigating and reselecting never add attempts.
+ // Commit latest choice once per question; the complete session snapshot is saved separately for review.
  progress=S.commitSession(S.load(),session);
  S.addRecent(summary);S.clearSession();session=null;
- app.innerHTML=nav('practice')+`<main><section class="panel center"><h2>${interrupted?'演習を終了':'セッション完了'}</h2>
- <div class="resultbig">${summary.correct} / ${summary.total} <small>（${fmtPct(summary.total?summary.correct/summary.total:null)}）</small></div>
- <p>回答済み ${summary.answered} / ${summary.total}問。未回答は得点に含まれません。</p>
- <h3>年度・科目別の結果</h3>${yearScoreTable(rows)}
- <button class="primary" id="again">条件を選んで続ける</button><button id="statsbtn">成績一覧を見る</button><button id="homebtn">ホーム</button></section></main>`;
- bindNav();$('#again').onclick=setup;$('#statsbtn').onclick=stats;$('#homebtn').onclick=home;
+ showResult(summary);
+}
+function reportRows(summary){
+ return R.rows(summary.questionIds||[],summary.answers||{},Q,progress);
+}
+function reviewListHtml(summary,filter){
+ const rows=R.filterRows(reportRows(summary),filter);
+ if(!rows.length)return '<p class="muted">この条件の設問はありません。フィルターを切り替えてください。</p>';
+ const groups=R.groups(rows);
+ return groups.map((g,i)=>`<details class="review-group" ${groups.length<=4||i===0?'open':''}><summary><b>${g.year}年度・${esc(g.section)}</b>　${g.items.length}問</summary>
+ <div class="review-grid">${g.items.map(item=>`<button type="button" class="review-tile ${item.status}" data-review-id="${esc(item.id)}" title="${esc(item.question.topic||'')}">
+ <span>問${item.no}</span><small>${item.status==='correct'?'正解':item.status==='wrong'?'不正解':'未回答'}${item.flagged?' ★':''}</small></button>`).join('')}</div></details>`).join('');
+}
+function showResult(summary,filter=null){
+ const hasDetail=Array.isArray(summary.questionIds)&&summary.questionIds.length>0;
+ const rows=hasDetail?reportRows(summary):[];
+ const all=R.counts(rows), initial=all.firstCorrect;
+ const picked=filter||((all.wrong>0)?'wrong':all.unanswered>0?'unanswered':'all');
+ const firstTotal=all.firstCorrect+all.firstWrong;
+ app.innerHTML=nav('practice')+`<main><section class="panel result-panel">
+ <h2>${summary.interrupted?'途中終了した演習':'演習結果'}：${esc(summary.label||'')}</h2>
+ <div class="result-summary"><div><div class="resultbig">${summary.correct} / ${summary.total}</div><p>最終正答率：${fmtPct(summary.total?summary.correct/summary.total:null)}</p></div>
+ <div><b>${summary.answered} / ${summary.total}</b><p>回答済み</p></div>
+ ${hasDetail?`<div><b>${initial} / ${summary.total}</b><p>初回正答数（解き直す前）</p></div>`:''}</div>
+ <p class="muted">未回答は分母に含め、0点として計算。試験終了後の見直しで得点は変わりません。</p>
+ <h3>年度・科目別の結果</h3>${yearScoreTable(summary.breakdown||[])}
+ </section>
+ <section class="panel"><h2>設問ごとの見直し</h2>
+ ${hasDetail?`<div class="result-filters">
+ ${[['wrong','不正解'],['unanswered','未回答'],['initialwrong','初回不正解'],['flagged','要復習'],['all','すべて']].map(([value,label])=>`<button type="button" data-result-filter="${value}" ${value===picked?'class="primary"':''}>${label}（${R.filterRows(rows,value).length}）</button>`).join('')}</div>
+ <div id="result-review-list">${reviewListHtml(summary,picked)}</div>`
+ :'<p class="muted">この演習は詳細履歴の保存開始前に終了しているため、当時の回答選択は復元できません。集計結果は表示できます。</p>'}
+ </section>
+ <section class="panel result-actions"><button id="homebtn">ホーム</button><button class="primary" id="setupbtn">別の演習を始める</button><button id="statsbtn">全年度の成績</button></section></main>`;
+ bindNav();$('#homebtn').onclick=home;$('#setupbtn').onclick=()=>setup();$('#statsbtn').onclick=stats;
+ document.querySelectorAll('[data-result-filter]').forEach(b=>b.onclick=()=>showResult(summary,b.dataset.resultFilter));
+ document.querySelectorAll('[data-review-id]').forEach(b=>b.onclick=()=>showReviewQuestion(summary,b.dataset.reviewId,picked));
+}
+function showReviewQuestion(summary,id,filter='all'){
+ const rows=R.filterRows(reportRows(summary),filter), pos=rows.findIndex(x=>x.id===id);
+ const row=rows[pos];if(!row){showResult(summary,filter);return}
+ const q=row.question,a=row.answer,conf=sectionCfg(q);
+ const asset=q.asset_path?conf.asset_base+q.asset_path:null;
+ const src=q.source_file?conf.source_base+q.source_file+(q.source_page?'#page='+q.source_page:''):'';
+ const correct=esc(q.answer), picked=a?esc(a.choice):'未回答';
+ const initial=a?(a.first_choice??a.choice):'未回答';
+ const verdict=row.status==='correct'?'正解':row.status==='wrong'?'不正解':'未回答';
+ app.innerHTML=nav('practice')+`<main><section class="sessionbar">
+ <button id="back-results">← 結果一覧へ戻る</button><b>${esc(summary.label||'')} / 見直し ${pos+1} / ${rows.length}</b></section>
+ <section class="question"><div class="qmeta">${q.year}年度　${esc(q.section)} 問${q.question_no}　${esc(q.category||'')}</div>
+ <div class="qtext">${q.question_text}</div>
+ ${q.asset_type==='source_page'?`<p class="source-target"><strong>回答対象：問${q.question_no}</strong>（画像内のほかの設問と間違えないでください）</p>`:''}
+ ${asset?`<img class="qasset" src="${asset}" alt="${esc(q.asset_type||'図表')}">`:''}
+ <div class="choices">${choicesFor(q).map((k,i)=>`<div class="review-choice ${k===q.answer?'correct':''} ${a&&k===a.choice&&!a.correct?'wrong':''} ${a&&k===a.choice?'selected':''}">
+ <kbd>${i+1}</kbd><b>${k}</b><span>${q.choices[k]}</span></div>`).join('')}</div>
+ <div class="feedback ${row.status==='correct'?'goodbox':row.status==='wrong'?'badbox':'neutralbox'}"><b>${verdict}</b>　最終回答：${picked} ／ 正解：${correct}</div>
+ <p>初回回答：${esc(initial)}　${a?.revision_count>0?`（変更${a.revision_count}回）`:''}</p>
+ <div class="qfoot"><button id="review-flag">${row.flagged?'★ 要復習を解除':'☆ 要復習にする'}</button>
+ ${src?`<a href="${src}" target="_blank">原本 p.${q.source_page||''}</a>`:''}</div></section>
+ <section class="pager"><button id="review-prev" ${pos===0?'disabled':''}>← 前の設問</button>
+ <button id="review-next" ${pos===rows.length-1?'disabled':''}>次の設問 →</button></section></main>`;
+ bindNav();
+ $('#back-results').onclick=()=>showResult(summary,filter);
+ $('#review-flag').onclick=()=>{const flagged=S.toggleFlag(progress,q.id);$('#review-flag').textContent=flagged?'★ 要復習を解除':'☆ 要復習にする'};
+ $('#review-prev').onclick=()=>{if(pos>0)showReviewQuestion(summary,rows[pos-1].id,filter)};
+ $('#review-next').onclick=()=>{if(pos+1<rows.length)showReviewQuestion(summary,rows[pos+1].id,filter)};
 }
 function yearScoreTable(rows){
  if(!rows.length)return '<p class="muted">該当する結果はありません。</p>';
@@ -153,6 +215,6 @@ window.addEventListener('keydown',e=>{
  else if(e.key==='ArrowRight'){if(session.index<session.questionIds.length-1){session.index++;S.saveSession(session);practice()}}
  else if(e.key==='ArrowLeft'){if(session.index>0){session.index--;S.saveSession(session);practice()}}
 });
-window.addEventListener('sa-sync-completed',()=>{progress=S.load();if(!session)home()});
+window.addEventListener('sa-sync-completed',()=>{progress=S.load();if(!session&&document.querySelector('#health'))home()});
 window.SAApp={home,setup,stats};home();
 })();
