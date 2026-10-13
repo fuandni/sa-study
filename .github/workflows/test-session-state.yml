@@ -1,11 +1,13 @@
 name: Test SA session state and results
 on:
   push:
-    branches: [ "feature/sa-exam-state-and-year-results-20261013" ]
+    branches: [ "feature/sa-exam-state-and-year-results-20261013", "feature/sa-review-multiyear-20261013" ]
   pull_request:
     paths:
       - "assets/js/app.js"
       - "assets/js/session_results.js"
+      - "assets/js/review.js"
+      - "tests/test_multiyear_review.cjs"
       - "assets/js/storage.js"
       - "assets/css/app.css"
       - "tests/test_exam_state.cjs"
@@ -23,11 +25,15 @@ jobs:
           node --check assets/js/app.js
           node --check assets/js/storage.js
           node --check assets/js/session_results.js
+          node --check assets/js/review.js
+          node --check tests/test_multiyear_review.cjs
           node --check tests/test_exam_state.cjs
       - name: Install isolated DOM test dependency
         run: npm install --no-save --no-package-lock --ignore-scripts jsdom@26
       - name: Test session navigation, regrading and year summaries
-        run: node tests/test_exam_state.cjs
+        run: |
+          node tests/test_exam_state.cjs
+          node tests/test_multiyear_review.cjs
       - name: Verify all 550 question records
         run: |
           python3 tools/build_data.py

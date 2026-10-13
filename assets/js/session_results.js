@@ -8,7 +8,11 @@ function record(s,id,choice,correct,elapsed){
  const answers=ensureAnswers(s);
  const previous=answers[id];
  answers[id]={choice,correct:!!correct,elapsed_ms:Math.max(0,Math.round(Number(elapsed)||0)),
-   answered_at:new Date().toISOString()};
+   answered_at:new Date().toISOString(),
+   first_choice:previous?.first_choice??previous?.choice??choice,
+   first_correct:typeof previous?.first_correct==='boolean'?previous.first_correct:
+     (previous?!!previous.correct:!!correct),
+   revision_count:(Number(previous?.revision_count)||0)+(previous&&previous.choice!==choice?1:0)};
  s.answeredCount=Object.keys(answers).length;
  s.correctCount=Object.values(answers).filter(a=>a.correct).length;
  return {changed:!!previous,answer:answers[id]};

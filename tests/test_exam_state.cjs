@@ -23,7 +23,7 @@ w.SA_AM2_QUESTIONS[0].asset_type='source_page';
 w.SA_AM2_QUESTIONS[0].asset_path='assets/test-page.png';
 w.SA_AM2_QUESTIONS[0].question_text='公式問題冊子の問1を画像で参照';
 w.SAValidator={run:()=>({ok:true,errors:[],question_count:55,a1_count:30,am2_count:25})};
-for(const src of ['assets/js/storage.js','assets/js/session_results.js','assets/js/app.js']){
+for(const src of ['assets/js/storage.js','assets/js/session_results.js','assets/js/review.js','assets/js/app.js']){
  w.eval(fs.readFileSync(src,'utf8')+'\n//# sourceURL='+src);
 }
 const click=(q)=>{const el=doc.querySelector(q);assert.ok(el,'missing '+q);el.click()};
@@ -87,6 +87,29 @@ assert.deepEqual(plain(recent[0].breakdown.map(r=>[r.year,r.section,r.total,r.an
 assert.match(doc.querySelector('.resultbig').textContent,/25\s*\/\s*25/);
 assert.ok(doc.querySelector('.table-scroll').textContent.includes('午前II'));
 assert.equal(w.SAStorage.loadSession(),null);
+assert.equal(recent[0].questionIds.length,25);
+assert.equal(Object.keys(recent[0].answers).length,25);
+assert.equal(recent[0].answers[recent[0].questionIds[0]].first_correct,false);
+assert.equal(recent[0].answers[recent[0].questionIds[0]].correct,true);
+assert.equal(recent[0].answers[recent[0].questionIds[0]].revision_count,1);
+// Cloud sync must never redirect away from the completed report.
+w.dispatchEvent(new w.Event('sa-sync-completed'));
+assert.ok(doc.querySelector('.result-panel'));
+assert.equal(doc.querySelector('#result-review-list').querySelectorAll('.review-tile').length,25);
+click('[data-result-filter="initialwrong"]');
+assert.equal(doc.querySelectorAll('.review-tile').length,25);
+click('[data-review-id]');
+assert.ok(doc.querySelector('.review-choice.correct'));
+assert.match(doc.querySelector('main').textContent,/初回回答：イ/);
+click('#back-results');
+assert.equal(doc.querySelectorAll('.review-tile').length,25);
+w.SAApp.home();
+const reviewBtn=doc.querySelector('[data-past-result]');
+assert.ok(reviewBtn);
+reviewBtn.click();
+assert.ok(doc.querySelector('.result-panel'));
+assert.equal(doc.querySelectorAll('.review-tile').length,25);
+
 const saved=w.SAStorage.load();
 const relevant=w.SA_AM2_QUESTIONS.map(q=>w.SAStorage.aggregate(saved,q.id));
 assert.ok(relevant.every(x=>x.tries===1&&x.correct===1),'no duplicate attempts');
@@ -108,6 +131,8 @@ assert.equal(latest.total,30);
 assert.equal(latest.answered,1);
 assert.equal(latest.correct,1);
 assert.equal(w.SAStorage.loadRecent()[1].correct,25);
+assert.equal(w.SAStorage.loadRecent()[0].questionIds.length,30);
+assert.equal(Object.keys(w.SAStorage.loadRecent()[0].answers).length,1);
 const latestMatrix=w.SAExam.latestByYear([...w.SA_A1_QUESTIONS,...w.SA_AM2_QUESTIONS],w.SAStorage.load());
 assert.equal(latestMatrix.find(x=>x.section==='午前I').answered,1);
 assert.equal(latestMatrix.find(x=>x.section==='午前II').correct,25);
