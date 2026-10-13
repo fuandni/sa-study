@@ -19,6 +19,9 @@ w.SA_APP_CONFIG={title:'SAテスト',exam:'システムアーキテクト',
  links:{morning_distribution:'#',pm_reference:'#',source_index:'#'}};
 w.SA_A1_QUESTIONS=Array.from({length:30},(_,i)=>mk(2015,'午前I',i+1));
 w.SA_AM2_QUESTIONS=Array.from({length:25},(_,i)=>mk(2015,'午前II',i+1));
+w.SA_AM2_QUESTIONS[0].asset_type='source_page';
+w.SA_AM2_QUESTIONS[0].asset_path='assets/test-page.png';
+w.SA_AM2_QUESTIONS[0].question_text='公式問題冊子の問1を画像で参照';
 w.SAValidator={run:()=>({ok:true,errors:[],question_count:55,a1_count:30,am2_count:25})};
 for(const src of ['assets/js/storage.js','assets/js/session_results.js','assets/js/app.js']){
  w.eval(fs.readFileSync(src,'utf8')+'\n//# sourceURL='+src);
@@ -41,6 +44,7 @@ function startAM2(){
 }
 startAM2();
 assert.equal(doc.querySelector('.sessionprogress').textContent.includes('0 / 25'),true);
+assert.match(doc.querySelector('.source-target').textContent,/回答対象：問1/);
 wrong();
 assert.equal(doc.querySelector('[data-choice="イ"]').classList.contains('wrong'),true);
 assert.equal(doc.querySelector('[data-choice="ア"]').classList.contains('correct'),true);
