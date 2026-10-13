@@ -17,3 +17,5 @@ table{border-collapse:collapse;width:100%}th,td{text-align:left;padding:9px 8px;
 .resultbig small{font-size:.6em;font-weight:500}
 .table-scroll{overflow-x:auto}
 .table-scroll table{min-width:460px}
+
+.source-target{font-weight:500;margin:4px 0 12px;padding:8px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
