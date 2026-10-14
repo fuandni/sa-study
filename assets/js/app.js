@@ -8,6 +8,16 @@ const sectionCfg=q=>q.section==='午前I'?(C.a1||C.am2):C.am2;
 const choicesFor=q=>sectionCfg(q)?.choice_keys||['ア','イ','ウ','エ'];
 const cats=(sections=[])=>{let d=[...new Set(Q.filter(q=>!sections.length||sections.includes(q.section)).map(q=>q.category).filter(Boolean))];let o=C.category_order||[];return [...o.filter(x=>d.includes(x)),...d.filter(x=>!o.includes(x)).sort()]};
 const subs=(cat='',sections=[])=>[...new Set(Q.filter(q=>(!sections.length||sections.includes(q.section))&&(!cat||q.category===cat)).map(q=>q.subdomain).filter(Boolean))].sort();
+function renderQuestionImage(q,src){
+ if(!src)return '';
+ const c=q.source_image_crop;
+ const alt=esc(q.asset_type||'図表');
+ if(!c)return `<img class="qasset" src="${src}" alt="${alt}">`;
+ const vals=[c.x,c.y,c.w,c.h,c.aspect];
+ if(vals.some(v=>!Number.isFinite(v))||c.w<=0||c.h<=0||c.aspect<=0)return `<img class="qasset" src="${src}" alt="${alt}">`;
+ const w=(100/c.w).toFixed(5),left=(-100*c.x/c.w).toFixed(5),top=(-100*c.y/c.h).toFixed(5);
+ return `<div class="qsource-crop" style="position:relative;width:880px;max-width:100%;margin:16px auto;aspect-ratio:${c.aspect};overflow:hidden;border:1px solid #aaa;background:white"><img src="${src}" alt="${alt}" style="position:absolute;width:${w}%;left:${left}%;top:${top}%;max-width:none;max-height:none;height:auto;margin:0;border:0;display:block"></div>`;
+}
 function agg(id){return S.aggregate(progress,id)}
 function allStats(list=Q){let a=list.map(q=>agg(q.id));let exp=a.filter(x=>x.tries>0).length, tries=a.reduce((n,x)=>n+x.tries,0), cor=a.reduce((n,x)=>n+x.correct,0);return {exp,tries,cor,rate:tries?cor/tries:null}}
 function fmtPct(v){return v==null?'—':Math.round(v*100)+'%'}
@@ -128,10 +138,10 @@ function current(){return Q.find(q=>q.id===session.questionIds[session.index])}
 function practice(){
  if(!session)session=S.loadSession();if(!session){setup();return}
  let q=current(); if(!q){finish();return}
- questionStart=performance.now();const a=agg(q.id), qc=sectionCfg(q), asset=q.asset_path?qc.asset_base+q.asset_path:null, src=q.source_file?qc.source_base+q.source_file+(q.source_page?'#page='+q.source_page:''):'';
+ questionStart=performance.now();const a=agg(q.id), qc=sectionCfg(q), asset=(q.asset_type==='source_page'&&!q.source_image_required)?null:(q.asset_path?qc.asset_base+q.asset_path:null), src=q.source_file?qc.source_base+q.source_file+(q.source_page?'#page='+q.source_page:''):'';
  app.innerHTML=nav('practice')+`<main><section class="sessionbar"><span>${session.index+1} / ${session.questionIds.length}</span><b>${esc(session.label)}</b><button id="end">途中終了</button></section>
  <section class="question"><div class="sessionprogress">この試験：回答 ${E.counts(session).answered} / ${session.questionIds.length}問、正解 ${E.counts(session).correct}問</div><div class="qmeta">${q.year}年度　${esc(q.section)} 問${q.question_no}　${esc(q.category||'')}${q.subdomain?' / '+esc(q.subdomain):''}　<span>${esc(q.topic||'')}</span></div>
- <div class="qtext">${q.question_text}</div>${q.asset_type==='source_page'?`<p class="source-target"><strong>回答対象：問${q.question_no}</strong>（画像内にほかの設問もあります。問${q.question_no}だけを見て解答してください）</p>`:''}${asset?`<img class="qasset" src="${asset}" alt="${esc(q.asset_type||'図表')}">`:''}
+ <div class="qtext">${q.question_text}</div>${asset&&q.asset_type==='source_page'&&!q.source_image_crop?`<p class="source-target"><strong>回答対象：問${q.question_no}</strong>（画像内にほかの設問もあります。問${q.question_no}だけを見て解答してください）</p>`:''}${renderQuestionImage(q,asset)}
  <p class="muted answer-hint">選択後も回答を変更できます。採点には最後の選択を使用します。</p><div class="choices">${choicesFor(q).map((k,i)=>`<button data-choice="${k}"><kbd>${i+1}</kbd><b>${k}</b><span>${q.choices[k]}</span></button>`).join('')}</div>
  <div class="qfoot"><button id="flag">${a.flagged?'★ 要復習を解除':'☆ 要復習にする'}</button>${src?`<a target="_blank" href="${src}">原本 p.${q.source_page||''}</a>`:''}<span>履歴 ${a.tries}回 / ${fmtPct(a.rate)}</span></div><div id="feedback"></div></section>
  <section class="pager"><button id="prev" ${session.index===0?'disabled':''}>← 前</button><button id="next">${session.index===session.questionIds.length-1?'終了':'次 →'}</button></section></main>`;
@@ -221,7 +231,7 @@ function showReviewQuestion(summary,id,filter='all'){
  const rows=R.filterRows(reportRows(summary),filter), pos=rows.findIndex(x=>x.id===id);
  const row=rows[pos];if(!row){showResult(summary,filter);return}
  const q=row.question,a=row.answer,conf=sectionCfg(q);
- const asset=q.asset_path?conf.asset_base+q.asset_path:null;
+ const asset=(q.asset_type==='source_page'&&!q.source_image_required)?null:(q.asset_path?conf.asset_base+q.asset_path:null);
  const src=q.source_file?conf.source_base+q.source_file+(q.source_page?'#page='+q.source_page:''):'';
  const correct=esc(q.answer), picked=a?esc(a.choice):'未回答';
  const initial=a?(a.first_choice??a.choice):'未回答';
@@ -230,8 +240,8 @@ function showReviewQuestion(summary,id,filter='all'){
  <button id="back-results">← 結果一覧へ戻る</button><b>${esc(summary.label||'')} / 見直し ${pos+1} / ${rows.length}</b></section>
  <section class="question"><div class="qmeta">${q.year}年度　${esc(q.section)} 問${q.question_no}　${esc(q.category||'')}</div>
  <div class="qtext">${q.question_text}</div>
- ${q.asset_type==='source_page'?`<p class="source-target"><strong>回答対象：問${q.question_no}</strong>（画像内のほかの設問と間違えないでください）</p>`:''}
- ${asset?`<img class="qasset" src="${asset}" alt="${esc(q.asset_type||'図表')}">`:''}
+ ${asset&&q.asset_type==='source_page'&&!q.source_image_crop?`<p class="source-target"><strong>回答対象：問${q.question_no}</strong>（画像内のほかの設問と間違えないでください）</p>`:''}
+ ${renderQuestionImage(q,asset)}
  <div class="choices">${choicesFor(q).map((k,i)=>`<div class="review-choice ${k===q.answer?'correct':''} ${a&&k===a.choice&&!a.correct?'wrong':''} ${a&&k===a.choice?'selected':''}">
  <kbd>${i+1}</kbd><b>${k}</b><span>${q.choices[k]}</span></div>`).join('')}</div>
  <div class="feedback ${row.status==='correct'?'goodbox':row.status==='wrong'?'badbox':'neutralbox'}"><b>${verdict}</b>　最終回答：${picked} ／ 正解：${correct}</div>
