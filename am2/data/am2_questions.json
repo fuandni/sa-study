@@ -45,7 +45,14 @@
     "source_file": "2015h27a_sa_am2_qs.pdf",
     "answer_source_file": "2015h27a_sa_am2_ans.pdf",
     "audit_status": "source_ocr_text_draft_manual_review_pending",
-    "source_image_required": true
+    "source_image_required": true,
+    "source_image_crop": {
+      "x": 0.39106145251396646,
+      "y": 0.38377192982456143,
+      "w": 0.22967101179391683,
+      "h": 0.17105263157894737,
+      "aspect": 0.9487179487179487
+    }
   },
   {
     "id": "SA-2015-AM2-Q03",
@@ -117,7 +124,14 @@
     "source_file": "2015h27a_sa_am2_qs.pdf",
     "answer_source_file": "2015h27a_sa_am2_ans.pdf",
     "audit_status": "source_ocr_text_draft_manual_review_pending",
-    "source_image_required": true
+    "source_image_required": true,
+    "source_image_crop": {
+      "x": 0.17266715650257164,
+      "y": 0.4753246753246753,
+      "w": 0.7127112417340191,
+      "h": 0.23116883116883116,
+      "aspect": 2.1797752808988764
+    }
   },
   {
     "id": "SA-2015-AM2-Q06",
@@ -237,7 +251,14 @@
     "source_file": "2015h27a_sa_am2_qs.pdf",
     "answer_source_file": "2015h27a_sa_am2_ans.pdf",
     "audit_status": "source_ocr_text_draft_manual_review_pending",
-    "source_image_required": true
+    "source_image_required": true,
+    "source_image_crop": {
+      "x": 0.18001469507714915,
+      "y": 0.2805194805194805,
+      "w": 0.7053637031594416,
+      "h": 0.2597402597402597,
+      "aspect": 1.92
+    }
   },
   {
     "id": "SA-2015-AM2-Q11",
@@ -741,7 +762,14 @@
     "source_file": "2016h28a_sa_am2_qs.pdf",
     "answer_source_file": "2016h28a_sa_am2_ans.pdf",
     "audit_status": "source_ocr_text_draft_manual_review_pending",
-    "source_image_required": true
+    "source_image_required": true,
+    "source_image_crop": {
+      "x": 0.14327700220426157,
+      "y": 0.19480519480519481,
+      "w": 0.7935341660543718,
+      "h": 0.2597402597402597,
+      "aspect": 2.16
+    }
   },
   {
     "id": "SA-2016-AM2-Q07",
@@ -981,7 +1009,14 @@
     "source_file": "2016h28a_sa_am2_qs.pdf",
     "answer_source_file": "2016h28a_sa_am2_ans.pdf",
     "audit_status": "source_ocr_text_draft_manual_review_pending",
-    "source_image_required": true
+    "source_image_required": true,
+    "source_image_crop": {
+      "x": 0.106539309331374,
+      "y": 0.16103896103896104,
+      "w": 0.8008817046289493,
+      "h": 0.2,
+      "aspect": 2.831168831168831
+    }
   },
   {
     "id": "SA-2016-AM2-Q17",
@@ -1077,7 +1112,14 @@
     "source_file": "2016h28a_sa_am2_qs.pdf",
     "answer_source_file": "2016h28a_sa_am2_ans.pdf",
     "audit_status": "source_ocr_text_draft_manual_review_pending",
-    "source_image_required": true
+    "source_image_required": true,
+    "source_image_crop": {
+      "x": 0.27920646583394565,
+      "y": 0.21038961038961038,
+      "w": 0.4114621601763409,
+      "h": 0.2025974025974026,
+      "aspect": 1.435897435897436
+    }
   },
   {
     "id": "SA-2016-AM2-Q21",
@@ -1573,7 +1615,14 @@
     "asset_type": "source_page",
     "source_file": "2017h29a_sa_am2_qs.pdf",
     "audit_status": "source_ocr_text_draft_manual_review_pending",
-    "source_image_required": true
+    "source_image_required": true,
+    "source_image_crop": {
+      "x": 0.14327700220426157,
+      "y": 0.2077922077922078,
+      "w": 0.7788390889052168,
+      "h": 0.15844155844155844,
+      "aspect": 3.4754098360655736
+    }
   },
   {
     "id": "SA-2017-AM2-Q18",
@@ -1665,7 +1714,14 @@
     "asset_type": "source_page",
     "source_file": "2017h29a_sa_am2_qs.pdf",
     "audit_status": "source_ocr_text_draft_manual_review_pending",
-    "source_image_required": true
+    "source_image_required": true,
+    "source_image_crop": {
+      "x": 0.13960323291697282,
+      "y": 0.22077922077922077,
+      "w": 0.6759735488611315,
+      "h": 0.4831168831168831,
+      "aspect": 0.989247311827957
+    }
   },
   {
     "id": "SA-2017-AM2-Q22",
@@ -1688,7 +1744,14 @@
     "asset_type": "source_page",
     "source_file": "2017h29a_sa_am2_qs.pdf",
     "audit_status": "source_ocr_text_draft_manual_review_pending",
-    "source_image_required": true
+    "source_image_required": true,
+    "source_image_crop": {
+      "x": 0.15797207935341662,
+      "y": 0.19480519480519481,
+      "w": 0.698016164584864,
+      "h": 0.22077922077922077,
+      "aspect": 2.235294117647059
+    }
   },
   {
     "id": "SA-2017-AM2-Q23",
