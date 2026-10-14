@@ -20,7 +20,8 @@
     "asset_type": "source_page",
     "source_file": "2015h27a_sa_am2_qs.pdf",
     "answer_source_file": "2015h27a_sa_am2_ans.pdf",
-    "audit_status": "source_ocr_text_draft_manual_review_pending"
+    "audit_status": "source_ocr_text_draft_manual_review_pending",
+    "source_image_required": false
   },
   {
     "id": "SA-2015-AM2-Q02",
@@ -43,7 +44,8 @@
     "asset_type": "source_page",
     "source_file": "2015h27a_sa_am2_qs.pdf",
     "answer_source_file": "2015h27a_sa_am2_ans.pdf",
-    "audit_status": "source_ocr_text_draft_manual_review_pending"
+    "audit_status": "source_ocr_text_draft_manual_review_pending",
+    "source_image_required": true
   },
   {
     "id": "SA-2015-AM2-Q03",
@@ -66,7 +68,8 @@
     "asset_type": "source_page",
     "source_file": "2015h27a_sa_am2_qs.pdf",
     "answer_source_file": "2015h27a_sa_am2_ans.pdf",
-    "audit_status": "source_ocr_text_draft_manual_review_pending"
+    "audit_status": "source_ocr_text_draft_manual_review_pending",
+    "source_image_required": false
   },
   {
     "id": "SA-2015-AM2-Q04",
@@ -89,7 +92,8 @@
     "asset_type": "source_page",
     "source_file": "2015h27a_sa_am2_qs.pdf",
     "answer_source_file": "2015h27a_sa_am2_ans.pdf",
-    "audit_status": "source_ocr_text_draft_manual_review_pending"
+    "audit_status": "source_ocr_text_draft_manual_review_pending",
+    "source_image_required": false
   },
   {
     "id": "SA-2015-AM2-Q05",
@@ -112,7 +116,8 @@
     "asset_type": "source_page",
     "source_file": "2015h27a_sa_am2_qs.pdf",
     "answer_source_file": "2015h27a_sa_am2_ans.pdf",
-    "audit_status": "source_ocr_text_draft_manual_review_pending"
+    "audit_status": "source_ocr_text_draft_manual_review_pending",
+    "source_image_required": true
   },
   {
     "id": "SA-2015-AM2-Q06",
@@ -135,7 +140,8 @@
     "asset_type": "source_page",
     "source_file": "2015h27a_sa_am2_qs.pdf",
     "answer_source_file": "2015h27a_sa_am2_ans.pdf",
-    "audit_status": "source_ocr_text_draft_manual_review_pending"
+    "audit_status": "source_ocr_text_draft_manual_review_pending",
+    "source_image_required": false
   },
   {
     "id": "SA-2015-AM2-Q07",
@@ -158,7 +164,8 @@
     "asset_type": "source_page",
     "source_file": "2015h27a_sa_am2_qs.pdf",
     "answer_source_file": "2015h27a_sa_am2_ans.pdf",
-    "audit_status": "source_ocr_text_draft_manual_review_pending"
+    "audit_status": "source_ocr_text_draft_manual_review_pending",
+    "source_image_required": false
   },
   {
     "id": "SA-2015-AM2-Q08",
@@ -181,7 +188,8 @@
     "asset_type": "source_page",
     "source_file": "2015h27a_sa_am2_qs.pdf",
     "answer_source_file": "2015h27a_sa_am2_ans.pdf",
-    "audit_status": "source_ocr_text_draft_manual_review_pending"
+    "audit_status": "source_ocr_text_draft_manual_review_pending",
+    "source_image_required": false
   },
   {
     "id": "SA-2015-AM2-Q09",
@@ -204,7 +212,8 @@
     "asset_type": "source_page",
     "source_file": "2015h27a_sa_am2_qs.pdf",
     "answer_source_file": "2015h27a_sa_am2_ans.pdf",
-    "audit_status": "source_ocr_text_draft_manual_review_pending"
+    "audit_status": "source_ocr_text_draft_manual_review_pending",
+    "source_image_required": false
   },
   {
     "id": "SA-2015-AM2-Q10",
@@ -227,7 +236,8 @@
     "asset_type": "source_page",
     "source_file": "2015h27a_sa_am2_qs.pdf",
     "answer_source_file": "2015h27a_sa_am2_ans.pdf",
-    "audit_status": "source_ocr_text_draft_manual_review_pending"
+    "audit_status": "source_ocr_text_draft_manual_review_pending",
+    "source_image_required": true
   },
   {
     "id": "SA-2015-AM2-Q11",
@@ -250,7 +260,8 @@
     "asset_type": "source_page",
     "source_file": "2015h27a_sa_am2_qs.pdf",
     "answer_source_file": "2015h27a_sa_am2_ans.pdf",
-    "audit_status": "source_ocr_text_draft_manual_review_pending"
+    "audit_status": "source_ocr_text_draft_manual_review_pending",
+    "source_image_required": false
   },
   {
     "id": "SA-2015-AM2-Q12",
@@ -273,7 +284,8 @@
     "asset_type": "source_page",
     "source_file": "2015h27a_sa_am2_qs.pdf",
     "answer_source_file": "2015h27a_sa_am2_ans.pdf",
-    "audit_status": "source_ocr_text_draft_manual_review_pending"
+    "audit_status": "source_ocr_text_draft_manual_review_pending",
+    "source_image_required": false
   },
   {
     "id": "SA-2015-AM2-Q13",
@@ -296,7 +308,8 @@
     "asset_type": "source_page",
     "source_file": "2015h27a_sa_am2_qs.pdf",
     "answer_source_file": "2015h27a_sa_am2_ans.pdf",
-    "audit_status": "source_ocr_text_draft_manual_review_pending"
+    "audit_status": "source_ocr_text_draft_manual_review_pending",
+    "source_image_required": false
   },
   {
     "id": "SA-2015-AM2-Q14",
@@ -319,7 +332,8 @@
     "asset_type": "source_page",
     "source_file": "2015h27a_sa_am2_qs.pdf",
     "answer_source_file": "2015h27a_sa_am2_ans.pdf",
-    "audit_status": "source_ocr_text_draft_manual_review_pending"
+    "audit_status": "source_ocr_text_draft_manual_review_pending",
+    "source_image_required": false
   },
   {
     "id": "SA-2015-AM2-Q15",
@@ -342,7 +356,8 @@
     "asset_type": "source_page",
     "source_file": "2015h27a_sa_am2_qs.pdf",
     "answer_source_file": "2015h27a_sa_am2_ans.pdf",
-    "audit_status": "source_ocr_text_draft_manual_review_pending"
+    "audit_status": "source_ocr_text_draft_manual_review_pending",
+    "source_image_required": false
   },
   {
     "id": "SA-2015-AM2-Q16",
@@ -365,7 +380,8 @@
     "asset_type": "source_page",
     "source_file": "2015h27a_sa_am2_qs.pdf",
     "answer_source_file": "2015h27a_sa_am2_ans.pdf",
-    "audit_status": "source_ocr_text_draft_manual_review_pending"
+    "audit_status": "source_ocr_text_draft_manual_review_pending",
+    "source_image_required": false
   },
   {
     "id": "SA-2015-AM2-Q17",
@@ -388,7 +404,8 @@
     "asset_type": "source_page",
     "source_file": "2015h27a_sa_am2_qs.pdf",
     "answer_source_file": "2015h27a_sa_am2_ans.pdf",
-    "audit_status": "source_ocr_text_draft_manual_review_pending"
+    "audit_status": "source_ocr_text_draft_manual_review_pending",
+    "source_image_required": false
   },
   {
     "id": "SA-2015-AM2-Q18",
@@ -411,7 +428,8 @@
     "asset_type": "source_page",
     "source_file": "2015h27a_sa_am2_qs.pdf",
     "answer_source_file": "2015h27a_sa_am2_ans.pdf",
-    "audit_status": "source_ocr_text_draft_manual_review_pending"
+    "audit_status": "source_ocr_text_draft_manual_review_pending",
+    "source_image_required": false
   },
   {
     "id": "SA-2015-AM2-Q19",
@@ -434,7 +452,8 @@
     "asset_type": "source_page",
     "source_file": "2015h27a_sa_am2_qs.pdf",
     "answer_source_file": "2015h27a_sa_am2_ans.pdf",
-    "audit_status": "source_ocr_text_draft_manual_review_pending"
+    "audit_status": "source_ocr_text_draft_manual_review_pending",
+    "source_image_required": false
   },
   {
     "id": "SA-2015-AM2-Q20",
@@ -457,7 +476,8 @@
     "asset_type": "source_page",
     "source_file": "2015h27a_sa_am2_qs.pdf",
     "answer_source_file": "2015h27a_sa_am2_ans.pdf",
-    "audit_status": "source_ocr_text_draft_manual_review_pending"
+    "audit_status": "source_ocr_text_draft_manual_review_pending",
+    "source_image_required": false
   },
   {
     "id": "SA-2015-AM2-Q21",
@@ -480,7 +500,8 @@
     "asset_type": "source_page",
     "source_file": "2015h27a_sa_am2_qs.pdf",
     "answer_source_file": "2015h27a_sa_am2_ans.pdf",
-    "audit_status": "source_ocr_text_draft_manual_review_pending"
+    "audit_status": "source_ocr_text_draft_manual_review_pending",
+    "source_image_required": false
   },
   {
     "id": "SA-2015-AM2-Q22",
@@ -503,7 +524,8 @@
     "asset_type": "source_page",
     "source_file": "2015h27a_sa_am2_qs.pdf",
     "answer_source_file": "2015h27a_sa_am2_ans.pdf",
-    "audit_status": "source_ocr_text_draft_manual_review_pending"
+    "audit_status": "source_ocr_text_draft_manual_review_pending",
+    "source_image_required": false
   },
   {
     "id": "SA-2015-AM2-Q23",
@@ -526,7 +548,8 @@
     "asset_type": "source_page",
     "source_file": "2015h27a_sa_am2_qs.pdf",
     "answer_source_file": "2015h27a_sa_am2_ans.pdf",
-    "audit_status": "source_ocr_text_draft_manual_review_pending"
+    "audit_status": "source_ocr_text_draft_manual_review_pending",
+    "source_image_required": false
   },
   {
     "id": "SA-2015-AM2-Q24",
@@ -549,7 +572,8 @@
     "asset_type": "source_page",
     "source_file": "2015h27a_sa_am2_qs.pdf",
     "answer_source_file": "2015h27a_sa_am2_ans.pdf",
-    "audit_status": "source_ocr_text_draft_manual_review_pending"
+    "audit_status": "source_ocr_text_draft_manual_review_pending",
+    "source_image_required": false
   },
   {
     "id": "SA-2015-AM2-Q25",
@@ -572,7 +596,8 @@
     "asset_type": "source_page",
     "source_file": "2015h27a_sa_am2_qs.pdf",
     "answer_source_file": "2015h27a_sa_am2_ans.pdf",
-    "audit_status": "source_ocr_text_draft_manual_review_pending"
+    "audit_status": "source_ocr_text_draft_manual_review_pending",
+    "source_image_required": false
   },
   {
     "id": "SA-2016-AM2-Q01",
@@ -583,7 +608,7 @@
     "choices": {
       "ア": "システムの要素を識別し、定義された要求事項を満たすシステム方式設計が定義されている。",
       "イ": "システム要求事項の優先度に従ってシステムを結合するための戦略が、作成されている。",
-      "ウ": "システム要求事項は、影響のある全ての当事者へ伝えられ、ベースラインとなつている。",
+      "ウ": "システム要求事項は、影響のある全ての当事者へ伝えられ、ベースラインとなっている。",
       "エ": "システム要求事項への適合を評価するための基準が作成されている。"
     },
     "answer": "ウ",
@@ -595,7 +620,8 @@
     "asset_type": "source_page",
     "source_file": "2016h28a_sa_am2_qs.pdf",
     "answer_source_file": "2016h28a_sa_am2_ans.pdf",
-    "audit_status": "source_ocr_text_draft_manual_review_pending"
+    "audit_status": "source_ocr_text_draft_manual_review_pending",
+    "source_image_required": false
   },
   {
     "id": "SA-2016-AM2-Q02",
@@ -618,7 +644,8 @@
     "asset_type": "source_page",
     "source_file": "2016h28a_sa_am2_qs.pdf",
     "answer_source_file": "2016h28a_sa_am2_ans.pdf",
-    "audit_status": "source_ocr_text_draft_manual_review_pending"
+    "audit_status": "source_ocr_text_draft_manual_review_pending",
+    "source_image_required": false
   },
   {
     "id": "SA-2016-AM2-Q03",
@@ -641,7 +668,8 @@
     "asset_type": "source_page",
     "source_file": "2016h28a_sa_am2_qs.pdf",
     "answer_source_file": "2016h28a_sa_am2_ans.pdf",
-    "audit_status": "source_ocr_text_draft_manual_review_pending"
+    "audit_status": "source_ocr_text_draft_manual_review_pending",
+    "source_image_required": false
   },
   {
     "id": "SA-2016-AM2-Q04",
@@ -664,7 +692,8 @@
     "asset_type": "source_page",
     "source_file": "2016h28a_sa_am2_qs.pdf",
     "answer_source_file": "2016h28a_sa_am2_ans.pdf",
-    "audit_status": "source_ocr_text_draft_manual_review_pending"
+    "audit_status": "source_ocr_text_draft_manual_review_pending",
+    "source_image_required": false
   },
   {
     "id": "SA-2016-AM2-Q05",
@@ -687,7 +716,8 @@
     "asset_type": "source_page",
     "source_file": "2016h28a_sa_am2_qs.pdf",
     "answer_source_file": "2016h28a_sa_am2_ans.pdf",
-    "audit_status": "source_ocr_text_draft_manual_review_pending"
+    "audit_status": "source_ocr_text_draft_manual_review_pending",
+    "source_image_required": false
   },
   {
     "id": "SA-2016-AM2-Q06",
@@ -710,7 +740,8 @@
     "asset_type": "source_page",
     "source_file": "2016h28a_sa_am2_qs.pdf",
     "answer_source_file": "2016h28a_sa_am2_ans.pdf",
-    "audit_status": "source_ocr_text_draft_manual_review_pending"
+    "audit_status": "source_ocr_text_draft_manual_review_pending",
+    "source_image_required": true
   },
   {
     "id": "SA-2016-AM2-Q07",
@@ -733,7 +764,8 @@
     "asset_type": "source_page",
     "source_file": "2016h28a_sa_am2_qs.pdf",
     "answer_source_file": "2016h28a_sa_am2_ans.pdf",
-    "audit_status": "source_ocr_text_draft_manual_review_pending"
+    "audit_status": "source_ocr_text_draft_manual_review_pending",
+    "source_image_required": false
   },
   {
     "id": "SA-2016-AM2-Q08",
@@ -756,7 +788,8 @@
     "asset_type": "source_page",
     "source_file": "2016h28a_sa_am2_qs.pdf",
     "answer_source_file": "2016h28a_sa_am2_ans.pdf",
-    "audit_status": "source_ocr_text_draft_manual_review_pending"
+    "audit_status": "source_ocr_text_draft_manual_review_pending",
+    "source_image_required": false
   },
   {
     "id": "SA-2016-AM2-Q09",
@@ -779,7 +812,8 @@
     "asset_type": "source_page",
     "source_file": "2016h28a_sa_am2_qs.pdf",
     "answer_source_file": "2016h28a_sa_am2_ans.pdf",
-    "audit_status": "source_ocr_text_draft_manual_review_pending"
+    "audit_status": "source_ocr_text_draft_manual_review_pending",
+    "source_image_required": false
   },
   {
     "id": "SA-2016-AM2-Q10",
@@ -802,7 +836,8 @@
     "asset_type": "source_page",
     "source_file": "2016h28a_sa_am2_qs.pdf",
     "answer_source_file": "2016h28a_sa_am2_ans.pdf",
-    "audit_status": "source_ocr_text_draft_manual_review_pending"
+    "audit_status": "source_ocr_text_draft_manual_review_pending",
+    "source_image_required": false
   },
   {
     "id": "SA-2016-AM2-Q11",
@@ -825,7 +860,8 @@
     "asset_type": "source_page",
     "source_file": "2016h28a_sa_am2_qs.pdf",
     "answer_source_file": "2016h28a_sa_am2_ans.pdf",
-    "audit_status": "source_ocr_text_draft_manual_review_pending"
+    "audit_status": "source_ocr_text_draft_manual_review_pending",
+    "source_image_required": false
   },
   {
     "id": "SA-2016-AM2-Q12",
@@ -837,7 +873,7 @@
       "ア": "故障発生時に遠隔保守を実施することによって駆付け時間が不要になり、MTBF は長くなる。",
       "イ": "故障発生時に行う是正保守によって、MTBF は長くなる。",
       "ウ": "保守センタを 1 か所集中から分散配置に変えて駆付け時間を短縮することによって、MTTR は短くなる。",
-      "エ": "予防保守を実施することによって、MTTR は短くなる。 ーー"
+      "エ": "予防保守を実施することによって、MTTR は短くなる。"
     },
     "answer": "ウ",
     "topic": null,
@@ -848,7 +884,8 @@
     "asset_type": "source_page",
     "source_file": "2016h28a_sa_am2_qs.pdf",
     "answer_source_file": "2016h28a_sa_am2_ans.pdf",
-    "audit_status": "source_ocr_text_draft_manual_review_pending"
+    "audit_status": "source_ocr_text_draft_manual_review_pending",
+    "source_image_required": false
   },
   {
     "id": "SA-2016-AM2-Q13",
@@ -871,7 +908,8 @@
     "asset_type": "source_page",
     "source_file": "2016h28a_sa_am2_qs.pdf",
     "answer_source_file": "2016h28a_sa_am2_ans.pdf",
-    "audit_status": "source_ocr_text_draft_manual_review_pending"
+    "audit_status": "source_ocr_text_draft_manual_review_pending",
+    "source_image_required": false
   },
   {
     "id": "SA-2016-AM2-Q14",
@@ -894,7 +932,8 @@
     "asset_type": "source_page",
     "source_file": "2016h28a_sa_am2_qs.pdf",
     "answer_source_file": "2016h28a_sa_am2_ans.pdf",
-    "audit_status": "source_ocr_text_draft_manual_review_pending"
+    "audit_status": "source_ocr_text_draft_manual_review_pending",
+    "source_image_required": false
   },
   {
     "id": "SA-2016-AM2-Q15",
@@ -917,7 +956,8 @@
     "asset_type": "source_page",
     "source_file": "2016h28a_sa_am2_qs.pdf",
     "answer_source_file": "2016h28a_sa_am2_ans.pdf",
-    "audit_status": "source_ocr_text_draft_manual_review_pending"
+    "audit_status": "source_ocr_text_draft_manual_review_pending",
+    "source_image_required": false
   },
   {
     "id": "SA-2016-AM2-Q16",
@@ -940,7 +980,8 @@
     "asset_type": "source_page",
     "source_file": "2016h28a_sa_am2_qs.pdf",
     "answer_source_file": "2016h28a_sa_am2_ans.pdf",
-    "audit_status": "source_ocr_text_draft_manual_review_pending"
+    "audit_status": "source_ocr_text_draft_manual_review_pending",
+    "source_image_required": true
   },
   {
     "id": "SA-2016-AM2-Q17",
@@ -963,7 +1004,8 @@
     "asset_type": "source_page",
     "source_file": "2016h28a_sa_am2_qs.pdf",
     "answer_source_file": "2016h28a_sa_am2_ans.pdf",
-    "audit_status": "source_ocr_text_draft_manual_review_pending"
+    "audit_status": "source_ocr_text_draft_manual_review_pending",
+    "source_image_required": false
   },
   {
     "id": "SA-2016-AM2-Q18",
@@ -986,7 +1028,8 @@
     "asset_type": "source_page",
     "source_file": "2016h28a_sa_am2_qs.pdf",
     "answer_source_file": "2016h28a_sa_am2_ans.pdf",
-    "audit_status": "source_ocr_text_draft_manual_review_pending"
+    "audit_status": "source_ocr_text_draft_manual_review_pending",
+    "source_image_required": false
   },
   {
     "id": "SA-2016-AM2-Q19",
@@ -1009,7 +1052,8 @@
     "asset_type": "source_page",
     "source_file": "2016h28a_sa_am2_qs.pdf",
     "answer_source_file": "2016h28a_sa_am2_ans.pdf",
-    "audit_status": "source_ocr_text_draft_manual_review_pending"
+    "audit_status": "source_ocr_text_draft_manual_review_pending",
+    "source_image_required": false
   },
   {
     "id": "SA-2016-AM2-Q20",
@@ -1032,7 +1076,8 @@
     "asset_type": "source_page",
     "source_file": "2016h28a_sa_am2_qs.pdf",
     "answer_source_file": "2016h28a_sa_am2_ans.pdf",
-    "audit_status": "source_ocr_text_draft_manual_review_pending"
+    "audit_status": "source_ocr_text_draft_manual_review_pending",
+    "source_image_required": true
   },
   {
     "id": "SA-2016-AM2-Q21",
@@ -1055,7 +1100,8 @@
     "asset_type": "source_page",
     "source_file": "2016h28a_sa_am2_qs.pdf",
     "answer_source_file": "2016h28a_sa_am2_ans.pdf",
-    "audit_status": "source_ocr_text_draft_manual_review_pending"
+    "audit_status": "source_ocr_text_draft_manual_review_pending",
+    "source_image_required": false
   },
   {
     "id": "SA-2016-AM2-Q22",
@@ -1078,7 +1124,8 @@
     "asset_type": "source_page",
     "source_file": "2016h28a_sa_am2_qs.pdf",
     "answer_source_file": "2016h28a_sa_am2_ans.pdf",
-    "audit_status": "source_ocr_text_draft_manual_review_pending"
+    "audit_status": "source_ocr_text_draft_manual_review_pending",
+    "source_image_required": false
   },
   {
     "id": "SA-2016-AM2-Q23",
@@ -1101,7 +1148,8 @@
     "asset_type": "source_page",
     "source_file": "2016h28a_sa_am2_qs.pdf",
     "answer_source_file": "2016h28a_sa_am2_ans.pdf",
-    "audit_status": "source_ocr_text_draft_manual_review_pending"
+    "audit_status": "source_ocr_text_draft_manual_review_pending",
+    "source_image_required": false
   },
   {
     "id": "SA-2016-AM2-Q24",
@@ -1124,7 +1172,8 @@
     "asset_type": "source_page",
     "source_file": "2016h28a_sa_am2_qs.pdf",
     "answer_source_file": "2016h28a_sa_am2_ans.pdf",
-    "audit_status": "source_ocr_text_draft_manual_review_pending"
+    "audit_status": "source_ocr_text_draft_manual_review_pending",
+    "source_image_required": false
   },
   {
     "id": "SA-2016-AM2-Q25",
@@ -1147,7 +1196,8 @@
     "asset_type": "source_page",
     "source_file": "2016h28a_sa_am2_qs.pdf",
     "answer_source_file": "2016h28a_sa_am2_ans.pdf",
-    "audit_status": "source_ocr_text_draft_manual_review_pending"
+    "audit_status": "source_ocr_text_draft_manual_review_pending",
+    "source_image_required": false
   },
   {
     "id": "SA-2017-AM2-Q01",
@@ -1499,14 +1549,15 @@
     "asset_path": "assets/2017_am2_2017_am2_p09.png",
     "asset_type": "source_page",
     "source_file": "2017h29a_sa_am2_qs.pdf",
-    "audit_status": "source_ocr_text_draft_manual_review_pending"
+    "audit_status": "source_ocr_text_draft_manual_review_pending",
+    "source_image_required": false
   },
   {
     "id": "SA-2017-AM2-Q17",
     "year": 2017,
     "section": "午前II",
     "question_no": 17,
-    "question_text": "ビッグデータを有効活用し、事業価値を生み出す役割を担う専門人材であるデータサイエンティストに求められるスキルセットを表の三つの領域と定義した。データサイエンス力に該当する具体的なスキルはどれか。<br>【表：ビジネス力、データサイエンス力、データエンジニアリング力。原本画像参照】",
+    "question_text": "ビッグデータを有効活用し、事業価値を生み出す役割を担う専門人材であるデータサイエンティストに求められるスキルセットを表の三つの領域と定義した。データサイエンス力に該当する具体的なスキルはどれか。<br><br>【データサイエンティストに求められるスキルセット】<br>ビジネス力：課題の背景を理解した上で、ビジネス課題を整理・分析し、解決する力<br>データサイエンス力：人工知能や統計学などの情報科学に関する知識を用いて、予測、検定、関係性の把握及びデータ加工・可視化する力<br>データエンジニアリング力：データ分析によって作成したモデルを使えるように、分析システムを実装、運用する力",
     "choices": {
       "ア": "扱うデータの規模や機密性を理解した上で、分析システムをオンプレミスで構築するか、クラウドコンピューティングを利用して構築するか判断し設計できる。",
       "イ": "事業モデルやバリューチェーンなどの特徴や事業の主たる課題を自力で構造的に理解でき、問題の大枠を整理できる。",
@@ -1521,7 +1572,8 @@
     "asset_path": "assets/2017_am2_2017_am2_p10.png",
     "asset_type": "source_page",
     "source_file": "2017h29a_sa_am2_qs.pdf",
-    "audit_status": "source_ocr_text_draft_manual_review_pending"
+    "audit_status": "source_ocr_text_draft_manual_review_pending",
+    "source_image_required": true
   },
   {
     "id": "SA-2017-AM2-Q18",
@@ -1543,7 +1595,8 @@
     "asset_path": "assets/2017_am2_2017_am2_p11.png",
     "asset_type": "source_page",
     "source_file": "2017h29a_sa_am2_qs.pdf",
-    "audit_status": "source_ocr_text_draft_manual_review_pending"
+    "audit_status": "source_ocr_text_draft_manual_review_pending",
+    "source_image_required": false
   },
   {
     "id": "SA-2017-AM2-Q19",
@@ -1565,14 +1618,15 @@
     "asset_path": "assets/2017_am2_2017_am2_p11.png",
     "asset_type": "source_page",
     "source_file": "2017h29a_sa_am2_qs.pdf",
-    "audit_status": "source_ocr_text_draft_manual_review_pending"
+    "audit_status": "source_ocr_text_draft_manual_review_pending",
+    "source_image_required": false
   },
   {
     "id": "SA-2017-AM2-Q20",
     "year": 2017,
     "section": "午前II",
     "question_no": 20,
-    "question_text": "マルチプロセッサによる並列処理で得られる高速化率（単一プロセッサのときと比べた倍率）Eを、次の式によって評価する。f=0.9のアプリケーションの高速化率がf=0.3のものの3倍となるのは、プロセッサが何台のときか。<br>E = 1 / ((1-f)+f/n)<br>n：プロセッサの台数（1≦n）<br>f：対象とする処理のうち、並列化が可能な部分の割合（0≦f≦1）<br>並列化に伴うオーバヘッドは考慮しない。",
+    "question_text": "マルチプロセッサによる並列処理で得られる高速化率（単一プロセッサのときと比べた倍率）Eを、次の式によって評価する。r = 0.9のアプリケーションの高速化率がr = 0.3のものの3倍となるのは、プロセッサが何台のときか。<br>E = 1 / (1 - r + r/n)<br>ここで、<br>n：プロセッサの台数（1 ≦ n）<br>r：対象とする処理のうち、並列化が可能な部分の割合（0 ≦ r ≦ 1）<br>とし、並列化に伴うオーバヘッドは考慮しないものとする。",
     "choices": {
       "ア": "3",
       "イ": "4",
@@ -1587,7 +1641,8 @@
     "asset_path": "assets/2017_am2_2017_am2_p12.png",
     "asset_type": "source_page",
     "source_file": "2017h29a_sa_am2_qs.pdf",
-    "audit_status": "source_ocr_text_draft_manual_review_pending"
+    "audit_status": "source_ocr_text_draft_manual_review_pending",
+    "source_image_required": false
   },
   {
     "id": "SA-2017-AM2-Q21",
@@ -1609,7 +1664,8 @@
     "asset_path": "assets/2017_am2_2017_am2_p13.png",
     "asset_type": "source_page",
     "source_file": "2017h29a_sa_am2_qs.pdf",
-    "audit_status": "source_ocr_text_draft_manual_review_pending"
+    "audit_status": "source_ocr_text_draft_manual_review_pending",
+    "source_image_required": true
   },
   {
     "id": "SA-2017-AM2-Q22",
@@ -1631,7 +1687,8 @@
     "asset_path": "assets/2017_am2_2017_am2_p14.png",
     "asset_type": "source_page",
     "source_file": "2017h29a_sa_am2_qs.pdf",
-    "audit_status": "source_ocr_text_draft_manual_review_pending"
+    "audit_status": "source_ocr_text_draft_manual_review_pending",
+    "source_image_required": true
   },
   {
     "id": "SA-2017-AM2-Q23",
@@ -1653,7 +1710,8 @@
     "asset_path": "assets/2017_am2_2017_am2_p14.png",
     "asset_type": "source_page",
     "source_file": "2017h29a_sa_am2_qs.pdf",
-    "audit_status": "source_ocr_text_draft_manual_review_pending"
+    "audit_status": "source_ocr_text_draft_manual_review_pending",
+    "source_image_required": false
   },
   {
     "id": "SA-2017-AM2-Q24",
@@ -1675,7 +1733,8 @@
     "asset_path": "assets/2017_am2_2017_am2_p14.png",
     "asset_type": "source_page",
     "source_file": "2017h29a_sa_am2_qs.pdf",
-    "audit_status": "source_ocr_text_draft_manual_review_pending"
+    "audit_status": "source_ocr_text_draft_manual_review_pending",
+    "source_image_required": false
   },
   {
     "id": "SA-2017-AM2-Q25",
@@ -1697,7 +1756,8 @@
     "asset_path": "assets/2017_am2_2017_am2_p15.png",
     "asset_type": "source_page",
     "source_file": "2017h29a_sa_am2_qs.pdf",
-    "audit_status": "source_ocr_text_draft_manual_review_pending"
+    "audit_status": "source_ocr_text_draft_manual_review_pending",
+    "source_image_required": false
   },
   {
     "id": "SA-2018-AM2-Q01",
