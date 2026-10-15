@@ -1384,12 +1384,12 @@
     "year": 2017,
     "section": "午前I",
     "question_no": 1,
-    "question_text": "公式問題冊子 3 ページの問1を画像で参照（原文テキストは未構造化）",
+    "question_text": "相関係数に関する記述のうち、適切なものはどれか。",
     "choices": {
-      "ア": "ア",
-      "イ": "イ",
-      "ウ": "ウ",
-      "エ": "エ"
+      "ア": "全ての標本点が正の傾きをもつ直線上にあるときは、相関係数が＋1になる。",
+      "イ": "変量間の関係が線形のときは、相関係数が0になる。",
+      "ウ": "変量間の関係が非線形のときは、相関係数が負になる。",
+      "エ": "無相関のときは、相関係数が－1になる。"
     },
     "answer": "ア",
     "topic": null,
@@ -1399,19 +1399,20 @@
     "asset_path": "assets/2017_a1_2017_am1_p03.png",
     "asset_type": "source_page",
     "source_file": "2017h29a_koudo_am1_qs.pdf",
-    "audit_status": "image_backed_answer_verified_text_pending"
+    "audit_status": "transcribed_from_official_pdf_2026-10-15",
+    "source_image_required": false
   },
   {
     "id": "A1-2017-Q02",
     "year": 2017,
     "section": "午前I",
     "question_no": 2,
-    "question_text": "公式問題冊子 3 ページの問2を画像で参照（原文テキストは未構造化）",
+    "question_text": "四つのアルファベットa～dから成るテキストがあり、各アルファベットは2ビットの固定長2進符号で符号化されている。このテキストにおける各アルファベットの出現確率を調べたところ、表のとおりであった。各アルファベットの符号を表のような可変長2進符号に変換する場合、符号化されたテキストの、変換前に対する変換後のビット列の長さの比は、およそ幾つか。<br><br>【表】アルファベット：a／b／c／d<br>出現確率（%）：40／30／20／10<br>可変長2進符号：0／10／110／111",
     "choices": {
-      "ア": "ア",
-      "イ": "イ",
-      "ウ": "ウ",
-      "エ": "エ"
+      "ア": "0.75",
+      "イ": "0.85",
+      "ウ": "0.90",
+      "エ": "0.95"
     },
     "answer": "エ",
     "topic": null,
@@ -1421,19 +1422,20 @@
     "asset_path": "assets/2017_a1_2017_am1_p03.png",
     "asset_type": "source_page",
     "source_file": "2017h29a_koudo_am1_qs.pdf",
-    "audit_status": "image_backed_answer_verified_text_pending"
+    "audit_status": "transcribed_from_official_pdf_2026-10-15",
+    "source_image_required": true
   },
   {
     "id": "A1-2017-Q03",
     "year": 2017,
     "section": "午前I",
     "question_no": 3,
-    "question_text": "公式問題冊子 3 ページの問3を画像で参照（原文テキストは未構造化）",
+    "question_text": "fact(n)は、非負の整数nに対してnの階乗を返す。fact(n)の再帰的な定義はどれか。",
     "choices": {
-      "ア": "ア",
-      "イ": "イ",
-      "ウ": "ウ",
-      "エ": "エ"
+      "ア": "if n＝0 then return 0 else return n×fact(n－1)",
+      "イ": "if n＝0 then return 0 else return n×fact(n＋1)",
+      "ウ": "if n＝0 then return 1 else return n×fact(n－1)",
+      "エ": "if n＝0 then return 1 else return n×fact(n＋1)"
     },
     "answer": "ウ",
     "topic": null,
@@ -1443,19 +1445,20 @@
     "asset_path": "assets/2017_a1_2017_am1_p03.png",
     "asset_type": "source_page",
     "source_file": "2017h29a_koudo_am1_qs.pdf",
-    "audit_status": "image_backed_answer_verified_text_pending"
+    "audit_status": "transcribed_from_official_pdf_2026-10-15",
+    "source_image_required": false
   },
   {
     "id": "A1-2017-Q04",
     "year": 2017,
     "section": "午前I",
     "question_no": 4,
-    "question_text": "公式問題冊子 4 ページの問4を画像で参照（原文テキストは未構造化）",
+    "question_text": "容量がa Mバイトでアクセス時間がxナノ秒の命令キャッシュと、容量がb Mバイトでアクセス時間がyナノ秒の主記憶をもつシステムにおいて、CPUからみた、主記憶と命令キャッシュとを合わせた平均アクセス時間を表す式はどれか。ここで、読み込みたい命令コードがキャッシュに存在しない確率をrとし、キャッシュ管理に関するオーバヘッドは無視できるものとする。",
     "choices": {
-      "ア": "ア",
-      "イ": "イ",
-      "ウ": "ウ",
-      "エ": "エ"
+      "ア": "((1－r)×a／(a＋b))×x＋(r×b／(a＋b))×y",
+      "イ": "(1－r)×x＋r×y",
+      "ウ": "(r×a／(a＋b))×x＋((1－r)×b／(a＋b))×y",
+      "エ": "r×x＋(1－r)×y"
     },
     "answer": "イ",
     "topic": null,
@@ -1465,19 +1468,20 @@
     "asset_path": "assets/2017_a1_2017_am1_p04.png",
     "asset_type": "source_page",
     "source_file": "2017h29a_koudo_am1_qs.pdf",
-    "audit_status": "image_backed_answer_verified_text_pending"
+    "audit_status": "transcribed_from_official_pdf_2026-10-15",
+    "source_image_required": true
   },
   {
     "id": "A1-2017-Q05",
     "year": 2017,
     "section": "午前I",
     "question_no": 5,
-    "question_text": "公式問題冊子 4 ページの問5を画像で参照（原文テキストは未構造化）",
+    "question_text": "MTBFを長くするよりも、MTTRを短くするのに役立つものはどれか。",
     "choices": {
-      "ア": "ア",
-      "イ": "イ",
-      "ウ": "ウ",
-      "エ": "エ"
+      "ア": "エラーログ取得機能",
+      "イ": "記憶装置のビット誤り訂正機能",
+      "ウ": "命令再試行機能",
+      "エ": "予防保守"
     },
     "answer": "ア",
     "topic": null,
@@ -1487,19 +1491,20 @@
     "asset_path": "assets/2017_a1_2017_am1_p04.png",
     "asset_type": "source_page",
     "source_file": "2017h29a_koudo_am1_qs.pdf",
-    "audit_status": "image_backed_answer_verified_text_pending"
+    "audit_status": "transcribed_from_official_pdf_2026-10-15",
+    "source_image_required": false
   },
   {
     "id": "A1-2017-Q06",
     "year": 2017,
     "section": "午前I",
     "question_no": 6,
-    "question_text": "公式問題冊子 4 ページの問6を画像で参照（原文テキストは未構造化）",
+    "question_text": "リアルタイムOSにおいて、実行中のタスクがプリエンプションによって遷移する状態はどれか。",
     "choices": {
-      "ア": "ア",
-      "イ": "イ",
-      "ウ": "ウ",
-      "エ": "エ"
+      "ア": "休止状態",
+      "イ": "実行可能状態",
+      "ウ": "終了状態",
+      "エ": "待ち状態"
     },
     "answer": "イ",
     "topic": null,
@@ -1509,19 +1514,20 @@
     "asset_path": "assets/2017_a1_2017_am1_p04.png",
     "asset_type": "source_page",
     "source_file": "2017h29a_koudo_am1_qs.pdf",
-    "audit_status": "image_backed_answer_verified_text_pending"
+    "audit_status": "transcribed_from_official_pdf_2026-10-15",
+    "source_image_required": false
   },
   {
     "id": "A1-2017-Q07",
     "year": 2017,
     "section": "午前I",
     "question_no": 7,
-    "question_text": "公式問題冊子 5 ページの問7を画像で参照（原文テキストは未構造化）",
+    "question_text": "入力G＝0のときはX＝A、Y＝Bを出力し、G＝1のときはX＝Ā、Y＝B̄を出力する回路はどれか。選択肢は原本の回路図を参照。",
     "choices": {
-      "ア": "ア",
-      "イ": "イ",
-      "ウ": "ウ",
-      "エ": "エ"
+      "ア": "回路図ア（原本画像を参照）",
+      "イ": "回路図イ（原本画像を参照）",
+      "ウ": "回路図ウ（原本画像を参照）",
+      "エ": "回路図エ（原本画像を参照）"
     },
     "answer": "ウ",
     "topic": null,
@@ -1531,19 +1537,20 @@
     "asset_path": "assets/2017_a1_2017_am1_p05.png",
     "asset_type": "source_page",
     "source_file": "2017h29a_koudo_am1_qs.pdf",
-    "audit_status": "image_backed_answer_verified_text_pending"
+    "audit_status": "transcribed_from_official_pdf_2026-10-15",
+    "source_image_required": true
   },
   {
     "id": "A1-2017-Q08",
     "year": 2017,
     "section": "午前I",
     "question_no": 8,
-    "question_text": "公式問題冊子 5 ページの問8を画像で参照（原文テキストは未構造化）",
+    "question_text": "アクセシビリティ設計に関する規格であるJIS X 8341-1:2010（高齢者・障害者等配慮設計指針―情報通信における機器、ソフトウェア及びサービス―第1部：共通指針）を適用する目的のうち、適切なものはどれか。",
     "choices": {
-      "ア": "ア",
-      "イ": "イ",
-      "ウ": "ウ",
-      "エ": "エ"
+      "ア": "全ての個人に対して、等しい水準のアクセシビリティを達成できるようにする。",
+      "イ": "多様な人々に対して、利用の状況を理解しながら、多くの個人のアクセシビリティ水準を改善できるようにする。",
+      "ウ": "人間工学に関する規格が要求する水準よりも高いアクセシビリティを、多くの人々に提供できるようにする。",
+      "エ": "平均的能力をもった人々に対して、標準的なアクセシビリティが達成できるようにする。"
     },
     "answer": "イ",
     "topic": null,
@@ -1553,19 +1560,20 @@
     "asset_path": "assets/2017_a1_2017_am1_p05.png",
     "asset_type": "source_page",
     "source_file": "2017h29a_koudo_am1_qs.pdf",
-    "audit_status": "image_backed_answer_verified_text_pending"
+    "audit_status": "transcribed_from_official_pdf_2026-10-15",
+    "source_image_required": false
   },
   {
     "id": "A1-2017-Q09",
     "year": 2017,
     "section": "午前I",
     "question_no": 9,
-    "question_text": "公式問題冊子 6 ページの問9を画像で参照（原文テキストは未構造化）",
+    "question_text": "関係（ID、A、B、C）のA、Cへの射影の結果とSQL文で求めた結果が同じになるように、aに入れるべき字句はどれか。ここで、関係Rを表Tで実現し、Rに各行を格納したものを次に示す。<br><br>【表T】(ID,A,B,C)：(001,a1,b1,c1)、(002,a1,b1,c2)、(003,a1,b2,c1)、(004,a2,b1,c2)、(005,a2,b2,c2)<br>【SQL文】SELECT [a] A, C FROM T",
     "choices": {
-      "ア": "ア",
-      "イ": "イ",
-      "ウ": "ウ",
-      "エ": "エ"
+      "ア": "ALL",
+      "イ": "DISTINCT",
+      "ウ": "ORDER BY",
+      "エ": "REFERENCES"
     },
     "answer": "イ",
     "topic": null,
@@ -1575,19 +1583,20 @@
     "asset_path": "assets/2017_a1_2017_am1_p06.png",
     "asset_type": "source_page",
     "source_file": "2017h29a_koudo_am1_qs.pdf",
-    "audit_status": "image_backed_answer_verified_text_pending"
+    "audit_status": "transcribed_from_official_pdf_2026-10-15",
+    "source_image_required": true
   },
   {
     "id": "A1-2017-Q10",
     "year": 2017,
     "section": "午前I",
     "question_no": 10,
-    "question_text": "公式問題冊子 6 ページの問10を画像で参照（原文テキストは未構造化）",
+    "question_text": "データマイニングの説明として、最も適切なものはどれか。",
     "choices": {
-      "ア": "ア",
-      "イ": "イ",
-      "ウ": "ウ",
-      "エ": "エ"
+      "ア": "基幹業務のデータベースとは別に作成され、更新処理をしない集計データの分析を主目的とする。",
+      "イ": "個人別データ、部門別データ、サマリデータなど、分析の目的別に切り出されカスタマイズされたデータを分析する。",
+      "ウ": "スライシング、ダイシング、ドリルダウンなどのインタラクティブな操作によって多次元分析を行い、意思決定を支援する。",
+      "エ": "ニューラルネットワークや統計解析などの手法を使って、大量に蓄積されているデータから、特徴あるパターンを探し出す。"
     },
     "answer": "エ",
     "topic": null,
@@ -1597,19 +1606,20 @@
     "asset_path": "assets/2017_a1_2017_am1_p06.png",
     "asset_type": "source_page",
     "source_file": "2017h29a_koudo_am1_qs.pdf",
-    "audit_status": "image_backed_answer_verified_text_pending"
+    "audit_status": "transcribed_from_official_pdf_2026-10-15",
+    "source_image_required": false
   },
   {
     "id": "A1-2017-Q11",
     "year": 2017,
     "section": "午前I",
     "question_no": 11,
-    "question_text": "公式問題冊子 7 ページの問11を画像で参照（原文テキストは未構造化）",
+    "question_text": "CSMA/CD方式に関する記述のうち、適切なものはどれか。",
     "choices": {
-      "ア": "ア",
-      "イ": "イ",
-      "ウ": "ウ",
-      "エ": "エ"
+      "ア": "衝突発生時の再送動作によって、衝突の頻度が増すとスループットが下がる。",
+      "イ": "送信要求が発生したステーションは、共通伝送路の搬送波を検出してからデータを送信するので、データ送出後の衝突は発生しない。",
+      "ウ": "ハブによって複数のステーションが分岐接続されている構成では、衝突の検出ができないので、この方式は使用できない。",
+      "エ": "フレームとしては任意長のビットが直列に送出されるので、フレーム長がオクテットの整数倍である必要はない。"
     },
     "answer": "ア",
     "topic": null,
@@ -1619,19 +1629,20 @@
     "asset_path": "assets/2017_a1_2017_am1_p07.png",
     "asset_type": "source_page",
     "source_file": "2017h29a_koudo_am1_qs.pdf",
-    "audit_status": "image_backed_answer_verified_text_pending"
+    "audit_status": "transcribed_from_official_pdf_2026-10-15",
+    "source_image_required": false
   },
   {
     "id": "A1-2017-Q12",
     "year": 2017,
     "section": "午前I",
     "question_no": 12,
-    "question_text": "公式問題冊子 7 ページの問12を画像で参照（原文テキストは未構造化）",
+    "question_text": "ドライブバイダウンロード攻撃の説明はどれか。",
     "choices": {
-      "ア": "ア",
-      "イ": "イ",
-      "ウ": "ウ",
-      "エ": "エ"
+      "ア": "PCにUSBメモリが接続されたとき、USBメモリに保存されているプログラムを自動的に実行する機能を用いてマルウェアを実行し、PCをマルウェアに感染させる。",
+      "イ": "PCに格納されているファイルを勝手に暗号化して、復号することと引換えに金銭を要求する。",
+      "ウ": "不正にアクセスする目的で、建物の外部に漏れた無線LANの電波を傍受して、セキュリティの設定が脆弱な無線LANのアクセスポイントを見つけ出す。",
+      "エ": "利用者がWebサイトを閲覧したとき、利用者に気付かれないように、利用者のPCに不正プログラムを転送させる。"
     },
     "answer": "エ",
     "topic": null,
@@ -1641,19 +1652,20 @@
     "asset_path": "assets/2017_a1_2017_am1_p07.png",
     "asset_type": "source_page",
     "source_file": "2017h29a_koudo_am1_qs.pdf",
-    "audit_status": "image_backed_answer_verified_text_pending"
+    "audit_status": "transcribed_from_official_pdf_2026-10-15",
+    "source_image_required": false
   },
   {
     "id": "A1-2017-Q13",
     "year": 2017,
     "section": "午前I",
     "question_no": 13,
-    "question_text": "公式問題冊子 8 ページの問13を画像で参照（原文テキストは未構造化）",
+    "question_text": "暗号方式に関する記述のうち、適切なものはどれか。",
     "choices": {
-      "ア": "ア",
-      "イ": "イ",
-      "ウ": "ウ",
-      "エ": "エ"
+      "ア": "AESは公開鍵暗号方式、RSAは共通鍵暗号方式の一種である。",
+      "イ": "共通鍵暗号方式では、暗号化及び復号に同一の鍵を使用する。",
+      "ウ": "公開鍵暗号方式を通信内容の秘匿に使用する場合は、暗号化に使用する鍵を秘密にして、復号に使用する鍵を公開する。",
+      "エ": "ディジタル署名に公開鍵暗号方式が使用されることはなく、共通鍵暗号方式が使用される。"
     },
     "answer": "イ",
     "topic": null,
@@ -1663,19 +1675,20 @@
     "asset_path": "assets/2017_a1_2017_am1_p08.png",
     "asset_type": "source_page",
     "source_file": "2017h29a_koudo_am1_qs.pdf",
-    "audit_status": "image_backed_answer_verified_text_pending"
+    "audit_status": "transcribed_from_official_pdf_2026-10-15",
+    "source_image_required": false
   },
   {
     "id": "A1-2017-Q14",
     "year": 2017,
     "section": "午前I",
     "question_no": 14,
-    "question_text": "公式問題冊子 8 ページの問14を画像で参照（原文テキストは未構造化）",
+    "question_text": "サイバーレスキュー隊（J-CRAT）の役割はどれか。",
     "choices": {
-      "ア": "ア",
-      "イ": "イ",
-      "ウ": "ウ",
-      "エ": "エ"
+      "ア": "外部からのサイバー攻撃などの情報セキュリティ問題に対して、政府横断的な情報収集や監視機能を整備し、政府機関の緊急対応能力強化を図る。",
+      "イ": "重要インフラに関わる業界などを中心とした参加組織と秘密保持契約を締結し、その契約の下に提供された標的型サイバー攻撃の情報を分析及び加工することによって、参加組織間で情報共有する。",
+      "ウ": "セキュリティオペレーション技術向上、オペレータ人材育成、及びサイバーセキュリティに関係する組織・団体間の連携を推進することによって、セキュリティオペレーションサービスの普及とサービスレベルの向上を促す。",
+      "エ": "標的型サイバー攻撃を受けた組織や個人から提供された情報を分析し、社会や産業に重大な被害を及ぼしかねない標的型サイバー攻撃の把握、被害の分析、対策の早期着手の支援を行う。"
     },
     "answer": "エ",
     "topic": null,
@@ -1685,19 +1698,20 @@
     "asset_path": "assets/2017_a1_2017_am1_p08.png",
     "asset_type": "source_page",
     "source_file": "2017h29a_koudo_am1_qs.pdf",
-    "audit_status": "image_backed_answer_verified_text_pending"
+    "audit_status": "transcribed_from_official_pdf_2026-10-15",
+    "source_image_required": false
   },
   {
     "id": "A1-2017-Q15",
     "year": 2017,
     "section": "午前I",
     "question_no": 15,
-    "question_text": "公式問題冊子 9 ページの問15を画像で参照（原文テキストは未構造化）",
+    "question_text": "WAFの説明はどれか。",
     "choices": {
-      "ア": "ア",
-      "イ": "イ",
-      "ウ": "ウ",
-      "エ": "エ"
+      "ア": "Webアプリケーションへの攻撃を監視し阻止する。",
+      "イ": "Webブラウザの通信内容を改ざんする攻撃をPC内で監視し検出する。",
+      "ウ": "サーバのOSへの不正なログインを監視する。",
+      "エ": "ファイルのマルウェア感染を監視し検出する。"
     },
     "answer": "ア",
     "topic": null,
@@ -1707,19 +1721,20 @@
     "asset_path": "assets/2017_a1_2017_am1_p09.png",
     "asset_type": "source_page",
     "source_file": "2017h29a_koudo_am1_qs.pdf",
-    "audit_status": "image_backed_answer_verified_text_pending"
+    "audit_status": "transcribed_from_official_pdf_2026-10-15",
+    "source_image_required": false
   },
   {
     "id": "A1-2017-Q16",
     "year": 2017,
     "section": "午前I",
     "question_no": 16,
-    "question_text": "公式問題冊子 9 ページの問16を画像で参照（原文テキストは未構造化）",
+    "question_text": "モジュール設計に関する記述のうち、モジュール強度（結束性）が最も強いものはどれか。",
     "choices": {
-      "ア": "ア",
-      "イ": "イ",
-      "ウ": "ウ",
-      "エ": "エ"
+      "ア": "ある木構造データを扱う機能をこのデータとともに一つにまとめ、木構造データをモジュールの外から見えないようにした。",
+      "イ": "複数の機能のそれぞれに必要な初期設定の操作が、ある時点で一括して実行できるので、一つのモジュールにまとめた。",
+      "ウ": "二つの機能A、Bのコードは重複する部分が多いので、A、Bを一つのモジュールにまとめ、A、Bの機能を使い分けるための引数を設けた。",
+      "エ": "二つの機能A、Bは必ずA、Bの順番に実行され、しかもAで計算した結果をBで使うことがあるので、一つのモジュールにまとめた。"
     },
     "answer": "ア",
     "topic": null,
@@ -1729,19 +1744,20 @@
     "asset_path": "assets/2017_a1_2017_am1_p09.png",
     "asset_type": "source_page",
     "source_file": "2017h29a_koudo_am1_qs.pdf",
-    "audit_status": "image_backed_answer_verified_text_pending"
+    "audit_status": "transcribed_from_official_pdf_2026-10-15",
+    "source_image_required": false
   },
   {
     "id": "A1-2017-Q17",
     "year": 2017,
     "section": "午前I",
     "question_no": 17,
-    "question_text": "公式問題冊子 9 ページの問17を画像で参照（原文テキストは未構造化）",
+    "question_text": "CMMIの説明はどれか。",
     "choices": {
-      "ア": "ア",
-      "イ": "イ",
-      "ウ": "ウ",
-      "エ": "エ"
+      "ア": "ソフトウェア開発組織及びプロジェクトのプロセスの成熟度を評価するためのモデルである。",
+      "イ": "ソフトウェア開発のプロセスモデルの一種である。",
+      "ウ": "ソフトウェアを中心としたシステム開発及び取引のための共通フレームのことである。",
+      "エ": "プロジェクトの成熟度に応じてソフトウェア開発の手順を定義したモデルである。"
     },
     "answer": "ア",
     "topic": null,
@@ -1751,19 +1767,20 @@
     "asset_path": "assets/2017_a1_2017_am1_p09.png",
     "asset_type": "source_page",
     "source_file": "2017h29a_koudo_am1_qs.pdf",
-    "audit_status": "image_backed_answer_verified_text_pending"
+    "audit_status": "transcribed_from_official_pdf_2026-10-15",
+    "source_image_required": false
   },
   {
     "id": "A1-2017-Q18",
     "year": 2017,
     "section": "午前I",
     "question_no": 18,
-    "question_text": "公式問題冊子 10 ページの問18を画像で参照（原文テキストは未構造化）",
+    "question_text": "プロジェクト管理においてパフォーマンス測定に使用するEVMの管理対象の組みはどれか。",
     "choices": {
-      "ア": "ア",
-      "イ": "イ",
-      "ウ": "ウ",
-      "エ": "エ"
+      "ア": "コスト、スケジュール",
+      "イ": "コスト、リスク",
+      "ウ": "スケジュール、品質",
+      "エ": "品質、リスク"
     },
     "answer": "ア",
     "topic": null,
@@ -1773,19 +1790,20 @@
     "asset_path": "assets/2017_a1_2017_am1_p10.png",
     "asset_type": "source_page",
     "source_file": "2017h29a_koudo_am1_qs.pdf",
-    "audit_status": "image_backed_answer_verified_text_pending"
+    "audit_status": "transcribed_from_official_pdf_2026-10-15",
+    "source_image_required": false
   },
   {
     "id": "A1-2017-Q19",
     "year": 2017,
     "section": "午前I",
     "question_no": 19,
-    "question_text": "公式問題冊子 10 ページの問19を画像で参照（原文テキストは未構造化）",
+    "question_text": "品質の定量的評価の指標のうち、ソフトウェアの保守性の評価指標になるものはどれか。",
     "choices": {
-      "ア": "ア",
-      "イ": "イ",
-      "ウ": "ウ",
-      "エ": "エ"
+      "ア": "（最終成果物に含まれる誤りの件数）÷（最終成果物の量）",
+      "イ": "（修正時間の合計）÷（修正件数）",
+      "ウ": "（変更が必要となるソースコードの行数）÷（移植するソースコードの行数）",
+      "エ": "（利用者からの改良要求件数）÷（出荷後の経過月数）"
     },
     "answer": "イ",
     "topic": null,
@@ -1795,19 +1813,20 @@
     "asset_path": "assets/2017_a1_2017_am1_p10.png",
     "asset_type": "source_page",
     "source_file": "2017h29a_koudo_am1_qs.pdf",
-    "audit_status": "image_backed_answer_verified_text_pending"
+    "audit_status": "transcribed_from_official_pdf_2026-10-15",
+    "source_image_required": false
   },
   {
     "id": "A1-2017-Q20",
     "year": 2017,
     "section": "午前I",
     "question_no": 20,
-    "question_text": "公式問題冊子 10 ページの問20を画像で参照（原文テキストは未構造化）",
+    "question_text": "サービス提供時間帯が毎日6～20時のシステムにおいて、ある月の停止時間、修復時間及びシステムメンテナンス時間は次のとおりであった。この月の可用性は何%か。ここで、1か月の稼働日数は30日、可用性（%）は小数第2位を四捨五入するものとする。<br><br>〔停止時間、修復時間及びシステムメンテナンス時間〕<br>・システム障害によるサービス提供時間内の停止時間：7時間<br>・システム障害に対処するサービス提供時間外の修復時間：3時間<br>・サービス提供時間外のシステムメンテナンス時間：8時間",
     "choices": {
-      "ア": "ア",
-      "イ": "イ",
-      "ウ": "ウ",
-      "エ": "エ"
+      "ア": "95.7",
+      "イ": "97.6",
+      "ウ": "98.3",
+      "エ": "99.0"
     },
     "answer": "ウ",
     "topic": null,
@@ -1817,19 +1836,20 @@
     "asset_path": "assets/2017_a1_2017_am1_p10.png",
     "asset_type": "source_page",
     "source_file": "2017h29a_koudo_am1_qs.pdf",
-    "audit_status": "image_backed_answer_verified_text_pending"
+    "audit_status": "transcribed_from_official_pdf_2026-10-15",
+    "source_image_required": false
   },
   {
     "id": "A1-2017-Q21",
     "year": 2017,
     "section": "午前I",
     "question_no": 21,
-    "question_text": "公式問題冊子 11 ページの問21を画像で参照（原文テキストは未構造化）",
+    "question_text": "システム監査の改善指導（フォローアップ）において、被監査部門による改善が計画よりも遅れていることが判明したとき、システム監査人が採るべき行動はどれか。",
     "choices": {
-      "ア": "ア",
-      "イ": "イ",
-      "ウ": "ウ",
-      "エ": "エ"
+      "ア": "遅れを取り戻すために、具体的な対策の実施を、被監査部門の責任者に指示する。",
+      "イ": "遅れを取り戻すために、被監査部門の改善活動に参加する。",
+      "ウ": "遅れを取り戻すための方策について、被監査部門の責任者に助言する。",
+      "エ": "遅れを取り戻すための要員の追加を、人事部長に要求する。"
     },
     "answer": "ウ",
     "topic": null,
@@ -1839,19 +1859,20 @@
     "asset_path": "assets/2017_a1_2017_am1_p11.png",
     "asset_type": "source_page",
     "source_file": "2017h29a_koudo_am1_qs.pdf",
-    "audit_status": "image_backed_answer_verified_text_pending"
+    "audit_status": "transcribed_from_official_pdf_2026-10-15",
+    "source_image_required": false
   },
   {
     "id": "A1-2017-Q22",
     "year": 2017,
     "section": "午前I",
     "question_no": 22,
-    "question_text": "公式問題冊子 11 ページの問22を画像で参照（原文テキストは未構造化）",
+    "question_text": "在庫管理システムを対象とするシステム監査において、当該システムに記録された在庫データの網羅性のチェックポイントとして、適切なものはどれか。",
     "choices": {
-      "ア": "ア",
-      "イ": "イ",
-      "ウ": "ウ",
-      "エ": "エ"
+      "ア": "設定された選定基準に従って、自動的に購入業者を選定していること",
+      "イ": "適正在庫高であることを、責任者が承認していること",
+      "ウ": "適正在庫量を維持するための発注点に達したときに、自動的に発注していること",
+      "エ": "入庫及び出庫記録に対して、自動的に連番を付与していること"
     },
     "answer": "エ",
     "topic": null,
@@ -1861,19 +1882,20 @@
     "asset_path": "assets/2017_a1_2017_am1_p11.png",
     "asset_type": "source_page",
     "source_file": "2017h29a_koudo_am1_qs.pdf",
-    "audit_status": "image_backed_answer_verified_text_pending"
+    "audit_status": "transcribed_from_official_pdf_2026-10-15",
+    "source_image_required": false
   },
   {
     "id": "A1-2017-Q23",
     "year": 2017,
     "section": "午前I",
     "question_no": 23,
-    "question_text": "公式問題冊子 11 ページの問23を画像で参照（原文テキストは未構造化）",
+    "question_text": "エンタープライズアーキテクチャにおいて、業務と情報システムの理想を表すモデルはどれか。",
     "choices": {
-      "ア": "ア",
-      "イ": "イ",
-      "ウ": "ウ",
-      "エ": "エ"
+      "ア": "EA参照モデル",
+      "イ": "To-Beモデル",
+      "ウ": "ザックマンモデル",
+      "エ": "データモデル"
     },
     "answer": "イ",
     "topic": null,
@@ -1883,19 +1905,20 @@
     "asset_path": "assets/2017_a1_2017_am1_p11.png",
     "asset_type": "source_page",
     "source_file": "2017h29a_koudo_am1_qs.pdf",
-    "audit_status": "image_backed_answer_verified_text_pending"
+    "audit_status": "transcribed_from_official_pdf_2026-10-15",
+    "source_image_required": false
   },
   {
     "id": "A1-2017-Q24",
     "year": 2017,
     "section": "午前I",
     "question_no": 24,
-    "question_text": "公式問題冊子 12 ページの問24を画像で参照（原文テキストは未構造化）",
+    "question_text": "“情報システム・モデル取引・契約書”によれば、情報システムの開発において、多段階契約の考え方を採用する目的はどれか。ここで、多段階契約とは、工程ごとに個別契約を締結することである。",
     "choices": {
-      "ア": "ア",
-      "イ": "イ",
-      "ウ": "ウ",
-      "エ": "エ"
+      "ア": "開発段階において、前工程の遂行の結果、後工程の見積前提条件に変更が生じた場合に、各工程の開始のタイミングで、再度見積りを可能とするため",
+      "イ": "サービスレベルの達成・未達の結果に対する対応措置（協議手続、解約権、ペナルティ・インセンティブなど）及びベンダの報告条件などを定めるため",
+      "ウ": "正式な契約を締結する前に、情報システム構築を開始せざるを得ない場合の措置として、仮発注合意書（Letter of Intent：LOI）を交わすため",
+      "エ": "ユーザ及びベンダのそれぞれの役割分担を、システムライフサイクルプロセスに応じて、あらかじめ詳細に決定しておくため"
     },
     "answer": "ア",
     "topic": null,
@@ -1905,19 +1928,20 @@
     "asset_path": "assets/2017_a1_2017_am1_p12.png",
     "asset_type": "source_page",
     "source_file": "2017h29a_koudo_am1_qs.pdf",
-    "audit_status": "image_backed_answer_verified_text_pending"
+    "audit_status": "transcribed_from_official_pdf_2026-10-15",
+    "source_image_required": false
   },
   {
     "id": "A1-2017-Q25",
     "year": 2017,
     "section": "午前I",
     "question_no": 25,
-    "question_text": "公式問題冊子 12 ページの問25を画像で参照（原文テキストは未構造化）",
+    "question_text": "半導体ファブレス企業の説明として、適切なものはどれか。",
     "choices": {
-      "ア": "ア",
-      "イ": "イ",
-      "ウ": "ウ",
-      "エ": "エ"
+      "ア": "委託者の依頼を受けて、自社工場で半導体製造だけを行う。",
+      "イ": "自社で設計し、自社工場で生産した製品を相手先ブランドで納入する。",
+      "ウ": "自社内で回路設計から製造まで全ての設備をもち、自社ブランド製品を販売する。",
+      "エ": "製品の企画、設計及び開発は行うが、半導体製造の工場は所有しない。"
     },
     "answer": "エ",
     "topic": null,
@@ -1927,19 +1951,20 @@
     "asset_path": "assets/2017_a1_2017_am1_p12.png",
     "asset_type": "source_page",
     "source_file": "2017h29a_koudo_am1_qs.pdf",
-    "audit_status": "image_backed_answer_verified_text_pending"
+    "audit_status": "transcribed_from_official_pdf_2026-10-15",
+    "source_image_required": false
   },
   {
     "id": "A1-2017-Q26",
     "year": 2017,
     "section": "午前I",
     "question_no": 26,
-    "question_text": "公式問題冊子 13 ページの問26を画像で参照（原文テキストは未構造化）",
+    "question_text": "CRMを説明したものはどれか。",
     "choices": {
-      "ア": "ア",
-      "イ": "イ",
-      "ウ": "ウ",
-      "エ": "エ"
+      "ア": "卸売業者・メーカが、小売店の経営活動を支援してその売上と利益を伸ばすことによって、自社との取引拡大につなげる方法である。",
+      "イ": "企業全体の経営資源を有効かつ総合的に計画して管理し、経営の高効率化を図るための手法である。",
+      "ウ": "企業内の全ての顧客チャネルで情報を共有し、サービスのレベルを引き上げて顧客満足度を高め、顧客ロイヤリティの最大化に結び付ける考え方である。",
+      "エ": "生産、在庫、購買、販売、物流などの全ての情報をリアルタイムに交換することによって、サプライチェーン全体の効率を大幅に向上させる経営手法である。"
     },
     "answer": "ウ",
     "topic": null,
@@ -1949,19 +1974,20 @@
     "asset_path": "assets/2017_a1_2017_am1_p13.png",
     "asset_type": "source_page",
     "source_file": "2017h29a_koudo_am1_qs.pdf",
-    "audit_status": "image_backed_answer_verified_text_pending"
+    "audit_status": "transcribed_from_official_pdf_2026-10-15",
+    "source_image_required": false
   },
   {
     "id": "A1-2017-Q27",
     "year": 2017,
     "section": "午前I",
     "question_no": 27,
-    "question_text": "公式問題冊子 13 ページの問27を画像で参照（原文テキストは未構造化）",
+    "question_text": "ISO、IEC、ITUなどの国際標準に適合した製品を製造及び販売する利点として、適切なものはどれか。",
     "choices": {
-      "ア": "ア",
-      "イ": "イ",
-      "ウ": "ウ",
-      "エ": "エ"
+      "ア": "WTO政府調達協定の加盟国では、政府調達は国際標準の仕様に従って行われる。",
+      "イ": "国際標準に適合しない競合製品に比べて、技術的に優位であることが保証される。",
+      "ウ": "国際標準に適合するために必要な特許は、全て無償でライセンスを受けられる。",
+      "エ": "輸出先国の国内標準及び国内法規の規制を受けることなく製品を輸出できる。"
     },
     "answer": "ア",
     "topic": null,
@@ -1971,19 +1997,20 @@
     "asset_path": "assets/2017_a1_2017_am1_p13.png",
     "asset_type": "source_page",
     "source_file": "2017h29a_koudo_am1_qs.pdf",
-    "audit_status": "image_backed_answer_verified_text_pending"
+    "audit_status": "transcribed_from_official_pdf_2026-10-15",
+    "source_image_required": false
   },
   {
     "id": "A1-2017-Q28",
     "year": 2017,
     "section": "午前I",
     "question_no": 28,
-    "question_text": "公式問題冊子 14 ページの問28を画像で参照（原文テキストは未構造化）",
+    "question_text": "IoTの技術として注目されている、エッジコンピューティングの説明として、適切なものはどれか。",
     "choices": {
-      "ア": "ア",
-      "イ": "イ",
-      "ウ": "ウ",
-      "エ": "エ"
+      "ア": "演算処理のリソースを端末の近傍に置くことによって、アプリケーション処理の低遅延化や通信トラフィックの最適化を行う。",
+      "イ": "データの特徴を学習して、事象の認識や分類を行う。",
+      "ウ": "ネットワークを介して複数のコンピュータを結ぶことによって、全体として処理能力が高いコンピュータシステムを作る。",
+      "エ": "周りの環境から微小なエネルギーを収穫して、電力に変換する。"
     },
     "answer": "ア",
     "topic": null,
@@ -1993,19 +2020,20 @@
     "asset_path": "assets/2017_a1_2017_am1_p14.png",
     "asset_type": "source_page",
     "source_file": "2017h29a_koudo_am1_qs.pdf",
-    "audit_status": "image_backed_answer_verified_text_pending"
+    "audit_status": "transcribed_from_official_pdf_2026-10-15",
+    "source_image_required": false
   },
   {
     "id": "A1-2017-Q29",
     "year": 2017,
     "section": "午前I",
     "question_no": 29,
-    "question_text": "公式問題冊子 14 ページの問29を画像で参照（原文テキストは未構造化）",
+    "question_text": "予測手法の一つであるデルファイ法の説明はどれか。",
     "choices": {
-      "ア": "ア",
-      "イ": "イ",
-      "ウ": "ウ",
-      "エ": "エ"
+      "ア": "現状の指標の中に将来の動向を示す指標があることに着目して予測する。",
+      "イ": "将来予測のためのモデル化した連立方程式を解いて予測する。",
+      "ウ": "同時点における複数の観測データの統計比較分析によって将来を予測する。",
+      "エ": "複数の専門家へのアンケートの繰返しによる回答の収束によって将来を予測する。"
     },
     "answer": "エ",
     "topic": null,
@@ -2015,19 +2043,20 @@
     "asset_path": "assets/2017_a1_2017_am1_p14.png",
     "asset_type": "source_page",
     "source_file": "2017h29a_koudo_am1_qs.pdf",
-    "audit_status": "image_backed_answer_verified_text_pending"
+    "audit_status": "transcribed_from_official_pdf_2026-10-15",
+    "source_image_required": false
   },
   {
     "id": "A1-2017-Q30",
     "year": 2017,
     "section": "午前I",
     "question_no": 30,
-    "question_text": "公式問題冊子 14 ページの問30を画像で参照（原文テキストは未構造化）",
+    "question_text": "企業が請負で受託して開発したか、又は派遣契約によって派遣された社員が開発したプログラムの著作権の帰属に関し契約に定めがないとき、著作権の原始的な帰属はどのようになるか。",
     "choices": {
-      "ア": "ア",
-      "イ": "イ",
-      "ウ": "ウ",
-      "エ": "エ"
+      "ア": "請負の場合は発注先に帰属し、派遣の場合は派遣先に帰属する。",
+      "イ": "請負の場合は発注先に帰属し、派遣の場合は派遣元に帰属する。",
+      "ウ": "請負の場合は発注元に帰属し、派遣の場合は派遣先に帰属する。",
+      "エ": "請負の場合は発注元に帰属し、派遣の場合は派遣元に帰属する。"
     },
     "answer": "ア",
     "topic": null,
@@ -2037,7 +2066,8 @@
     "asset_path": "assets/2017_a1_2017_am1_p14.png",
     "asset_type": "source_page",
     "source_file": "2017h29a_koudo_am1_qs.pdf",
-    "audit_status": "image_backed_answer_verified_text_pending"
+    "audit_status": "transcribed_from_official_pdf_2026-10-15",
+    "source_image_required": false
   },
   {
     "id": "A1-2018-Q01",
