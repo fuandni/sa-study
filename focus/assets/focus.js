@@ -53,7 +53,7 @@ document.querySelectorAll('[data-answer]').forEach(btn=>btn.onclick=()=>{const s
 if(existing)showFeedback(q,existing.selected);
 $('#prev').onclick=()=>{if(session.index>0){session.index--;saveSession();renderQuestion()}};
 $('#next').onclick=()=>{if(session.index===session.ids.length-1)finish();else{session.index++;saveSession();renderQuestion()}};
-$('#stop').onclick=()=>{session=null;saveSession();renderHome()};
+$('#stop').onclick=()=>{saveSession();renderHome()};
 }
 function hash(x){let h=2166136261;for(const c of x){h=Math.imul(h^c.charCodeAt(0),16777619)}return h>>>0}
 function showFeedback(q,chosen){
