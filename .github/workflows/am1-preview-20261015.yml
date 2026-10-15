@@ -1,0 +1,27 @@
+name: Temporary render for unverified AM1 PDF pages
+on:
+  push:
+    branches: [audit/am1-source-page-previews-20261015]
+    paths:
+      - '.github/workflows/am1-preview-20261015.yml'
+      - 'tools/render_unverified_am1_pages.py'
+permissions:
+  contents: write
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - name: Render pages from original PDF files
+        run: |
+          python3 -m pip install -q 'pymupdf>=1.24,<2' Pillow
+          python3 tools/render_unverified_am1_pages.py
+      - name: Save previews on temporary audit branch (not production)
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add audit_previews/am1/
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "Temporary source PDF page previews for manual visual verification"
+          git push origin "HEAD:${GITHUB_REF_NAME}"
