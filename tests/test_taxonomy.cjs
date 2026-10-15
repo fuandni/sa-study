@@ -24,6 +24,14 @@ assert.ok(classified.every(q=>q.category!=='未分類'));
 const legacy=classified.filter(q=>q.classification_status==='暫定（外部論点索引）');
 assert.equal(legacy.length,90);
 assert.ok(legacy.every(q=>q.classification_source_url?.startsWith('https://www.nw-siken.com/')));
+assert.ok(legacy.every(q=>typeof q.topic==='string'&&q.topic.length>0),'every legacy image question has a short topic summary');
+assert.ok(legacy.every(q=>q.topic_status==='外部論点の短い要約'));
+assert.ok(legacy.every(q=>q.original_topic===null));
+assert.equal(classified.find(q=>q.id==='A1-2015-Q01').topic,'集合と包含関係');
+assert.equal(classified.find(q=>q.id==='A1-2016-Q01').topic,'数値計算の二分法');
+assert.equal(classified.find(q=>q.id==='A1-2017-Q01').topic,'相関係数');
+assert.ok(qs.find(q=>q.id==='A1-2015-Q01').question_text.includes('画像で参照'),'question text stays untouched');
+
 assert.equal(classified.find(q=>q.id==='A1-2015-Q30').subdomain,'法務・知的財産');
 assert.equal(classified.find(q=>q.id==='A1-2016-Q03').subdomain,'アルゴリズム');
 assert.equal(classified.find(q=>q.id==='A1-2017-Q12').subdomain,'攻撃・防御');
