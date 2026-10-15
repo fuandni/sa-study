@@ -57,6 +57,15 @@ click('#all-years');
 assert.equal(doc.querySelectorAll('input[name=year]:checked').length,4);
 w.SAApp.stats();
 assert.match(doc.querySelector('main').textContent,/全年度の成績比較/);
+const taxonomyTables=doc.querySelectorAll('.taxonomy-table');
+assert.equal(taxonomyTables.length,2,'category and subcategory tables are separate');
+for(const table of taxonomyTables){
+ const rows=[...table.querySelectorAll('tbody tr')];
+ assert.equal(rows.length,2,'same category/subcategory forms independent subject rows');
+ assert.match(rows[0].textContent,/午前I/);
+ assert.match(rows[1].textContent,/午前II/);
+}
+
 assert.equal(doc.querySelectorAll('.year-matrix tbody tr').length,4);
 assert.match(doc.querySelector('.year-matrix').textContent,/20 \/ 25/);
 assert.match(doc.querySelector('.year-matrix').textContent,/旧集計に不整合/);
