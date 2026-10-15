@@ -30,6 +30,18 @@ assert.ok(ocrPending.every(q=>q.classification_source_url.endsWith('.pdf')));
 assert.ok(legacy.every(q=>q.classification_source_url?.startsWith('https://www.nw-siken.com/')));
 assert.ok(legacy.every(q=>typeof q.topic==='string'&&q.topic.length>0),'every legacy image question has a short topic summary');
 assert.ok(legacy.every(q=>q.topic_status==='外部論点の短い要約'));
+const reviewed=legacy.filter(q=>q.topic_review_status==='公式PDFで設問主題を照合済み');
+assert.equal(reviewed.length,36,'review count must reflect only official PDF pages actually inspected');
+assert.deepEqual([...new Set(reviewed.map(q=>q.year))].sort(),[2015,2016,2017]);
+assert.equal(reviewed.filter(q=>q.year===2015).length,25);
+assert.equal(reviewed.filter(q=>q.year===2016).length,5);
+assert.equal(reviewed.filter(q=>q.year===2017).length,6);
+assert.ok(reviewed.every(q=>q.topic_review_source_url.includes('ipa.go.jp/shiken/')));
+assert.ok(reviewed.every(q=>q.topic_review_source_url.endsWith('#page='+q.source_page)));
+assert.ok(legacy.filter(q=>!reviewed.includes(q)).every(q=>q.topic_review_status===null));
+assert.equal(classified.find(q=>q.id==='A1-2015-Q23').topic_review_status,null);
+assert.equal(classified.find(q=>q.id==='A1-2015-Q25').topic_review_status,'公式PDFで設問主題を照合済み');
+
 assert.ok(legacy.every(q=>q.original_topic===null));
 assert.equal(classified.find(q=>q.id==='A1-2015-Q01').topic,'集合と包含関係');
 assert.equal(classified.find(q=>q.id==='A1-2016-Q01').topic,'数値計算の二分法');
