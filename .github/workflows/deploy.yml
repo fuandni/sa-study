@@ -33,6 +33,8 @@ jobs:
           node tests/test_official_keys_and_data_sync.cjs
           node tests/test_focus_questions.cjs
           node tests/test_focus_applied.cjs
+          node --check focus/data/applied_extra.js
+          node tests/test_focus_live_counts.cjs
 
       - name: Validate sync backend syntax
         run: |

@@ -2,7 +2,7 @@
 'use strict';
 const D=window.SAFocusData,KEY='sa_focus_progress_v1',SESSION='sa_focus_session_v1';
 const $=s=>document.querySelector(s),esc=s=>String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
-const root=$('#focus-app'),domain=document.body.dataset.domain||'',basic=D.questions,applied=window.SAFocusAppliedQuestions||[],all=[...basic,...applied];
+const root=$('#focus-app'),domain=document.body.dataset.domain||'',basic=D.questions,applied=[...(window.SAFocusAppliedQuestions||[]),...(window.SAFocusAppliedExtra||[])],all=[...basic,...applied];
 const representative=basic.filter(q=>q.variant==='scenario'),representativeIds=new Set(representative.map(q=>q.id));
 let progress,session;
 try{progress=JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){progress={}}
@@ -15,8 +15,8 @@ function title(){return domain?D.meta[domain][0]:'弱点集中演習'}
 function stats(list){let done=0,wrong=0,changes=0;const concepts=new Map();for(const q of list){const rec=progress[q.id]||[];if(rec.length){done++;if(rec[rec.length-1].correct===false)wrong++;if(rec.some((v,i)=>i>0&&v.correct!==rec[i-1].correct))changes++}let k=q.concept;if(!concepts.has(k))concepts.set(k,[]);concepts.get(k).push(...rec)}return {done,wrong,changes,concepts}}
 function header(){return '<header><a href="../index.html">既存550問へ戻る</a><a href="index.html">弱点克服ホーム</a>'+Object.entries(D.meta).map(([k,v])=>'<a class="'+(domain===k?'active':'')+'" href="'+k+'.html">'+esc(v[0])+'</a>').join('')+'</header>'}
 function home(){
-let body='<section class="hero"><h1>弱点集中演習</h1><p>6分野・通常演習94問（応用36問＋基本確認58問）。従来の基本290問は過去の回答履歴ごと保管し、旧問題モードから参照できます。公式試験の過去問ではなく新作練習問題です。</p></section>';
-body+='<section class="grid">'+Object.entries(D.meta).map(([k,v])=>{const set=all.filter(q=>q.domain===k),st=stats(set);return '<a class="tile" href="'+k+'.html"><h2>'+esc(v[0])+'</h2><b>'+ (set.filter(q=>q.level==='standard').length+set.filter(q=>representativeIds.has(q.id)).length)+'問</b><span>応用'+set.filter(q=>q.level==='standard').length+'問・基本確認'+set.filter(q=>representativeIds.has(q.id)).length+'問／旧問題'+v[1]+'問保管</span></a>'}).join('')+'</section>';
+let body='<section class="hero"><h1>弱点集中演習</h1><p>6分野・通常演習'+(applied.length+representative.length)+'問（応用'+applied.length+'問＋基本確認'+representative.length+'問）。従来の基本290問は過去の回答履歴ごと保管し、旧問題モードから参照できます。公式試験の過去問ではなく新作練習問題です。</p></section>';
+body+='<section class="grid">'+Object.entries(D.meta).map(([k,v])=>{const set=all.filter(q=>q.domain===k);return '<a class="tile" href="'+k+'.html"><h2>'+esc(v[0])+'</h2><b>'+ (set.filter(q=>q.level==='standard').length+set.filter(q=>representativeIds.has(q.id)).length)+'問</b><span>応用'+set.filter(q=>q.level==='standard').length+'問・基本確認'+set.filter(q=>representativeIds.has(q.id)).length+'問／旧問題'+v[1]+'問保管</span></a>'}).join('')+'</section>';
 return body;
 }
 function conceptHistory(domainName,concept){
@@ -42,7 +42,7 @@ function listFor(kind,concept,level='standard'){
    for(const q of list){
      if(conceptQuality(q.domain,q.concept).stable)continue;
      if(!byConcept.has(q.concept))byConcept.set(q.concept,q);
-     if(q.level==='standard')byConcept.set(q.concept,q);
+     if(q.level==='standard'&&(!byConcept.has(q.concept)||byConcept.get(q.concept).level!=='standard'||(progress[byConcept.get(q.concept).id]||[]).length>(progress[q.id]||[]).length))byConcept.set(q.concept,q);
      else if(representativeIds.has(q.id)&&byConcept.get(q.concept).level!=='standard')byConcept.set(q.concept,q);
    }
    list=[...byConcept.values()].sort((a,b)=>{
@@ -58,7 +58,7 @@ function listFor(kind,concept,level='standard'){
 }
 function dashboard(){
 const pool=all.filter(q=>q.domain===domain),st=stats(pool),basicCount=pool.filter(q=>representativeIds.has(q.id)).length,appliedCount=pool.filter(q=>q.level==='standard').length,legacyCount=pool.length-basicCount-appliedCount;
-let main='<section class="hero"><h1>'+esc(title())+'</h1><p>通常演習：応用判断'+appliedCount+'問／基本確認'+basicCount+'問。旧基本問題'+(basicCount+legacyCount)+'問は削除せず保管しています。</p><p>回答済み '+st.done+' / '+pool.length+'問｜直近不正解 '+st.wrong+'問｜正誤変化を経験 '+st.changes+'問</p></section>';
+let main='<section class="hero"><h1>'+esc(title())+'</h1><p>通常演習：応用判断'+appliedCount+'問／基本確認'+basicCount+'問。旧基本問題'+(basicCount+legacyCount)+'問は削除せず保管しています。</p><p>通常対象の回答済み '+stats(pool.filter(q=>q.level==='standard'||representativeIds.has(q.id))).done+' / '+(basicCount+appliedCount)+'問｜全保存対象の回答済み '+st.done+' / '+pool.length+'問｜直近不正解 '+st.wrong+'問</p></section>';
 main+='<section class="panel"><h2>出題条件</h2><label>難度 <select id="level"><option value="smart">弱点優先・安定概念をスキップ（推奨）</option><option value="standard">応用判断</option><option value="basic">基本確認・各概念1問</option><option value="all">通常全問（応用＋基本）</option><option value="legacy">旧基本290問（保管）</option></select></label><label>対象 <select id="kind"><option value="all">全問</option><option value="unseen">未回答</option><option value="wrong">誤答経験</option><option value="unstable">不安定（2回以上誤答・正誤反転）</option></select></label><label>概念 <select id="concept"><option value="">全概念</option>'+D.concepts[domain].map(x=>'<option value="'+esc(x[0])+'">'+esc(x[0])+'</option>').join('')+'</select></label><label>問題数 <select id="size"><option value="10">10問</option><option value="20">20問</option><option value="all">該当全問</option></select></label><label>出題順 <select id="order"><option value="mixed">混合テスト</option><option value="focus">概念集中</option></select></label><p id="preview"></p><button class="primary" id="begin">演習開始</button></section>';
 main+='<section class="panel"><h2>概念別の記録</h2><div class="concepts">'+D.concepts[domain].map(x=>{const qs=pool.filter(q=>q.concept===x[0]);let s=stats(qs);return '<button data-concept="'+esc(x[0])+'"><b>'+esc(x[0])+'</b><small>回答済み '+s.done+'/'+qs.length+'・直近不正解 '+s.wrong+'</small></button>'}).join('')+'</div></section>';
 root.innerHTML=header()+main;
