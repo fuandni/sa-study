@@ -30,7 +30,8 @@ function fmtPct(v){return v==null?'—':Math.round(v*100)+'%'}
 function categorySource(q){
  const link=q.classification_source_url?'<a href="'+esc(q.classification_source_url)+'" target="_blank" rel="noopener noreferrer" title="分類・論点の参照元">分類元</a>':'';
  const checked=q.topic_review_status&&q.topic_review_source_url?'　<a href="'+esc(q.topic_review_source_url)+'" target="_blank" rel="noopener noreferrer" title="公式問題冊子の設問主題と照合済み。正解・選択肢・図表の完全校正ではありません">主題照合済（公式PDF）</a>':'';
- return link+checked;
+ const content=q.content_review_status&&q.content_review_source_url?'　<a href="'+esc(q.content_review_source_url)+'" target="_blank" rel="noopener noreferrer" title="問題冊子の設問本文・選択肢・必要図表の参照を照合済み。正解キーの独立検証と句読点・空白までの逐語校正ではありません">本文・選択肢照合済（公式PDF）</a>':'';
+ return link+checked+content;
 }
 
 function nav(active){return `<header><div><h1>${esc(C.title)}</h1><div class="sub">${esc(C.exam)} / データとUIを分離した拡張版</div></div><nav>
@@ -346,7 +347,7 @@ function stats(){
  <h3>科目別</h3>${table(groups('section'))}
  <h3>年度別</h3>${table(groups('year'))}
  <h3>分類データの整備状況</h3>${taxonomyCoverage()}
- <h3>カテゴリ別（統一分類）</h3><p class="muted">各問題の初回・最新回答を比較。元の分類がない画像問題は「未分類」として別表示します。再回答を含む累積正答率とは異なります。</p>${taxonomyTable(['午前I','午前II'].flatMap(section=>groups('category',section)))}
+ <h3>カテゴリ別（統一分類）</h3><p class="muted">各問題の初回・最新回答を比較。元の分類名がない問題も学習用分類で集計します。再回答を含む累積正答率とは異なります。</p>${taxonomyTable(['午前I','午前II'].flatMap(section=>groups('category',section)))}
  <h3>細分類別（統一分類）</h3><p class="muted">5問未満の分類は標本数が少ないため「参考値」と表示します。</p>${taxonomyTable(['午前I','午前II'].flatMap(section=>groups('subdomain',section)))}
  <h3>学習優先度（参考）</h3>${window.SAPriority?priorityTable(SAPriority.groupRows(Q,agg,progress)):'<p class="muted">優先度データを読み込めません。</p>'}
  </details>
@@ -362,7 +363,8 @@ function taxonomyCoverage(){
  const items=[['正規化','元の細分類を共通分類に統合'],['暫定（OCR本文）','OCR問題文をもとに暫定分類'],['暫定（外部論点索引）','外部の論点一覧をもとに暫定分類'],['未分類（要確認）','分類根拠の確認待ち']];
  const counts={};for(const q of Q)counts[q.classification_status]=(counts[q.classification_status]||0)+1;
  const officialTopicCount=Q.filter(q=>q.topic_review_status==='公式PDFで設問主題を照合済み').length;
- return '<p class="muted">分類は学習用の独自分類です。暫定分類は公式問題文の全項目を目視確認したことを意味しません。<strong>公式問題の主題照合：'+officialTopicCount+' / 150問</strong>（選択肢・正解の完全校正ではありません）。</p>'+
+ const officialContentCount=Q.filter(q=>q.content_review_status==='公式PDFで設問・選択肢を照合済み').length;
+ return '<p class="muted">分類は学習用の独自分類です。<strong>午前Ⅰ・旧年度の主題照合：'+officialTopicCount+' / 90問、午前Ⅱ・旧年度の本文・選択肢照合：'+officialContentCount+' / 60問</strong>。正解キーの独立照合や全項目の逐語校正とは別です。分類そのものの暫定状態も維持しています。</p>'+
  '<div class="table-scroll"><table><thead><tr><th>分類の状態</th><th>問題数</th><th>根拠</th></tr></thead><tbody>'+items.map(([k,desc])=>'<tr><td>'+esc(k)+'</td><td>'+(counts[k]||0)+'</td><td>'+esc(desc)+'</td></tr>').join('')+'</tbody></table></div>';
 }
 function historyStats(list){
