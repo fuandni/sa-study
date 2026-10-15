@@ -146,7 +146,7 @@ function practice(){
  let q=current(); if(!q){finish();return}
  questionStart=performance.now();const a=agg(q.id), qc=sectionCfg(q), asset=(q.asset_type==='source_page'&&!q.source_image_required)?null:(q.asset_path?qc.asset_base+q.asset_path:null), src=q.source_file?qc.source_base+q.source_file+(q.source_page?'#page='+q.source_page:''):'';
  app.innerHTML=nav('practice')+`<main><section class="sessionbar"><span>${session.index+1} / ${session.questionIds.length}</span><b>${esc(session.label)}</b><button id="end">途中終了</button></section>
- <section class="question"><div class="sessionprogress">この試験：回答 ${E.counts(session).answered} / ${session.questionIds.length}問、正解 ${E.counts(session).correct}問</div><div class="qmeta">${q.year}年度　${esc(q.section)} 問${q.question_no}　${esc(q.category||'')}${q.subdomain?' / '+esc(q.subdomain):''}　<span>${esc(q.topic||'')}</span></div>
+ <section class="question"><div class="sessionprogress">この試験：回答 ${E.counts(session).answered} / ${session.questionIds.length}問、正解 ${E.counts(session).correct}問</div><div class="qmeta">${q.year}年度　${esc(q.section)} 問${q.question_no}　${esc(q.category||'')}${q.subdomain?' / '+esc(q.subdomain):''}${q.classification_status?.startsWith('暫定')?'（分類暫定）':''}　<span>${esc(q.topic||'')}</span></div>
  <div class="qtext">${q.question_text}</div>${asset&&q.asset_type==='source_page'&&!q.source_image_crop?`<p class="source-target"><strong>回答対象：問${q.question_no}</strong>（画像内にほかの設問もあります。問${q.question_no}だけを見て解答してください）</p>`:''}${renderQuestionImage(q,asset)}
  <p class="muted answer-hint">選択後も回答を変更できます。採点には最後の選択を使用します。</p><div class="choices">${choicesFor(q).map((k,i)=>`<button data-choice="${k}"><kbd>${i+1}</kbd><b>${k}</b><span>${q.choices[k]}</span></button>`).join('')}</div>
  <div class="qfoot"><button id="flag">${a.flagged?'★ 要復習を解除':'☆ 要復習にする'}</button>${src?`<a target="_blank" href="${src}">原本 p.${q.source_page||''}</a>`:''}<span>履歴 ${a.tries}回 / ${fmtPct(a.rate)}</span></div><div id="feedback"></div></section>
@@ -339,6 +339,7 @@ function stats(){
  <h3>各問の最新回答（受験結果とは別集計）</h3>${yearScoreTable(E.latestByYear(Q,progress))}
  <h3>科目別</h3>${table(groups('section'))}
  <h3>年度別</h3>${table(groups('year'))}
+ <h3>分類データの整備状況</h3>${taxonomyCoverage()}
  <h3>カテゴリ別（統一分類）</h3><p class="muted">各問題の初回・最新回答を比較。元の分類がない画像問題は「未分類」として別表示します。再回答を含む累積正答率とは異なります。</p>${taxonomyTable(groups('category'))}
  <h3>細分類別（統一分類）</h3><p class="muted">5問未満の分類は標本数が少ないため「参考値」と表示します。</p>${taxonomyTable(groups('subdomain'))}
  <h3>学習優先度（参考）</h3>${window.SAPriority?priorityTable(SAPriority.groupRows(Q,agg,progress)):'<p class="muted">優先度データを読み込めません。</p>'}
@@ -350,6 +351,12 @@ function stats(){
  $('#all-flagged-practice').onclick=()=>startIds(Q.filter(q=>agg(q.id).flagged).sort((a,b)=>a.year-b.year||a.question_no-b.question_no).map(q=>q.id),'★ 要復習・全年度',{mode:'flagged',count:'all',order:'fixed'});
  $('#export').onclick=()=>S.exportAll(progress);
  $('#import').onchange=async e=>{try{let obj=JSON.parse(await e.target.files[0].text());progress=S.importAll(obj);alert('履歴を読み込みました。');stats()}catch(err){alert(err.message)}};
+}
+function taxonomyCoverage(){
+ const items=[['正規化','元の細分類を共通分類に統合'],['暫定（OCR本文）','OCR問題文をもとに暫定分類'],['暫定（外部論点索引）','外部の論点一覧をもとに暫定分類'],['未分類（要確認）','分類根拠の確認待ち']];
+ const counts={};for(const q of Q)counts[q.classification_status]=(counts[q.classification_status]||0)+1;
+ return '<p class="muted">分類は学習用の独自分類です。暫定分類は公式問題文の全項目を目視確認したことを意味しません。</p>'+
+ '<div class="table-scroll"><table><thead><tr><th>分類の状態</th><th>問題数</th><th>根拠</th></tr></thead><tbody>'+items.map(([k,desc])=>'<tr><td>'+esc(k)+'</td><td>'+(counts[k]||0)+'</td><td>'+esc(desc)+'</td></tr>').join('')+'</tbody></table></div>';
 }
 function historyStats(list){
  let first=0,latest=0,answered=0,improved=0;
