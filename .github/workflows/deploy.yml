@@ -30,6 +30,7 @@ jobs:
         run: |
           python3 tools/build_data.py
           python3 tools/validate_data.py
+          node tests/test_official_keys_and_data_sync.cjs
 
       - name: Validate sync backend syntax
         run: |
