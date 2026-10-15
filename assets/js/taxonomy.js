@@ -1058,6 +1058,23 @@ for(const [year,row] of Object.entries(LEGACY_TOPIC_ROWS)){
  });
 }
 
+/* 検証対象は「公式PDFの問題主題と分類」の照合。選択肢・答え・図表の校正ではない。 */
+const TOPIC_REVIEW_NUMBERS={
+  2015:[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,25,26,27],
+  2016:[1,2,3,4,5],
+  2017:[1,2,3,4,5,6]
+};
+const OFFICIAL_PDF={
+  2015:'https://www.ipa.go.jp/shiken/mondai-kaiotu/gmcbt8000000gxj0-att/2015h27a_koudo_am1_qs.pdf',
+  2016:'https://www.ipa.go.jp/shiken/mondai-kaiotu/gmcbt8000000g6fw-att/2016h28a_koudo_am1_qs.pdf',
+  2017:'https://www.ipa.go.jp/shiken/mondai-kaiotu/gmcbt8000000fqpm-att/2017h29a_koudo_am1_qs.pdf'
+};
+const TOPIC_REVIEW_IDS=new Set();
+for(const [year,nums] of Object.entries(TOPIC_REVIEW_NUMBERS)) for(const n of nums){
+ const id='A1-'+year+'-Q'+String(n).padStart(2,'0');
+ if(!LEGACY_INDEX[id])throw new Error('Official topic review references unknown question: '+id);
+ TOPIC_REVIEW_IDS.add(id);
+}
 const UNKNOWN='未分類';
 function classify(q){
   const found=DATA.labels[q.subdomain]||DATA.provisional[q.id]||LEGACY_INDEX[q.id]||null;
@@ -1066,7 +1083,9 @@ function classify(q){
     topic:q.topic||LEGACY_TOPICS[q.id]||null,
     category:found?found[0]:UNKNOWN, subdomain:found?found[1]:'未分類（要確認）', classification_status:status,
     classification_source_url:LEGACY_INDEX[q.id]?LEGACY_URLS[q.year]:(DATA.provisional[q.id]&&q.source_file?'https://github.com/fuandni/sa-study/blob/main/sources/'+encodeURIComponent(q.source_file):null),
-    topic_status:LEGACY_TOPICS[q.id]?'外部論点の短い要約':null};
+    topic_status:LEGACY_TOPICS[q.id]?'外部論点の短い要約':null,
+    topic_review_status:TOPIC_REVIEW_IDS.has(q.id)?'公式PDFで設問主題を照合済み':null,
+    topic_review_source_url:TOPIC_REVIEW_IDS.has(q.id)?OFFICIAL_PDF[q.year]+'#page='+q.source_page:null};
 }
 function classifyAll(qs){return qs.map(classify)}
 root.SATaxonomy={order:DATA.order,classify,classifyAll,UNKNOWN};
