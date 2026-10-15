@@ -24,7 +24,7 @@ for(const [domain,num] of Object.entries(expected)){
  assert.equal(concepts.size,num/5);
  for(const [concept,variants] of concepts)assert.deepEqual([...variants].sort(),['example','meaning','scenario','term','wrong'],concept);
  const names=d.concepts[domain].map(c=>c[0]);assert.equal(new Set(names).size,num/5);
- for(const c of d.concepts[domain])assert.ok(c.every(x=>x.length>6),c[0]+' missing explanatory material');
+ for(const c of d.concepts[domain])assert.ok(c[0].length>=2&&c.slice(1).every(x=>x.length>10),c[0]+' missing explanatory material');
  const file='focus/'+domain+'.html';
  const html=fs.readFileSync(file,'utf8');
  assert.ok(html.includes('data-domain="'+domain+'"'));
