@@ -23,6 +23,10 @@ for(let i=0;i<qs.length;i++){
 assert.ok(classified.every(q=>q.category!=='未分類'));
 const legacy=classified.filter(q=>q.classification_status==='暫定（外部論点索引）');
 assert.equal(legacy.length,90);
+const ocrPending=classified.filter(q=>q.classification_status==='暫定（OCR本文）');
+assert.equal(ocrPending.length,60);
+assert.ok(ocrPending.every(q=>q.classification_source_url?.startsWith('https://github.com/fuandni/sa-study/blob/main/sources/')));
+assert.ok(ocrPending.every(q=>q.classification_source_url.endsWith('.pdf')));
 assert.ok(legacy.every(q=>q.classification_source_url?.startsWith('https://www.nw-siken.com/')));
 assert.ok(legacy.every(q=>typeof q.topic==='string'&&q.topic.length>0),'every legacy image question has a short topic summary');
 assert.ok(legacy.every(q=>q.topic_status==='外部論点の短い要約'));
