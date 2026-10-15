@@ -100,7 +100,6 @@ for(const [domain,concepts] of Object.entries(C)){
    add("wrong","概念名と説明の組合せのうち誤っているものはどれか。",wrong,[wrong,...correctPeers],"誤りは「"+wrong+"」。"+term+"は「"+def+"」であり、誤って組み合わされた説明は「"+picked[0][0]+"」を指す。");
   }
  }
-}
 return data;
 }
 const QUESTIONS=build();
