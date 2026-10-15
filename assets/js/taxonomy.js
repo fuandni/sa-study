@@ -892,12 +892,162 @@ const DATA={
     ]
   }
 };
+
+/* 2015–17 高度共通午前Ⅰの論点一覧を基にした学習用仮分類。
+ * 問題本文はまだ画像参照なので文字起こし完了とは扱わない。
+ * Sources: https://www.nw-siken.com/kakomon/27_aki/
+ *          https://www.nw-siken.com/kakomon/28_aki/
+ *          https://www.nw-siken.com/kakomon/29_aki/
+ * 各年度の問1–30を順序通りに列挙し、手動で10大/31細分類に対応付けた。
+ */
+const LEGACY_LABELS={
+  "B1": [
+    "基礎・プログラミング",
+    "基礎理論"
+  ],
+  "B2": [
+    "基礎・プログラミング",
+    "アルゴリズム"
+  ],
+  "B3": [
+    "基礎・プログラミング",
+    "プログラミング"
+  ],
+  "C1": [
+    "コンピュータ・基盤",
+    "コンピュータ構成"
+  ],
+  "C2": [
+    "コンピュータ・基盤",
+    "OS・性能"
+  ],
+  "C3": [
+    "コンピュータ・基盤",
+    "クラウド・分散処理"
+  ],
+  "C4": [
+    "コンピュータ・基盤",
+    "信頼性"
+  ],
+  "C5": [
+    "コンピュータ・基盤",
+    "IoT・組込み"
+  ],
+  "C6": [
+    "コンピュータ・基盤",
+    "マルチメディア"
+  ],
+  "N1": [
+    "ネットワーク・DB",
+    "ネットワーク"
+  ],
+  "N2": [
+    "ネットワーク・DB",
+    "データベース"
+  ],
+  "S1": [
+    "セキュリティ",
+    "暗号・認証"
+  ],
+  "S2": [
+    "セキュリティ",
+    "攻撃・防御"
+  ],
+  "S3": [
+    "セキュリティ",
+    "評価・管理"
+  ],
+  "S4": [
+    "セキュリティ",
+    "セキュリティ全般"
+  ],
+  "D1": [
+    "開発・設計",
+    "要求・分析"
+  ],
+  "D2": [
+    "開発・設計",
+    "設計・モデリング"
+  ],
+  "D3": [
+    "開発・設計",
+    "実装・アーキテクチャ"
+  ],
+  "D4": [
+    "開発・設計",
+    "開発手法"
+  ],
+  "T1": [
+    "テスト・品質・保守",
+    "テスト技法"
+  ],
+  "T2": [
+    "テスト・品質・保守",
+    "品質・信頼性"
+  ],
+  "T3": [
+    "テスト・品質・保守",
+    "保守・ライフサイクル"
+  ],
+  "P1": [
+    "プロジェクト・サービス管理",
+    "プロジェクト管理"
+  ],
+  "P2": [
+    "プロジェクト・サービス管理",
+    "サービス・運用"
+  ],
+  "P3": [
+    "プロジェクト・サービス管理",
+    "システム監査"
+  ],
+  "E1": [
+    "経営・戦略",
+    "経営・事業戦略"
+  ],
+  "E2": [
+    "経営・戦略",
+    "システム戦略・投資"
+  ],
+  "E3": [
+    "経営・戦略",
+    "会計・ビジネス分析"
+  ],
+  "L1": [
+    "法務・契約",
+    "法務・知的財産"
+  ],
+  "L2": [
+    "法務・契約",
+    "契約・調達"
+  ],
+  "A1": [
+    "AI・データ活用",
+    "AI・データ分析"
+  ]
+};
+const LEGACY_ROWS={
+  "2015": "B1 B1 B2 C1 C4 C2 C1 D2 C6 N2 N1 S1 S2 S2 S3 D2 D4 P1 P1 P2 P3 P3 E2 L2 L2 E1 E3 E1 E3 L1",
+  "2016": "B1 B1 B2 C1 C4 C2 C1 C6 N2 N2 N1 N1 S1 S1 S1 D1 L1 P1 P1 P1 P2 P3 E2 E2 L2 E1 E1 E1 C4 L1",
+  "2017": "B1 B1 B2 C1 C4 C2 C1 D2 N2 A1 N1 S2 S1 S3 S2 D2 D4 P1 T2 P2 P3 P3 E2 L2 E1 E1 L1 C3 E3 L1"
+};
+const LEGACY_INDEX=Object.create(null);
+for(const [year,raw] of Object.entries(LEGACY_ROWS)){
+ const keys=raw.trim().split(/\s+/);
+ if(keys.length!==30)throw new Error('Legacy AM1 taxonomy missing questions: '+year);
+ keys.forEach((k,i)=>{
+  if(!LEGACY_LABELS[k])throw new Error('Unknown legacy taxonomy code: '+k);
+  LEGACY_INDEX['A1-'+year+'-Q'+String(i+1).padStart(2,'0')]=LEGACY_LABELS[k];
+ });
+}
+const LEGACY_URLS={2015:'https://www.nw-siken.com/kakomon/27_aki/',2016:'https://www.nw-siken.com/kakomon/28_aki/',2017:'https://www.nw-siken.com/kakomon/29_aki/'};
 const UNKNOWN='未分類';
 function classify(q){
-  const found=DATA.labels[q.subdomain]||DATA.provisional[q.id]||null;
-  const status=DATA.labels[q.subdomain]?'正規化':DATA.provisional[q.id]?'暫定（OCR本文）':'未分類（画像確認待ち）';
+  const found=DATA.labels[q.subdomain]||DATA.provisional[q.id]||LEGACY_INDEX[q.id]||null;
+  const status=DATA.labels[q.subdomain]?'正規化':DATA.provisional[q.id]?'暫定（OCR本文）':LEGACY_INDEX[q.id]?'暫定（外部論点索引）':'未分類（要確認）';
   return {...q, original_category:q.category??null, original_subdomain:q.subdomain??null,
-    category:found?found[0]:UNKNOWN, subdomain:found?found[1]:'未分類（画像問題）', classification_status:status};
+    category:found?found[0]:UNKNOWN, subdomain:found?found[1]:'未分類（要確認）', classification_status:status,
+    classification_source_url:LEGACY_INDEX[q.id]?LEGACY_URLS[q.year]:null};
 }
 function classifyAll(qs){return qs.map(classify)}
 root.SATaxonomy={order:DATA.order,classify,classifyAll,UNKNOWN};
