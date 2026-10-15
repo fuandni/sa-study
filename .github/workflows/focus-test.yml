@@ -5,6 +5,7 @@ on:
       - 'focus/**'
       - 'tests/test_focus_questions.cjs'
       - 'tests/test_focus_applied.cjs'
+      - 'tests/test_focus_compact.cjs'
       - '.github/workflows/focus-test.yml'
   push:
     branches: [main]
@@ -12,6 +13,7 @@ on:
       - 'focus/**'
       - 'tests/test_focus_questions.cjs'
       - 'tests/test_focus_applied.cjs'
+      - 'tests/test_focus_compact.cjs'
       - '.github/workflows/focus-test.yml'
 jobs:
   test:
@@ -21,6 +23,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
+      - name: Install DOM test dependency
+        run: npm install --no-save --no-package-lock --ignore-scripts jsdom@26
       - name: Check syntax and question invariants
         run: |
           node --check focus/data/questions.js
@@ -28,3 +32,4 @@ jobs:
           node tests/test_focus_questions.cjs
           node --check focus/data/applied.js
           node tests/test_focus_applied.cjs
+          node tests/test_focus_compact.cjs

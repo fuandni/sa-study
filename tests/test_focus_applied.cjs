@@ -26,7 +26,7 @@ for(const name of ['index','theory','architecture','performance','modeling','lif
  assert.ok(html.indexOf('data/applied.js')<html.indexOf('assets/focus.js'),name+' load order');
 }
 const ui=fs.readFileSync('focus/assets/focus.js','utf8');
-assert.ok(ui.includes('応用判断（推奨）'));
-assert.ok(ui.includes("level==='standard'?q.level==='standard'"));
+assert.ok(ui.includes('弱点優先・安定概念をスキップ（推奨）'));
+assert.ok(ui.includes("level==='standard'"));
 assert.ok(ui.includes("level==='all'"));
 console.log('PASS: 36 independently worded applied reasoning problems; 326 total; six domains; default applied and optional foundational practice');
