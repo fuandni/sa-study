@@ -1,0 +1,26 @@
+name: Test six-domain focus practice
+on:
+  pull_request:
+    paths:
+      - 'focus/**'
+      - 'tests/test_focus_questions.cjs'
+      - '.github/workflows/focus-test.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'focus/**'
+      - 'tests/test_focus_questions.cjs'
+      - '.github/workflows/focus-test.yml'
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check syntax and question invariants
+        run: |
+          node --check focus/data/questions.js
+          node --check focus/assets/focus.js
+          node tests/test_focus_questions.cjs
