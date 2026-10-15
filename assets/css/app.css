@@ -73,3 +73,9 @@ table{border-collapse:collapse;width:100%}th,td{text-align:left;padding:9px 8px;
 }
 
 .selection-preview{background:#eaf2ff;font-weight:700;color:#173c75;margin:12px 0;padding:12px}#go:disabled{opacity:.5;cursor:not-allowed}
+
+/* Restored official-PDF figure images: never truncate the source scan. */
+.figure-repaired{margin:18px auto;max-width:900px}
+.figure-repaired a{display:block;cursor:zoom-in}
+.figure-repaired img{display:block;width:auto;max-width:100%;max-height:none;height:auto;margin:auto;border:1px solid #ccc}
+.figure-repaired figcaption{font-size:.82rem;color:#68707b;line-height:1.6;margin:7px 0 0;text-align:center}
