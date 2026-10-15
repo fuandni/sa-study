@@ -31,6 +31,7 @@ jobs:
           python3 tools/build_data.py
           python3 tools/validate_data.py
           node tests/test_official_keys_and_data_sync.cjs
+          node tests/test_focus_questions.cjs
 
       - name: Validate sync backend syntax
         run: |
@@ -76,6 +77,8 @@ jobs:
           test -f "$STAGING/data/app_config.js"
           test -f "$STAGING/data/a1_questions.js"
           test -f "$STAGING/data/am2_questions.js"
+          test -f "$STAGING/focus/index.html"
+          test -f "$STAGING/focus/data/questions.js"
 
           mkdir -p "$BACKUPS"
           rm -rf "$PUBLIC_STAGING"
@@ -88,6 +91,7 @@ jobs:
           done
           cp -a "$STAGING/assets" "$PUBLIC_STAGING/"
           cp -a "$STAGING/data" "$PUBLIC_STAGING/"
+          cp -a "$STAGING/focus" "$PUBLIC_STAGING/"
           cp -a "$STAGING/sources" "$PUBLIC_STAGING/"
           cp -a "$STAGING/a1/assets" "$PUBLIC_STAGING/a1/"
           cp -a "$STAGING/am2/assets" "$PUBLIC_STAGING/am2/"
