@@ -1033,7 +1033,7 @@ const LEGACY_ROWS={
 };
 const LEGACY_INDEX=Object.create(null);
 for(const [year,raw] of Object.entries(LEGACY_ROWS)){
- const keys=raw.trim().split(/\\s+/);
+ const keys=raw.trim().split(/\s+/);
  if(keys.length!==30)throw new Error('Legacy AM1 taxonomy missing questions: '+year);
  keys.forEach((k,i)=>{
   if(!LEGACY_LABELS[k])throw new Error('Unknown legacy taxonomy code: '+k);
