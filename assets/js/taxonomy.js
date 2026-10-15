@@ -1065,7 +1065,7 @@ function classify(q){
   return {...q, original_category:q.category??null, original_subdomain:q.subdomain??null, original_topic:q.topic??null,
     topic:q.topic||LEGACY_TOPICS[q.id]||null,
     category:found?found[0]:UNKNOWN, subdomain:found?found[1]:'未分類（要確認）', classification_status:status,
-    classification_source_url:LEGACY_INDEX[q.id]?LEGACY_URLS[q.year]:null,
+    classification_source_url:LEGACY_INDEX[q.id]?LEGACY_URLS[q.year]:(DATA.provisional[q.id]&&q.source_file?'https://github.com/fuandni/sa-study/blob/main/sources/'+encodeURIComponent(q.source_file):null),
     topic_status:LEGACY_TOPICS[q.id]?'外部論点の短い要約':null};
 }
 function classifyAll(qs){return qs.map(classify)}
