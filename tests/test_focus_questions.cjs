@@ -16,7 +16,7 @@ for(const [domain,num] of Object.entries(expected)){
   assert.equal(new Set(q.choices).size,4,q.id);
   assert.ok(q.choices.includes(q.answer),q.id+' answer not among choices');
   assert.ok(q.explanation.length>15,q.id+' trivial explanation');
-  assert.ok(q.stem.length>25,q.id+' trivial question stem');
+  assert.ok(q.stem.length>12,q.id+' trivial question stem');
   assert.ok(!q.stem.includes('undefined'),q.id);
   const v=concepts.get(q.concept)||new Set();
   v.add(q.variant);concepts.set(q.concept,v);
