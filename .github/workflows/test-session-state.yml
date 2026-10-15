@@ -13,6 +13,8 @@ on:
       - "assets/js/storage.js"
       - "assets/css/app.css"
       - "tests/test_exam_state.cjs"
+      - "tests/test_audit_113_menu.cjs"
+      - "data/audit_diff_113.js"
       - ".github/workflows/test-session-state.yml"
 permissions:
   contents: read
@@ -32,11 +34,14 @@ jobs:
           node --check tests/test_year_analysis.cjs
           node --check tests/test_multiyear_review.cjs
           node --check tests/test_exam_state.cjs
+          node --check tests/test_audit_113_menu.cjs
+          node --check data/audit_diff_113.js
       - name: Install isolated DOM test dependency
         run: npm install --no-save --no-package-lock --ignore-scripts jsdom@26
       - name: Test session navigation, regrading and year summaries
         run: |
           node tests/test_exam_state.cjs
+          node tests/test_audit_113_menu.cjs
           node tests/test_multiyear_review.cjs
           node tests/test_year_analysis.cjs
       - name: Verify all 550 question records
