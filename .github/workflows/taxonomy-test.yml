@@ -6,6 +6,9 @@ on:
       - 'assets/js/app.js'
       - 'assets/js/priority.js'
       - 'tests/test_taxonomy.cjs'
+      - 'tests/test_legacy_a1_ocr.cjs'
+      - 'source_ocr/*_a1_unreviewed.txt'
+      - 'source_ocr/legacy_a1_ocr_index.csv'
       - '.github/workflows/taxonomy-test.yml'
   pull_request:
     paths:
@@ -27,3 +30,4 @@ jobs:
           node --check assets/js/app.js
           node --check assets/js/priority.js
           node tests/test_taxonomy.cjs
+          node tests/test_legacy_a1_ocr.cjs
