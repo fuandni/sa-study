@@ -1060,9 +1060,9 @@ for(const [year,row] of Object.entries(LEGACY_TOPIC_ROWS)){
 
 /* 検証対象は「公式PDFの問題主題と分類」の照合。選択肢・答え・図表の校正ではない。 */
 const TOPIC_REVIEW_NUMBERS={
-  2015:[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,25,26,27],
-  2016:[1,2,3,4,5,9,10,19,20,21,22,23,24,25,26],
-  2017:[1,2,3,4,5,6,7,8,9,10,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30]
+  2015:Array.from({length:30},(_,i)=>i+1),
+  2016:Array.from({length:30},(_,i)=>i+1),
+  2017:Array.from({length:30},(_,i)=>i+1)
 };
 const OFFICIAL_PDF={
   2015:'https://www.ipa.go.jp/shiken/mondai-kaiotu/gmcbt8000000gxj0-att/2015h27a_koudo_am1_qs.pdf',
