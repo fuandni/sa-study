@@ -32,6 +32,7 @@ jobs:
           python3 tools/validate_data.py
           node tests/test_official_keys_and_data_sync.cjs
           node tests/test_focus_questions.cjs
+          node tests/test_focus_applied.cjs
 
       - name: Validate sync backend syntax
         run: |
