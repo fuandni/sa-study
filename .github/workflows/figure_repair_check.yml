@@ -23,7 +23,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Install rasterizer
-        run: python3 -m pip install --disable-pip-version-check --quiet 'pymupdf>=1.24,<2'
+        run: python3 -m pip install --disable-pip-version-check --quiet 'pymupdf>=1.24,<2' 'pillow>=10,<12'
 
       - name: Rebuild all 22 figures from scanned source PDFs
         run: |
