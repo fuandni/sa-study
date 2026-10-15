@@ -1,0 +1,124 @@
+{
+  "schema": 1,
+  "note": "22 damaged figures identified by all-550 question audit; null rect deliberately restores full original PDF page to avoid more clipping.",
+  "figures": {
+    "A1-2018-Q01": {
+      "mode": "manual_crop",
+      "rect": [
+        0.1,
+        0.075,
+        0.92,
+        0.305
+      ]
+    },
+    "A1-2018-Q03": {
+      "mode": "manual_crop",
+      "rect": [
+        0.1,
+        0.6,
+        0.92,
+        0.92
+      ]
+    },
+    "A1-2018-Q07": {
+      "mode": "manual_crop",
+      "rect": [
+        0.08,
+        0.06,
+        0.93,
+        0.395
+      ]
+    },
+    "A1-2018-Q10": {
+      "mode": "manual_crop",
+      "rect": [
+        0.08,
+        0.06,
+        0.93,
+        0.58
+      ]
+    },
+    "SA-2017-AM2-Q03": {
+      "mode": "manual_crop",
+      "rect": [
+        0.1,
+        0.045,
+        0.94,
+        0.95
+      ]
+    },
+    "SA-2017-AM2-Q14": {
+      "mode": "manual_crop",
+      "rect": [
+        0.1,
+        0.6,
+        0.94,
+        0.935
+      ]
+    },
+    "A1-2023-Q02": {
+      "mode": "full_page_fallback",
+      "rect": null
+    },
+    "A1-2024-Q03": {
+      "mode": "full_page_fallback",
+      "rect": null
+    },
+    "A1-2024-Q07": {
+      "mode": "full_page_fallback",
+      "rect": null
+    },
+    "A1-2019-Q19": {
+      "mode": "full_page_fallback",
+      "rect": null
+    },
+    "A1-2021-Q19": {
+      "mode": "full_page_fallback",
+      "rect": null
+    },
+    "A1-2021-Q26": {
+      "mode": "full_page_fallback",
+      "rect": null
+    },
+    "A1-2022-Q08": {
+      "mode": "full_page_fallback",
+      "rect": null
+    },
+    "A1-2023-Q06": {
+      "mode": "full_page_fallback",
+      "rect": null
+    },
+    "A1-2023-Q09": {
+      "mode": "full_page_fallback",
+      "rect": null
+    },
+    "A1-2024-Q17": {
+      "mode": "full_page_fallback",
+      "rect": null
+    },
+    "A1-2024-Q29": {
+      "mode": "full_page_fallback",
+      "rect": null
+    },
+    "A1-2025-Q07": {
+      "mode": "full_page_fallback",
+      "rect": null
+    },
+    "SA-2025-AM2-Q24": {
+      "mode": "full_page_fallback",
+      "rect": null
+    },
+    "A1-2022-Q19": {
+      "mode": "full_page_fallback",
+      "rect": null
+    },
+    "A1-2023-Q07": {
+      "mode": "full_page_fallback",
+      "rect": null
+    },
+    "SA-2022-AM2-Q05": {
+      "mode": "full_page_fallback",
+      "rect": null
+    }
+  }
+}

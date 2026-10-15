@@ -20,6 +20,7 @@ w.SA_APP_CONFIG={title:'SAテスト',exam:'システムアーキテクト',
 w.SA_A1_QUESTIONS=Array.from({length:30},(_,i)=>mk(2015,'午前I',i+1));
 w.SA_AM2_QUESTIONS=Array.from({length:25},(_,i)=>mk(2015,'午前II',i+1));
 w.SA_AM2_QUESTIONS[0].asset_type='source_page';
+w.SA_AM2_QUESTIONS[0].source_image_required=true;
 w.SA_AM2_QUESTIONS[0].asset_path='assets/test-page.png';
 w.SA_AM2_QUESTIONS[0].question_text='公式問題冊子の問1を画像で参照';
 w.SAValidator={run:()=>({ok:true,errors:[],question_count:55,a1_count:30,am2_count:25})};

@@ -10,6 +10,11 @@ const cats=(sections=[])=>{let d=[...new Set(Q.filter(q=>!sections.length||secti
 const subs=(cat='',sections=[])=>[...new Set(Q.filter(q=>(!sections.length||sections.includes(q.section))&&(!cat||q.category===cat)).map(q=>q.subdomain).filter(Boolean))].sort();
 function renderQuestionImage(q,src){
  if(!src)return '';
+ if(q.figure_repair_mode==='manual_crop'||q.figure_repair_mode==='full_page_fallback'){
+   const whole=q.figure_repair_mode==='full_page_fallback';
+   const note=whole?'公式問題冊子の該当ページ全体を表示（問'+q.question_no+'を参照）':'公式問題冊子から図表を再切出し';
+   return `<figure class="figure-repaired"><a href="${src}" target="_blank" rel="noopener noreferrer" title="図表を拡大"><img src="${src}" alt="${esc(note)}" loading="lazy"></a><figcaption>${esc(note)} — 画像を開いて拡大できます</figcaption></figure>`;
+ }
  const c=q.source_image_crop;
  const alt=esc(q.asset_type||'図表');
  if(!c)return `<img class="qasset" src="${src}" alt="${alt}">`;
