@@ -62,8 +62,8 @@ assert.equal(taxonomyTables.length,2,'category and subcategory tables are separa
 for(const table of taxonomyTables){
  const rows=[...table.querySelectorAll('tbody tr')];
  assert.equal(rows.length,2,'same category/subcategory forms independent subject rows');
- assert.match(rows[0].textContent,/午前I/);
- assert.match(rows[1].textContent,/午前II/);
+ assert.equal(rows[0].querySelector('td').textContent,'午前I');
+ assert.equal(rows[1].querySelector('td').textContent,'午前II');
 }
 
 assert.equal(doc.querySelectorAll('.year-matrix tbody tr').length,4);
