@@ -1,0 +1,27 @@
+name: Audit 350 Questions Against Source PDFs
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - 'tools/audit_missing350_sources.py'
+      - '.github/workflows/audit_missing350.yml'
+permissions:
+  contents: read
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install PDF analyzer
+        run: python3 -m pip install --disable-pip-version-check --quiet 'pymupdf>=1.24,<2'
+      - name: Map all 350 questions to original PDF previews
+        run: python3 tools/audit_missing350_sources.py
+      - name: Upload audit report and page images
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: sa-missing350-pdf-audit
+          path: audit_outputs/missing350/
+          if-no-files-found: error
+          retention-days: 30
