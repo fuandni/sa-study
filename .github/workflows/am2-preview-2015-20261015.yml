@@ -1,0 +1,27 @@
+name: Temporary AM2 2015 Source PDF Screenshots
+on:
+  push:
+    branches: [audit/am2-2015-source-page-review-20261015]
+    paths:
+      - '.github/workflows/am2-preview-2015-20261015.yml'
+      - 'tools/render_2015_am2_for_review.py'
+permissions:
+  contents: write
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    timeout-minutes: 9
+    steps:
+      - uses: actions/checkout@v4
+      - name: Render the source pages
+        run: |
+          python3 -m pip install -q 'pymupdf>=1.24,<2' Pillow
+          python3 tools/render_2015_am2_for_review.py
+      - name: Save images only on temporary audit branch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add audit_previews/2015_am2/
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "Temporary JPG page previews for 2015 AM2 source review"
+          git push origin "HEAD:${GITHUB_REF_NAME}"
