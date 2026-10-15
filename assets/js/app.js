@@ -2,7 +2,7 @@
 const C=window.SA_APP_CONFIG,Q=window.SATaxonomy?SATaxonomy.classifyAll([...(window.SA_A1_QUESTIONS||[]),...(window.SA_AM2_QUESTIONS||[])]):[...(window.SA_A1_QUESTIONS||[]),...(window.SA_AM2_QUESTIONS||[])],S=window.SAStorage,R=window.SAReview;
 let progress=S.load(), session=null, questionStart=0;
 if(window.SAPriority)SAPriority.configure(Q);
-const E=window.SAExam;
+const E=window.SAExam, AUDIT113=window.SA_AUDIT_DIFF_113||null;
 const $=s=>document.querySelector(s), esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
 const threshold=()=>C.common?.weak_threshold_percent??C.am2?.weak_threshold_percent??60;
 const sectionCfg=q=>q.section==='午前I'?(C.a1||C.am2):C.am2;
@@ -35,15 +35,16 @@ function categorySource(q){
 }
 
 function nav(active){return `<header><div><h1>${esc(C.title)}</h1><div class="sub">${esc(C.exam)} / データとUIを分離した拡張版</div></div><nav>
-<button class="${active==='home'?'on':''}" data-nav="home">ホーム</button><button class="${active==='practice'?'on':''}" data-nav="setup">演習</button><button class="${active==='stats'?'on':''}" data-nav="stats">成績</button>
+<button class="${active==='home'?'on':''}" data-nav="home">ホーム</button><button class="${active==='practice'?'on':''}" data-nav="setup">演習</button>${AUDIT113?'<button class="'+(active==='audit113'?'on':'')+'" data-nav="audit113">差分113問</button>':''}<button class="${active==='stats'?'on':''}" data-nav="stats">成績</button>
 <a href="${C.links.morning_distribution||'morning_distribution.html'}">午前配分</a><a href="morning_status.html">整備状況</a><a href="${C.links.pm_reference}">午後I・II</a><a href="${C.links.source_index}">原資料</a><a href="sync_settings.html">同期</a></nav></header>`}
-function bindNav(){document.querySelectorAll('[data-nav]').forEach(b=>b.onclick=()=>({home,setup,stats}[b.dataset.nav]||home)())}
+function bindNav(){document.querySelectorAll('[data-nav]').forEach(b=>b.onclick=()=>({home,setup,stats,audit113}[b.dataset.nav]||home)())}
 function home(){
  const st=allStats(), recent=S.loadRecent(), active=S.loadSession();
  app.innerHTML=nav('home')+`<main>
  <section class="cards"><div class="metric"><b>${Q.length}</b><span>演習収録（午前I ${Q.filter(q=>q.section==='午前I').length} / 午前II ${Q.filter(q=>q.section==='午前II').length}）</span></div><div class="metric"><b>${st.exp}</b><span>回答経験</span></div><div class="metric"><b>${st.cor}</b><span>累積正解</span></div><div class="metric"><b>${fmtPct(st.rate)}</b><span>累積正答率</span></div></section>
  ${active&&active.questionIds?.length?`<section class="panel"><h2>途中の演習</h2><p>${esc(active.label||'演習')}　${Math.min(active.index+1,active.questionIds.length)} / ${active.questionIds.length}</p><button class="primary" id="resume">続きから再開</button><button id="discard">このセッションを終了</button></section>`:''}
  <section class="panel"><h2>すぐ始める</h2><div class="quick"><button class="primary" data-quick="random10">全範囲から10問</button><button data-quick="priority10">頻出×弱点 10問</button><button data-quick="a1_30">午前I ランダム30問</button><button data-quick="am2_25">午前II ランダム25問</button><button data-quick="wrong">誤答経験あり</button><button data-quick="unanswered">未回答</button><button data-quick="weak">正答率${threshold()}%以下</button><button data-quick="flagged">要復習フラグ</button></div></section>
+ ${AUDIT113?'<section class="panel"><h2>データ差分の再確認</h2><p>2026-10-15に原本JSONと旧配布用JSで差があった113問を、まとめて演習できます。誤答113問という意味ではありません。</p><button class="primary" id="audit113-home">差分113問の専用メニューを開く</button></section>':''}
  <section class="panel"><h2>分野から解く</h2><div class="chips">${cats().map(c=>`<button data-cat="${esc(c)}">${esc(c)} <small>${Q.filter(q=>q.category===c).length}問</small></button>`).join('')}</div></section>
  <section class="panel"><h2>最近の演習</h2>${recent.length?`<div class="table-scroll"><table><thead><tr><th>日時</th><th>範囲</th><th>回答</th><th>正解</th><th>結果</th></tr></thead><tbody>${recent.slice(0,8).map(r=>`<tr><td>${new Date(r.ended_at).toLocaleString()}</td><td>${esc(r.label)}</td><td>${r.answered}/${r.total}</td><td>${r.correct}</td><td><button data-past-result="${esc(r.id)}">結果を見る</button></td></tr>`).join('')}</tbody></table></div>`:'<p class="muted">まだ演習履歴はありません。</p>'}</section>
  <section class="panel slim"><div id="health"></div></section>
@@ -52,9 +53,59 @@ function home(){
  if($('#resume'))$('#resume').onclick=()=>resumeSession();
  if($('#discard'))$('#discard').onclick=()=>{S.clearSession();home()};
  document.querySelectorAll('[data-quick]').forEach(b=>b.onclick=()=>quick(b.dataset.quick));
+ if($('#audit113-home'))$('#audit113-home').onclick=audit113;
  document.querySelectorAll('[data-cat]').forEach(b=>b.onclick=()=>start({categories:[b.dataset.cat],count:'all',mode:'all',order:'random',label:b.dataset.cat}));
  document.querySelectorAll('[data-past-result]').forEach(b=>b.onclick=()=>{const r=S.loadRecent().find(x=>x.id===b.dataset.pastResult);if(r)showResult(r)});
  const v=window.SAValidator.run();$('#health').innerHTML=v.ok?`<span class="good">構造検証 OK：${v.question_count}問（午前I ${v.a1_count||0} / 午前II ${v.am2_count||0}）</span>`:`<span class="bad">構造エラー ${v.errors.length}件</span>`;
+}
+// Immutable ID snapshot of canonical-JSON vs checked-in-JS differences found on 2026-10-15.
+// Keep the original 113 IDs even if later edits change the wording or figure metadata.
+function audit113Questions(){
+ const ids=new Set(AUDIT113?.ids||[]);
+ return Q.filter(q=>ids.has(q.id)).sort((a,b)=>a.year-b.year||
+   (a.section==='午前I'?0:1)-(b.section==='午前I'?0:1)||a.question_no-b.question_no);
+}
+function audit113(){
+ if(!AUDIT113){home();return}
+ const list=audit113Questions();
+ const valid=AUDIT113.ids.length===113&&new Set(AUDIT113.ids).size===113&&
+   list.length===113&&list.filter(q=>q.section==='午前I').length===49&&
+   list.filter(q=>q.section==='午前II').length===64;
+ const exp=list.filter(q=>agg(q.id).tries>0).length;
+ const wrong=list.filter(q=>agg(q.id).wrong>0).length;
+ const notyet=list.filter(q=>agg(q.id).tries===0).length;
+ const flagged=list.filter(q=>agg(q.id).flagged).length;
+ app.innerHTML=nav('audit113')+`<main>
+ <section class="panel"><h2>データ差分113問・確認演習</h2>
+ <p>2026-10-15に原本JSONと、修正前のGitHub配布用JavaScriptで全フィールドを比較した際の差分です。
+ 内容・OCR文字起こしだけでなく図表の表示情報だけが変わった問題も含みます。
+ <strong>「113問の正解が誤っていた」という意味ではありません。</strong></p>
+ <section class="cards"><div class="metric"><b>${list.length}</b><span>対象（午前I 49 / 午前II 64）</span></div><div class="metric"><b>${exp}</b><span>回答経験あり</span></div><div class="metric"><b>${notyet}</b><span>未回答</span></div><div class="metric"><b>${wrong}</b><span>誤答経験あり</span></div></section>
+ ${!valid?'<p class="bad">差分113問のID構成が一致しません。出題を停止しました。</p>':''}
+ <div class="quick">
+ <button class="primary" data-audit113-kind="all" ${valid?'':'disabled'}>113問すべて（年度・問番号順）</button>
+ <button data-audit113-kind="a1" ${valid?'':'disabled'}>午前Iのみ 49問</button>
+ <button data-audit113-kind="am2" ${valid?'':'disabled'}>午前IIのみ 64問</button>
+ <button data-audit113-kind="random10" ${valid?'':'disabled'}>113問からランダム10問</button>
+ <button data-audit113-kind="unanswered" ${valid&&notyet?'':'disabled'}>未回答 ${notyet}問</button>
+ <button data-audit113-kind="wrong" ${valid&&wrong?'':'disabled'}>誤答経験あり ${wrong}問</button>
+ <button data-audit113-kind="flagged" ${valid&&flagged?'':'disabled'}>★ 要復習 ${flagged}問</button>
+ </div>
+ <p class="muted">通常の演習と同じく途中保存・再開、結果表示、誤答復習、回答履歴を利用できます。出題対象の113問以外は含みません。</p>
+ </section></main>`;
+ bindNav();
+ document.querySelectorAll('[data-audit113-kind]').forEach(b=>b.onclick=()=>{
+   if(!valid)return;
+   const kind=b.dataset.audit113Kind;
+   let chosen=list,label='データ差分113問';
+   if(kind==='a1'){chosen=list.filter(q=>q.section==='午前I');label+='・午前I 49問'}
+   if(kind==='am2'){chosen=list.filter(q=>q.section==='午前II');label+='・午前II 64問'}
+   if(kind==='random10'){chosen=[...list].sort(()=>Math.random()-.5).slice(0,10);label+='・ランダム10問'}
+   if(kind==='unanswered'){chosen=list.filter(q=>agg(q.id).tries===0);label+='・未回答'}
+   if(kind==='wrong'){chosen=list.filter(q=>agg(q.id).wrong>0);label+='・誤答経験あり'}
+   if(kind==='flagged'){chosen=list.filter(q=>agg(q.id).flagged);label+='・要復習'}
+   startIds(chosen.map(q=>q.id),label,{scope:'audit-diff-113',kind,count:chosen.length});
+ });
 }
 function setup(pref={}){
  const years=[...new Set(Q.map(q=>q.year))].sort();
@@ -389,5 +440,5 @@ window.addEventListener('keydown',e=>{
  else if(e.key==='ArrowLeft'){if(session.index>0){session.index--;S.saveSession(session);practice()}}
 });
 window.addEventListener('sa-sync-completed',()=>{progress=S.load();if(!session&&document.querySelector('#health'))home()});
-window.SAApp={home,setup,stats};home();
+window.SAApp={home,setup,stats,audit113};home();
 })();
