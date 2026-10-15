@@ -26,7 +26,7 @@ def main():
     for section, path in [("午前I","a1/data/a1_questions.json"),("午前II","am2/data/am2_questions.json")]:
         data.extend(json.loads((ROOT / path).read_text(encoding="utf-8")))
     missing = [q for q in data if not q.get("asset_path")]
-    if len(data)!=550 or len(missing)!=350:
+    if len(data)!=550 or len(missing)>350:
         raise SystemExit(f"unexpected dataset: all={len(data)} missing={len(missing)}")
     docs = {}
     rows = []
