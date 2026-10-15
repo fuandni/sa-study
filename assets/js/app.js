@@ -27,7 +27,11 @@ function renderQuestionImage(q,src){
 function agg(id){return S.aggregate(progress,id)}
 function allStats(list=Q){let a=list.map(q=>agg(q.id));let exp=a.filter(x=>x.tries>0).length, tries=a.reduce((n,x)=>n+x.tries,0), cor=a.reduce((n,x)=>n+x.correct,0);return {exp,tries,cor,rate:tries?cor/tries:null}}
 function fmtPct(v){return v==null?'—':Math.round(v*100)+'%'}
-function categorySource(q){return q.classification_source_url?'<a href="'+esc(q.classification_source_url)+'" target="_blank" rel="noopener noreferrer" title="分類・論点の参照元">分類元</a>':''}
+function categorySource(q){
+ const link=q.classification_source_url?'<a href="'+esc(q.classification_source_url)+'" target="_blank" rel="noopener noreferrer" title="分類・論点の参照元">分類元</a>':'';
+ const checked=q.topic_review_status&&q.topic_review_source_url?'　<a href="'+esc(q.topic_review_source_url)+'" target="_blank" rel="noopener noreferrer" title="公式問題冊子の設問主題と照合済み。正解・選択肢・図表の完全校正ではありません">主題照合済（公式PDF）</a>':'';
+ return link+checked;
+}
 
 function nav(active){return `<header><div><h1>${esc(C.title)}</h1><div class="sub">${esc(C.exam)} / データとUIを分離した拡張版</div></div><nav>
 <button class="${active==='home'?'on':''}" data-nav="home">ホーム</button><button class="${active==='practice'?'on':''}" data-nav="setup">演習</button><button class="${active==='stats'?'on':''}" data-nav="stats">成績</button>
@@ -357,7 +361,8 @@ function stats(){
 function taxonomyCoverage(){
  const items=[['正規化','元の細分類を共通分類に統合'],['暫定（OCR本文）','OCR問題文をもとに暫定分類'],['暫定（外部論点索引）','外部の論点一覧をもとに暫定分類'],['未分類（要確認）','分類根拠の確認待ち']];
  const counts={};for(const q of Q)counts[q.classification_status]=(counts[q.classification_status]||0)+1;
- return '<p class="muted">分類は学習用の独自分類です。暫定分類は公式問題文の全項目を目視確認したことを意味しません。</p>'+
+ const officialTopicCount=Q.filter(q=>q.topic_review_status==='公式PDFで設問主題を照合済み').length;
+ return '<p class="muted">分類は学習用の独自分類です。暫定分類は公式問題文の全項目を目視確認したことを意味しません。<strong>公式問題の主題照合：'+officialTopicCount+' / 150問</strong>（選択肢・正解の完全校正ではありません）。</p>'+
  '<div class="table-scroll"><table><thead><tr><th>分類の状態</th><th>問題数</th><th>根拠</th></tr></thead><tbody>'+items.map(([k,desc])=>'<tr><td>'+esc(k)+'</td><td>'+(counts[k]||0)+'</td><td>'+esc(desc)+'</td></tr>').join('')+'</tbody></table></div>';
 }
 function historyStats(list){
