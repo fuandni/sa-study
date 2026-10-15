@@ -31,10 +31,18 @@ assert.ok(legacy.every(q=>q.classification_source_url?.startsWith('https://www.n
 assert.ok(legacy.every(q=>typeof q.topic==='string'&&q.topic.length>0),'every legacy image question has a short topic summary');
 assert.ok(legacy.every(q=>q.topic_status==='外部論点の短い要約'));
 const reviewed=legacy.filter(q=>q.topic_review_status==='公式PDFで設問主題を照合済み');
-assert.equal(reviewed.length,58,'review count must reflect only visually verified official PDF pages');
+assert.equal(reviewed.length,68,'review count must reflect only visually verified official PDF pages');
 assert.deepEqual([...new Set(reviewed.map(q=>q.year))].sort(),[2015,2016,2017]);
 assert.equal(reviewed.filter(q=>q.year===2015).length,25);
-assert.equal(reviewed.filter(q=>q.year===2016).length,5);
+assert.equal(reviewed.filter(q=>q.year===2016).length,15);
+for(const i of [9,10,19,20,21,22,23,24,25,26]){
+  const id='A1-2016-Q'+String(i).padStart(2,'0');
+  assert.equal(classified.find(q=>q.id===id).topic_review_status,'公式PDFで設問主題を照合済み',id);
+}
+for(const i of [6,7,8,11,12,13,14,15,16,17,18,27,28,29,30]){
+  const id='A1-2016-Q'+String(i).padStart(2,'0');
+  assert.equal(classified.find(q=>q.id===id).topic_review_status,null,id);
+}
 assert.equal(reviewed.filter(q=>q.year===2017).length,28);
 assert.equal(classified.find(q=>q.id==='A1-2017-Q07').topic_review_status,'公式PDFで設問主題を照合済み');
 assert.equal(classified.find(q=>q.id==='A1-2017-Q10').topic_review_status,'公式PDFで設問主題を照合済み');
