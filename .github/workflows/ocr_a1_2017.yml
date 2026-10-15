@@ -1,0 +1,28 @@
+name: Prepare 2017 AM1 Text Transcription
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - 'tools/ocr_a1_2017.py'
+      - '.github/workflows/ocr_a1_2017.yml'
+permissions:
+  contents: read
+jobs:
+  ocr:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install OCR and PDF software
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq tesseract-ocr tesseract-ocr-jpn
+          python3 -m pip install --quiet 'pymupdf>=1.24,<2'
+      - name: Prepare OCR and source page previews
+        run: python3 tools/ocr_a1_2017.py
+      - name: Upload OCR drafts
+        uses: actions/upload-artifact@v4
+        with:
+          name: sa-a1-2017-ocr-review
+          path: audit_outputs/2017_a1_ocr/
+          retention-days: 30
