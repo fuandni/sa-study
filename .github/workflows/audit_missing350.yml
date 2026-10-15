@@ -4,6 +4,7 @@ on:
   pull_request:
     paths:
       - 'tools/audit_missing350_sources.py'
+      - 'a1/data/a1_questions.json'
       - '.github/workflows/audit_missing350.yml'
 permissions:
   contents: read
@@ -15,6 +16,10 @@ jobs:
       - uses: actions/checkout@v4
       - name: Install PDF analyzer
         run: python3 -m pip install --disable-pip-version-check --quiet 'pymupdf>=1.24,<2'
+      - name: Validate unchanged question structure and answers
+        run: |
+          python3 tools/build_data.py
+          python3 tools/validate_data.py
       - name: Map all 350 questions to original PDF previews
         run: python3 tools/audit_missing350_sources.py
       - name: Upload audit report and page images
