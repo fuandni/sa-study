@@ -1,0 +1,29 @@
+name: Normalized taxonomy checks
+on:
+  push:
+    paths:
+      - 'assets/js/taxonomy.js'
+      - 'assets/js/app.js'
+      - 'assets/js/priority.js'
+      - 'tests/test_taxonomy.cjs'
+      - '.github/workflows/taxonomy-test.yml'
+  pull_request:
+    paths:
+      - 'assets/js/taxonomy.js'
+      - 'assets/js/app.js'
+      - 'assets/js/priority.js'
+      - 'tests/test_taxonomy.cjs'
+      - '.github/workflows/taxonomy-test.yml'
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: |
+          node --check assets/js/taxonomy.js
+          node --check assets/js/app.js
+          node --check assets/js/priority.js
+          node tests/test_taxonomy.cjs

@@ -1,40 +1,46 @@
+/* 統一細分類による頻度：直近6実施回の実問題数から計算。粗い分野頻度の代用は禁止。 */
 (function(){
-const F=window.SA_MORNING_FREQUENCY||{};
-function sectionKey(q){return q.section==='午前I'?'a1':'am2'}
-function sectionLabel(k){return k==='a1'?'午前I':'午前II'}
-function findFreq(q){
-  const part=F[sectionKey(q)]||{};
-  const hit=(part.subdomains||[]).find(x=>x.name===q.subdomain);
-  if(hit)return Number(hit.avg||0);
-  const hit2=(part.categories||part.domains||[]).find(x=>x.name===q.category);
-  return hit2?Number(hit2.avg||0):0;
+'use strict';
+const YEARS=new Set([2019,2021,2022,2023,2024,2025]);
+let frequency=new Map();
+const key=q=>q.section+'|'+q.subdomain;
+function configure(questions){
+ frequency=new Map();
+ for(const q of questions){
+  if(!YEARS.has(q.year)||q.category==='未分類')continue;
+  const k=key(q);frequency.set(k,(frequency.get(k)||0)+1/6);
+ }
 }
+function findFreq(q){return frequency.get(key(q))||0}
 function smoothedError(stat){
-  const tries=Number(stat?.tries||0), correct=Number(stat?.correct||0);
-  return 1-((correct+1)/(tries+2));
+ const tries=Number(stat?.tries||0),correct=Number(stat?.correct||0);
+ return (Math.max(0,tries-correct)+2)/(tries+4);
 }
 function questionScore(q,stat){
-  const f=findFreq(q), e=smoothedError(stat);
-  return f*e*(stat?.flagged?1.25:1);
+ return findFreq(q)*smoothedError(stat)*(stat?.flagged?1.25:1);
 }
-function groupRows(questions,aggregate){
-  const m=new Map();
-  for(const q of questions){
-    const k=sectionKey(q)+'|'+(q.subdomain||q.category||'未分類');
-    if(!m.has(k))m.set(k,{section:sectionLabel(sectionKey(q)),subdomain:q.subdomain||q.category||'未分類',questions:[],freq:findFreq(q)});
-    m.get(k).questions.push(q);
+function groupRows(questions,aggregate,progress){
+ const groups=new Map();
+ for(const q of questions){
+  if(q.category==='未分類')continue;
+  const k=key(q);
+  if(!groups.has(k))groups.set(k,{section:q.section,subdomain:q.subdomain,questions:[],freq:findFreq(q)});
+  groups.get(k).questions.push(q);
+ }
+ const rows=[];
+ for(const g of groups.values()){
+  let tries=0,correct=0,experienced=0,firstWrong=0,firstN=0;
+  for(const q of g.questions){
+   const st=aggregate(q.id);tries+=st.tries;correct+=st.correct;if(st.tries>0)experienced++;
+   const a=(progress?.questions?.[q.id]?.attempts||[]).filter(x=>typeof x.correct==='boolean').slice()
+     .sort((x,y)=>String(x.ts||'').localeCompare(String(y.ts||'')));
+   if(a.length){firstN++;if(!a[0].correct)firstWrong++}
   }
-  const rows=[];
-  for(const g of m.values()){
-    let tries=0,correct=0,experienced=0;
-    for(const q of g.questions){
-      const s=aggregate(q.id);tries+=s.tries;correct+=s.correct;if(s.tries>0)experienced++;
-    }
-    const rate=tries?correct/tries:null;
-    const error=1-((correct+1)/(tries+2));
-    rows.push({...g,count:g.questions.length,experienced,tries,correct,rate,priority:g.freq*error});
-  }
-  return rows.sort((a,b)=>b.priority-a.priority||b.freq-a.freq||a.subdomain.localeCompare(b.subdomain,'ja'));
+  const rate=firstN?(firstN-firstWrong)/firstN:null;
+  const error=(firstWrong+2)/(firstN+4);
+  rows.push({...g,count:g.questions.length,experienced,tries,correct,rate,priority:g.freq*error});
+ }
+ return rows.sort((a,b)=>b.priority-a.priority||b.freq-a.freq||a.subdomain.localeCompare(b.subdomain,'ja'));
 }
-window.SAPriority={findFreq,smoothedError,questionScore,groupRows};
+window.SAPriority={configure,findFreq,smoothedError,questionScore,groupRows};
 })();
