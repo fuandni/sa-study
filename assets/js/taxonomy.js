@@ -1041,13 +1041,32 @@ for(const [year,raw] of Object.entries(LEGACY_ROWS)){
  });
 }
 const LEGACY_URLS={2015:'https://www.nw-siken.com/kakomon/27_aki/',2016:'https://www.nw-siken.com/kakomon/28_aki/',2017:'https://www.nw-siken.com/kakomon/29_aki/'};
+/* 表示用の短い論点要約。問題文ではない（原本の画像表示は従来通り）。 */
+const LEGACY_TOPIC_ROWS={
+  "2015": "集合と包含関係|二次元パリティ検査|ハッシュ表の衝突|SIMD|システム信頼性の向上|デマンドページング|クロック発生回路|識別しやすいコード|動画圧縮方式|トランザクション回復|通信の伝搬遅延|公開鍵暗号|ゼロデイ攻撃|ブルートフォース攻撃|ペネトレーションテスト|DFDのデータストア|共通フレーム|EVM|アローダイアグラム|問題管理プロセス|システム監査の予備調査|伝票処理の監査手続|システム最適化目標|RFI|環境表示と調達|垂直統合|デルファイ法|かんばん方式|ゲーム理論|サイバーセキュリティ基本法",
+  "2016": "数値計算の二分法|有限オートマトン|ヒープソート|メモリインターリーブ|MTBF・MTTR・稼働率|主記憶管理|論理回路|マルチメディアのXML規格|B+木インデックス|DBMSの障害回復|ARP|IPv6とセキュリティ|チャレンジレスポンス認証|認証デバイス|ハイブリッド暗号|UMLユースケース図|ソフトウェアの使用許諾|PMBOKの変更管理|アローダイアグラム|プロジェクト進捗管理|バックアップ媒体数|内部統制とIT|学習と成長のKPI|BIの活用|ベンダーとの契約|ベンチマーキング|アンゾフの成長マトリクス|部品所要量計算|故障率曲線|産業財産権",
+  "2017": "相関係数|可変長符号化|再帰関数と階乗|メモリの実効アクセス時間|MTTRの短縮|プリエンプション|論理回路|アクセシビリティ設計|SQLの射影|データマイニング|CSMA/CD|ドライブバイダウンロード攻撃|暗号方式|J-CRAT|WAF|モジュール強度|CMMI|EVM|保守性の評価指標|月間可用性の算定|システム監査人の行動|監査の網羅性|To-Beモデル|多段階契約|ファブレス企業|CRM|国際標準適合|エッジコンピューティング|デルファイ法|プログラムの著作権"
+};
+const LEGACY_TOPICS=Object.create(null);
+for(const [year,row] of Object.entries(LEGACY_TOPIC_ROWS)){
+ const topics=row.split('|');
+ if(topics.length!==30)throw new Error('Legacy topic title missing: '+year);
+ topics.forEach((topic,i)=>{
+  const id='A1-'+year+'-Q'+String(i+1).padStart(2,'0');
+  if(!LEGACY_INDEX[id]||!topic)throw new Error('Legacy title ID mismatch: '+id);
+  LEGACY_TOPICS[id]=topic;
+ });
+}
+
 const UNKNOWN='未分類';
 function classify(q){
   const found=DATA.labels[q.subdomain]||DATA.provisional[q.id]||LEGACY_INDEX[q.id]||null;
   const status=DATA.labels[q.subdomain]?'正規化':DATA.provisional[q.id]?'暫定（OCR本文）':LEGACY_INDEX[q.id]?'暫定（外部論点索引）':'未分類（要確認）';
-  return {...q, original_category:q.category??null, original_subdomain:q.subdomain??null,
+  return {...q, original_category:q.category??null, original_subdomain:q.subdomain??null, original_topic:q.topic??null,
+    topic:q.topic||LEGACY_TOPICS[q.id]||null,
     category:found?found[0]:UNKNOWN, subdomain:found?found[1]:'未分類（要確認）', classification_status:status,
-    classification_source_url:LEGACY_INDEX[q.id]?LEGACY_URLS[q.year]:null};
+    classification_source_url:LEGACY_INDEX[q.id]?LEGACY_URLS[q.year]:null,
+    topic_status:LEGACY_TOPICS[q.id]?'外部論点の短い要約':null};
 }
 function classifyAll(qs){return qs.map(classify)}
 root.SATaxonomy={order:DATA.order,classify,classifyAll,UNKNOWN};

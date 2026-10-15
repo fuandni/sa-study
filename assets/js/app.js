@@ -27,6 +27,8 @@ function renderQuestionImage(q,src){
 function agg(id){return S.aggregate(progress,id)}
 function allStats(list=Q){let a=list.map(q=>agg(q.id));let exp=a.filter(x=>x.tries>0).length, tries=a.reduce((n,x)=>n+x.tries,0), cor=a.reduce((n,x)=>n+x.correct,0);return {exp,tries,cor,rate:tries?cor/tries:null}}
 function fmtPct(v){return v==null?'—':Math.round(v*100)+'%'}
+function categorySource(q){return q.classification_source_url?'<a href="'+esc(q.classification_source_url)+'" target="_blank" rel="noopener noreferrer" title="分類・論点の参照元">分類元</a>':''}
+
 function nav(active){return `<header><div><h1>${esc(C.title)}</h1><div class="sub">${esc(C.exam)} / データとUIを分離した拡張版</div></div><nav>
 <button class="${active==='home'?'on':''}" data-nav="home">ホーム</button><button class="${active==='practice'?'on':''}" data-nav="setup">演習</button><button class="${active==='stats'?'on':''}" data-nav="stats">成績</button>
 <a href="${C.links.morning_distribution||'morning_distribution.html'}">午前配分</a><a href="morning_status.html">整備状況</a><a href="${C.links.pm_reference}">午後I・II</a><a href="${C.links.source_index}">原資料</a><a href="sync_settings.html">同期</a></nav></header>`}
@@ -146,7 +148,7 @@ function practice(){
  let q=current(); if(!q){finish();return}
  questionStart=performance.now();const a=agg(q.id), qc=sectionCfg(q), asset=(q.asset_type==='source_page'&&!q.source_image_required)?null:(q.asset_path?qc.asset_base+q.asset_path:null), src=q.source_file?qc.source_base+q.source_file+(q.source_page?'#page='+q.source_page:''):'';
  app.innerHTML=nav('practice')+`<main><section class="sessionbar"><span>${session.index+1} / ${session.questionIds.length}</span><b>${esc(session.label)}</b><button id="end">途中終了</button></section>
- <section class="question"><div class="sessionprogress">この試験：回答 ${E.counts(session).answered} / ${session.questionIds.length}問、正解 ${E.counts(session).correct}問</div><div class="qmeta">${q.year}年度　${esc(q.section)} 問${q.question_no}　${esc(q.category||'')}${q.subdomain?' / '+esc(q.subdomain):''}${q.classification_status?.startsWith('暫定')?'（分類暫定）':''}　<span>${esc(q.topic||'')}</span></div>
+ <section class="question"><div class="sessionprogress">この試験：回答 ${E.counts(session).answered} / ${session.questionIds.length}問、正解 ${E.counts(session).correct}問</div><div class="qmeta">${q.year}年度　${esc(q.section)} 問${q.question_no}　${esc(q.category||'')}${q.subdomain?' / '+esc(q.subdomain):''}${q.classification_status?.startsWith('暫定')?'（分類暫定）':''}　<span>${q.topic_status?'（論点要約） ':''}${esc(q.topic||'')}</span>　${categorySource(q)}</div>
  <div class="qtext">${q.question_text}</div>${asset&&q.asset_type==='source_page'&&!q.source_image_crop?`<p class="source-target"><strong>回答対象：問${q.question_no}</strong>（画像内にほかの設問もあります。問${q.question_no}だけを見て解答してください）</p>`:''}${renderQuestionImage(q,asset)}
  <p class="muted answer-hint">選択後も回答を変更できます。採点には最後の選択を使用します。</p><div class="choices">${choicesFor(q).map((k,i)=>`<button data-choice="${k}"><kbd>${i+1}</kbd><b>${k}</b><span>${q.choices[k]}</span></button>`).join('')}</div>
  <div class="qfoot"><button id="flag">${a.flagged?'★ 要復習を解除':'☆ 要復習にする'}</button>${src?`<a target="_blank" href="${src}">原本 p.${q.source_page||''}</a>`:''}<span>履歴 ${a.tries}回 / ${fmtPct(a.rate)}</span></div><div id="feedback"></div></section>
@@ -244,7 +246,7 @@ function showReviewQuestion(summary,id,filter='all'){
  const verdict=row.status==='correct'?'正解':row.status==='wrong'?'不正解':'未回答';
  app.innerHTML=nav('practice')+`<main><section class="sessionbar">
  <button id="back-results">← 結果一覧へ戻る</button><b>${esc(summary.label||'')} / 見直し ${pos+1} / ${rows.length}</b></section>
- <section class="question"><div class="qmeta">${q.year}年度　${esc(q.section)} 問${q.question_no}　${esc(q.category||'')}</div>
+ <section class="question"><div class="qmeta">${q.year}年度　${esc(q.section)} 問${q.question_no}　${esc(q.category||'')}${q.subdomain?' / '+esc(q.subdomain):''}　${q.topic_status?'（論点要約） ':''}${esc(q.topic||'')}　${categorySource(q)}</div>
  <div class="qtext">${q.question_text}</div>
  ${asset&&q.asset_type==='source_page'&&!q.source_image_crop?`<p class="source-target"><strong>回答対象：問${q.question_no}</strong>（画像内のほかの設問と間違えないでください）</p>`:''}
  ${renderQuestionImage(q,asset)}
