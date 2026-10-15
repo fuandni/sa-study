@@ -1305,7 +1305,9 @@
     "asset_path": "assets/2017_am2_2017_q03_uml.png",
     "asset_type": "diagram",
     "source_file": "2017h29a_sa_am2_qs.pdf",
-    "audit_status": "visual_source_audited_2026-10-08"
+    "audit_status": "visual_source_audited_2026-10-08",
+    "figure_repair_mode": "manual_crop",
+    "figure_repair_note": "Restored from original official exam PDF by tools/repair_figure_assets.py at build time"
   },
   {
     "id": "SA-2017-AM2-Q04",
@@ -1547,7 +1549,9 @@
     "asset_path": "assets/2017_am2_2017_q14_kpi_table.png",
     "asset_type": "table",
     "source_file": "2017h29a_sa_am2_qs.pdf",
-    "audit_status": "visual_source_audited_2026-10-08"
+    "audit_status": "visual_source_audited_2026-10-08",
+    "figure_repair_mode": "manual_crop",
+    "figure_repair_note": "Restored from original official exam PDF by tools/repair_figure_assets.py at build time"
   },
   {
     "id": "SA-2017-AM2-Q15",
@@ -3605,7 +3609,9 @@
     "asset_type": "diagram",
     "source_file": "2022r04h_sa_am2_qs.pdf",
     "audit_status": "visual_source_audited_2026-10-01",
-    "subdomain": "デザインパターン"
+    "subdomain": "デザインパターン",
+    "figure_repair_mode": "full_page_fallback",
+    "figure_repair_note": "Restored from original official exam PDF by tools/repair_figure_assets.py at build time"
   },
   {
     "id": "SA-2022-AM2-Q06",
@@ -5673,7 +5679,9 @@
     "asset_type": "table",
     "source_file": "2025r07h_sa_am2_qs.pdf",
     "audit_status": "visual_source_audited_2026-10-01",
-    "subdomain": "データベース・トランザクション"
+    "subdomain": "データベース・トランザクション",
+    "figure_repair_mode": "full_page_fallback",
+    "figure_repair_note": "Restored from original official exam PDF by tools/repair_figure_assets.py at build time"
   },
   {
     "id": "SA-2025-AM2-Q25",
