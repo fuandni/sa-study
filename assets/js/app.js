@@ -1,12 +1,13 @@
 (function(){
-const C=window.SA_APP_CONFIG,Q=[...(window.SA_A1_QUESTIONS||[]),...(window.SA_AM2_QUESTIONS||[])],S=window.SAStorage,R=window.SAReview;
+const C=window.SA_APP_CONFIG,Q=window.SATaxonomy?SATaxonomy.classifyAll([...(window.SA_A1_QUESTIONS||[]),...(window.SA_AM2_QUESTIONS||[])]):[...(window.SA_A1_QUESTIONS||[]),...(window.SA_AM2_QUESTIONS||[])],S=window.SAStorage,R=window.SAReview;
 let progress=S.load(), session=null, questionStart=0;
+if(window.SAPriority)SAPriority.configure(Q);
 const E=window.SAExam;
 const $=s=>document.querySelector(s), esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
 const threshold=()=>C.common?.weak_threshold_percent??C.am2?.weak_threshold_percent??60;
 const sectionCfg=q=>q.section==='午前I'?(C.a1||C.am2):C.am2;
 const choicesFor=q=>sectionCfg(q)?.choice_keys||['ア','イ','ウ','エ'];
-const cats=(sections=[])=>{let d=[...new Set(Q.filter(q=>!sections.length||sections.includes(q.section)).map(q=>q.category).filter(Boolean))];let o=C.category_order||[];return [...o.filter(x=>d.includes(x)),...d.filter(x=>!o.includes(x)).sort()]};
+const cats=(sections=[])=>{let d=[...new Set(Q.filter(q=>!sections.length||sections.includes(q.section)).map(q=>q.category).filter(Boolean))];let o=window.SATaxonomy?.order||C.category_order||[];return [...o.filter(x=>d.includes(x)),...d.filter(x=>!o.includes(x)).sort()]};
 const subs=(cat='',sections=[])=>[...new Set(Q.filter(q=>(!sections.length||sections.includes(q.section))&&(!cat||q.category===cat)).map(q=>q.subdomain).filter(Boolean))].sort();
 function renderQuestionImage(q,src){
  if(!src)return '';
@@ -322,7 +323,7 @@ function showYearDetail(year,section){
 }
 function stats(){
  progress=S.load();
- const overall=allStats(), groups=(field)=>[...new Set(Q.map(q=>q[field]))].sort().map(v=>{let z=Q.filter(q=>q[field]===v),s=allStats(z);return {v,n:z.length,...s}});
+ const overall=allStats(), groups=(field)=>[...new Set(Q.map(q=>q[field]))].sort().map(v=>{let z=Q.filter(q=>q[field]===v),s=allStats(z);return {v,n:z.length,...s,...historyStats(z)}});
  const years=yearData();
  const completeCount=years.filter(x=>x.latestFull).length,flagged=Q.filter(q=>agg(q.id).flagged).length;
  app.innerHTML=nav('stats')+`<main>
@@ -338,9 +339,9 @@ function stats(){
  <h3>各問の最新回答（受験結果とは別集計）</h3>${yearScoreTable(E.latestByYear(Q,progress))}
  <h3>科目別</h3>${table(groups('section'))}
  <h3>年度別</h3>${table(groups('year'))}
- <h3>カテゴリ別</h3>${table(groups('category'))}
- <h3>細分類別</h3>${table(groups('subdomain'))}
- <h3>学習優先度（参考）</h3>${window.SAPriority?priorityTable(SAPriority.groupRows(Q,agg)):'<p class="muted">優先度データを読み込めません。</p>'}
+ <h3>カテゴリ別（統一分類）</h3><p class="muted">各問題の初回・最新回答を比較。元の分類がない画像問題は「未分類」として別表示します。再回答を含む累積正答率とは異なります。</p>${taxonomyTable(groups('category'))}
+ <h3>細分類別（統一分類）</h3><p class="muted">5問未満の分類は標本数が少ないため「参考値」と表示します。</p>${taxonomyTable(groups('subdomain'))}
+ <h3>学習優先度（参考）</h3>${window.SAPriority?priorityTable(SAPriority.groupRows(Q,agg,progress)):'<p class="muted">優先度データを読み込めません。</p>'}
  </details>
  <section class="panel"><h2>履歴のバックアップ</h2>
  <button id="export">JSONを書き出す</button><label class="filebtn">JSONを読み込む<input id="import" type="file" accept=".json,application/json"></label>
@@ -350,7 +351,20 @@ function stats(){
  $('#export').onclick=()=>S.exportAll(progress);
  $('#import').onchange=async e=>{try{let obj=JSON.parse(await e.target.files[0].text());progress=S.importAll(obj);alert('履歴を読み込みました。');stats()}catch(err){alert(err.message)}};
 }
-function priorityTable(rows){return '<p class="muted">過去6実施回の平均出題数 × 平滑化した誤答率で算出。未回答は正答率50%相当から開始します。</p><table><thead><tr><th>科目</th><th>細分類</th><th>平均出題/回</th><th>回答経験</th><th>正答率</th><th>優先度</th></tr></thead><tbody>'+rows.slice(0,20).map(r=>'<tr><td>'+esc(r.section)+'</td><td>'+esc(r.subdomain)+'</td><td>'+r.freq.toFixed(2)+'</td><td>'+r.experienced+'/'+r.count+'</td><td>'+fmtPct(r.rate)+'</td><td>'+r.priority.toFixed(2)+'</td></tr>').join('')+'</tbody></table>'}
+function historyStats(list){
+ let first=0,latest=0,answered=0,improved=0;
+ for(const q of list){
+  const a=(progress.questions?.[q.id]?.attempts||[]).filter(x=>typeof x.correct==='boolean').slice().sort((x,y)=>String(x.ts||'').localeCompare(String(y.ts||'')));
+  if(!a.length)continue;
+  answered++;if(a[0].correct)first++;if(a[a.length-1].correct)latest++;
+  if(!a[0].correct&&a[a.length-1].correct)improved++;
+ }
+ return {answered,first,latest,improved,firstRate:answered?first/answered:null,latestRate:answered?latest/answered:null};
+}
+function taxonomyTable(rows){
+ return '<div class="table-scroll"><table><thead><tr><th>分類</th><th>問題数</th><th>初回正答率</th><th>最新正答率</th><th>改善</th><th>注記</th></tr></thead><tbody>'+rows.map(r=>'<tr><td>'+esc(r.v??'未分類')+'</td><td>'+r.n+'</td><td>'+fmtPct(r.firstRate)+' ('+r.first+'/'+r.answered+')</td><td>'+fmtPct(r.latestRate)+' ('+r.latest+'/'+r.answered+')</td><td>'+r.improved+'問</td><td>'+(r.v==='未分類'||String(r.v).startsWith('未分類')?'画像確認待ち':r.n<5?'参考値（5問未満）':'')+'</td></tr>').join('')+'</tbody></table></div>';
+}
+function priorityTable(rows){return '<p class="muted">2019・2021〜2025年度の同じ統一細分類の平均出題数/回 × 初回誤答率の平滑推定で計算します。分類未設定の問題はランキング対象外です。</p><table><thead><tr><th>科目</th><th>細分類</th><th>平均出題/回</th><th>回答経験</th><th>正答率</th><th>優先度</th></tr></thead><tbody>'+rows.slice(0,20).map(r=>'<tr><td>'+esc(r.section)+'</td><td>'+esc(r.subdomain)+'</td><td>'+r.freq.toFixed(2)+'</td><td>'+r.experienced+'/'+r.count+'</td><td>'+fmtPct(r.rate)+'</td><td>'+r.priority.toFixed(2)+'</td></tr>').join('')+'</tbody></table>'}
 function table(rows){return `<table><thead><tr><th>区分</th><th>収録</th><th>回答経験</th><th>累積回答</th><th>正答率</th></tr></thead><tbody>${rows.map(r=>`<tr><td>${esc(r.v)}</td><td>${r.n}</td><td>${r.exp}</td><td>${r.tries}</td><td>${fmtPct(r.rate)}</td></tr>`).join('')}</tbody></table>`}
 window.addEventListener('keydown',e=>{
  if(!session)return;
