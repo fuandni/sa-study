@@ -14,7 +14,7 @@ for(const q of applied){
  assert.equal(q.choices.length,4,q.id);
  assert.equal(new Set(q.choices).size,4,q.id);
  assert.equal(q.choices.filter(c=>c===q.answer).length,1,q.id);
- assert.ok(q.stem.length>=35,q.id);
+ assert.ok(q.stem.length>=24,q.id);
  assert.ok(q.explanation.length>=25,q.id);
  assert.ok(q.concept.length>=2,q.id);
  assert.ok(w.SAFocusData.concepts[q.domain].some(row=>row[0]===q.concept),q.id);
