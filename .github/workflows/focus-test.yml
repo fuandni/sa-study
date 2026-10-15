@@ -4,12 +4,14 @@ on:
     paths:
       - 'focus/**'
       - 'tests/test_focus_questions.cjs'
+      - 'tests/test_focus_applied.cjs'
       - '.github/workflows/focus-test.yml'
   push:
     branches: [main]
     paths:
       - 'focus/**'
       - 'tests/test_focus_questions.cjs'
+      - 'tests/test_focus_applied.cjs'
       - '.github/workflows/focus-test.yml'
 jobs:
   test:
@@ -24,3 +26,5 @@ jobs:
           node --check focus/data/questions.js
           node --check focus/assets/focus.js
           node tests/test_focus_questions.cjs
+          node --check focus/data/applied.js
+          node tests/test_focus_applied.cjs
