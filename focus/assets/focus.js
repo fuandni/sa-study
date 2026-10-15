@@ -3,6 +3,7 @@
 const D=window.SAFocusData,KEY='sa_focus_progress_v1',SESSION='sa_focus_session_v1';
 const $=s=>document.querySelector(s),esc=s=>String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
 const root=$('#focus-app'),domain=document.body.dataset.domain||'',basic=D.questions,applied=window.SAFocusAppliedQuestions||[],all=[...basic,...applied];
+const representative=basic.filter(q=>q.variant==='scenario'),representativeIds=new Set(representative.map(q=>q.id));
 let progress,session;
 try{progress=JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){progress={}}
 if(!progress||typeof progress!=='object')progress={};
@@ -14,32 +15,61 @@ function title(){return domain?D.meta[domain][0]:'弱点集中演習'}
 function stats(list){let done=0,wrong=0,changes=0;const concepts=new Map();for(const q of list){const rec=progress[q.id]||[];if(rec.length){done++;if(rec[rec.length-1].correct===false)wrong++;if(rec.some((v,i)=>i>0&&v.correct!==rec[i-1].correct))changes++}let k=q.concept;if(!concepts.has(k))concepts.set(k,[]);concepts.get(k).push(...rec)}return {done,wrong,changes,concepts}}
 function header(){return '<header><a href="../index.html">既存550問へ戻る</a><a href="index.html">弱点克服ホーム</a>'+Object.entries(D.meta).map(([k,v])=>'<a class="'+(domain===k?'active':'')+'" href="'+k+'.html">'+esc(v[0])+'</a>').join('')+'</header>'}
 function home(){
-let body='<section class="hero"><h1>弱点集中演習</h1><p>6分野・'+all.length+'問。応用判断'+applied.length+'問を推奨し、基本識別290問は補助教材として残します。公式試験の過去問ではなく新作練習問題です。</p></section>';
-body+='<section class="grid">'+Object.entries(D.meta).map(([k,v])=>{const set=all.filter(q=>q.domain===k),st=stats(set);return '<a class="tile" href="'+k+'.html"><h2>'+esc(v[0])+'</h2><b>'+set.length+'問</b><span>応用'+set.filter(q=>q.level==='standard').length+'問・基本'+v[1]+'問／回答済み '+st.done+'</span></a>'}).join('')+'</section>';
+let body='<section class="hero"><h1>弱点集中演習</h1><p>6分野・通常演習94問（応用36問＋基本確認58問）。従来の基本290問は過去の回答履歴ごと保管し、旧問題モードから参照できます。公式試験の過去問ではなく新作練習問題です。</p></section>';
+body+='<section class="grid">'+Object.entries(D.meta).map(([k,v])=>{const set=all.filter(q=>q.domain===k),st=stats(set);return '<a class="tile" href="'+k+'.html"><h2>'+esc(v[0])+'</h2><b>'+ (set.filter(q=>q.level==='standard').length+set.filter(q=>representativeIds.has(q.id)).length)+'問</b><span>応用'+set.filter(q=>q.level==='standard').length+'問・基本確認'+set.filter(q=>representativeIds.has(q.id)).length+'問／旧問題'+v[1]+'問保管</span></a>'}).join('')+'</section>';
 return body;
 }
+function conceptHistory(domainName,concept){
+ const records=all.filter(q=>q.domain===domainName&&q.concept===concept).flatMap(q=>(progress[q.id]||[]).map(a=>({...a,id:q.id})));
+ return records.sort((a,b)=>String(a.ts||'').localeCompare(String(b.ts||'')));
+}
+function conceptQuality(domainName,concept){
+ const entries=conceptHistory(domainName,concept),recent=entries.slice(-3);
+ const distinct=new Set(entries.filter(a=>a.correct).map(a=>a.id)).size;
+ const wrong=entries.filter(a=>!a.correct).length;
+ const flips=entries.filter((a,i)=>i>0&&a.correct!==entries[i-1].correct).length;
+ return {stable:recent.length===3&&recent.every(a=>a.correct)&&distinct>=2,
+   wrong,flips,tries:entries.length};
+}
 function listFor(kind,concept,level='standard'){
-let list=all.filter(q=>(!domain||q.domain===domain)&&(level==='all'||(level==='standard'?q.level==='standard':q.level!=='standard')));
-if(concept)list=list.filter(q=>q.concept===concept);
-if(kind==='unseen')list=list.filter(q=>!(progress[q.id]||[]).length);
-if(kind==='wrong')list=list.filter(q=>(progress[q.id]||[]).some(a=>!a.correct));
-if(kind==='unstable')list=list.filter(q=>{let r=progress[q.id]||[];return r.filter(a=>!a.correct).length>=2||r.some((a,i)=>i>0&&a.correct!==r[i-1].correct)});
-return list;
+ let list=all.filter(q=>!domain||q.domain===domain);
+ if(level==='standard')list=list.filter(q=>q.level==='standard');
+ else if(level==='basic')list=list.filter(q=>representativeIds.has(q.id));
+ else if(level==='legacy')list=list.filter(q=>q.level!=='standard');
+ else if(level==='all')list=list.filter(q=>q.level==='standard'||representativeIds.has(q.id));
+ else if(level==='smart'){
+   const byConcept=new Map();
+   for(const q of list){
+     if(conceptQuality(q.domain,q.concept).stable)continue;
+     if(!byConcept.has(q.concept))byConcept.set(q.concept,q);
+     if(q.level==='standard')byConcept.set(q.concept,q);
+     else if(representativeIds.has(q.id)&&byConcept.get(q.concept).level!=='standard')byConcept.set(q.concept,q);
+   }
+   list=[...byConcept.values()].sort((a,b)=>{
+     const x=conceptQuality(a.domain,a.concept),y=conceptQuality(b.domain,b.concept);
+     return (y.wrong*3+y.flips*2-(y.tries?0:1))-(x.wrong*3+x.flips*2-(x.tries?0:1));
+   });
+ }
+ if(concept)list=list.filter(q=>q.concept===concept);
+ if(kind==='unseen')list=list.filter(q=>!(progress[q.id]||[]).length);
+ if(kind==='wrong')list=list.filter(q=>(progress[q.id]||[]).some(a=>!a.correct));
+ if(kind==='unstable')list=list.filter(q=>{let r=progress[q.id]||[];return r.filter(a=>!a.correct).length>=2||r.some((a,i)=>i>0&&a.correct!==r[i-1].correct)});
+ return list;
 }
 function dashboard(){
-const pool=all.filter(q=>q.domain===domain),st=stats(pool),basicCount=pool.filter(q=>q.level!=='standard').length,appliedCount=pool.length-basicCount;
-let main='<section class="hero"><h1>'+esc(title())+'</h1><p>応用判断'+appliedCount+'問／基本識別'+basicCount+'問。応用問題は数値計算・条件比較・誤った推論の検出などを中心に作り、基本問題は用語の確認用に残しました。</p><p>回答済み '+st.done+' / '+pool.length+'問｜直近不正解 '+st.wrong+'問｜正誤変化を経験 '+st.changes+'問</p></section>';
-main+='<section class="panel"><h2>出題条件</h2><label>難度 <select id="level"><option value="standard">応用判断（推奨）</option><option value="basic">基本識別</option><option value="all">全問題</option></select></label><label>対象 <select id="kind"><option value="all">全問</option><option value="unseen">未回答</option><option value="wrong">誤答経験</option><option value="unstable">不安定（2回以上誤答・正誤反転）</option></select></label><label>概念 <select id="concept"><option value="">全概念</option>'+D.concepts[domain].map(x=>'<option value="'+esc(x[0])+'">'+esc(x[0])+'</option>').join('')+'</select></label><label>問題数 <select id="size"><option value="10">10問</option><option value="20">20問</option><option value="all">該当全問</option></select></label><label>出題順 <select id="order"><option value="mixed">混合テスト</option><option value="focus">概念集中</option></select></label><p id="preview"></p><button class="primary" id="begin">演習開始</button></section>';
+const pool=all.filter(q=>q.domain===domain),st=stats(pool),basicCount=pool.filter(q=>representativeIds.has(q.id)).length,appliedCount=pool.filter(q=>q.level==='standard').length,legacyCount=pool.length-basicCount-appliedCount;
+let main='<section class="hero"><h1>'+esc(title())+'</h1><p>通常演習：応用判断'+appliedCount+'問／基本確認'+basicCount+'問。旧基本問題'+(basicCount+legacyCount)+'問は削除せず保管しています。</p><p>回答済み '+st.done+' / '+pool.length+'問｜直近不正解 '+st.wrong+'問｜正誤変化を経験 '+st.changes+'問</p></section>';
+main+='<section class="panel"><h2>出題条件</h2><label>難度 <select id="level"><option value="smart">弱点優先・安定概念をスキップ（推奨）</option><option value="standard">応用判断</option><option value="basic">基本確認・各概念1問</option><option value="all">通常全問（応用＋基本）</option><option value="legacy">旧基本290問（保管）</option></select></label><label>対象 <select id="kind"><option value="all">全問</option><option value="unseen">未回答</option><option value="wrong">誤答経験</option><option value="unstable">不安定（2回以上誤答・正誤反転）</option></select></label><label>概念 <select id="concept"><option value="">全概念</option>'+D.concepts[domain].map(x=>'<option value="'+esc(x[0])+'">'+esc(x[0])+'</option>').join('')+'</select></label><label>問題数 <select id="size"><option value="10">10問</option><option value="20">20問</option><option value="all">該当全問</option></select></label><label>出題順 <select id="order"><option value="mixed">混合テスト</option><option value="focus">概念集中</option></select></label><p id="preview"></p><button class="primary" id="begin">演習開始</button></section>';
 main+='<section class="panel"><h2>概念別の記録</h2><div class="concepts">'+D.concepts[domain].map(x=>{const qs=pool.filter(q=>q.concept===x[0]);let s=stats(qs);return '<button data-concept="'+esc(x[0])+'"><b>'+esc(x[0])+'</b><small>回答済み '+s.done+'/'+qs.length+'・直近不正解 '+s.wrong+'</small></button>'}).join('')+'</div></section>';
 root.innerHTML=header()+main;
 const update=()=>{const list=listFor($('#kind').value,$('#concept').value,$('#level').value);const n=$('#size').value==='all'?list.length:Math.min(list.length,Number($('#size').value));$('#preview').textContent='今回の出題：'+n+'問（候補'+list.length+'問）';$('#begin').disabled=n===0};
 for(const el of document.querySelectorAll('select'))el.addEventListener('change',update);update();
 $('#begin').onclick=()=>start($('#kind').value,$('#concept').value,$('#size').value,$('#order').value,$('#level').value);
-document.querySelectorAll('[data-concept]').forEach(btn=>btn.onclick=()=>{ $('#concept').value=btn.dataset.concept;$('#order').value='focus';if($('#level').value==='standard'&&!listFor('all',btn.dataset.concept,'standard').length)$('#level').value='all';update();window.scrollTo(0,0)});
+document.querySelectorAll('[data-concept]').forEach(btn=>btn.onclick=()=>{ $('#concept').value=btn.dataset.concept;$('#order').value='focus';if(!listFor('all',btn.dataset.concept,$('#level').value).length)$('#level').value='all';update();window.scrollTo(0,0)});
 }
-function start(kind,concept,size,order,level='standard'){
+function start(kind,concept,size,order,level='smart'){
 let list=listFor(kind,concept,level),ordered=[...list];
-if(order==='mixed'){ordered=D.randomize(ordered,Date.now())}else{ordered.sort((a,b)=>a.concept.localeCompare(b.concept,'ja')||a.variant.localeCompare(b.variant))}
+if(order==='mixed'&&level!=='smart'){ordered=D.randomize(ordered,Date.now())}else if(level!=='smart'){ordered.sort((a,b)=>a.concept.localeCompare(b.concept,'ja')||a.variant.localeCompare(b.variant))}
 if(size!=='all')ordered=ordered.slice(0,Number(size));
 if(!ordered.length)return;
 if(session&&!confirm('途中の演習を破棄して開始しますか？'))return;
@@ -69,6 +99,6 @@ function renderHome(){
 if(session&&session.domain===domain){root.innerHTML=header()+'<section class="hero"><h1>途中の演習</h1><p>'+(session.index+1)+' / '+session.ids.length+'問</p><button class="primary" id="resume">続きから再開</button> <button id="discard">破棄して分野へ戻る</button></section>';$('#resume').onclick=renderQuestion;$('#discard').onclick=()=>{session=null;saveSession();renderHome()};return}
 if(!domain){root.innerHTML=header()+home();return}dashboard();
 }
-window.SAFocusApp={renderHome,start,listFor,hash};
+window.SAFocusApp={renderHome,start,listFor,conceptQuality,hash};
 renderHome();
 })();
