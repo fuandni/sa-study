@@ -1,0 +1,40 @@
+name: Verify Canonical Study Data and IPA Answer Keys
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'a1/data/a1_questions.json'
+      - 'am2/data/am2_questions.json'
+      - 'data/a1_questions.js'
+      - 'data/am2_questions.js'
+      - 'data/official_answer_keys_2015_2017_am2.json'
+      - 'tests/test_official_keys_and_data_sync.cjs'
+      - '.github/workflows/data-integrity.yml'
+  pull_request:
+    paths:
+      - 'a1/data/a1_questions.json'
+      - 'am2/data/am2_questions.json'
+      - 'data/a1_questions.js'
+      - 'data/am2_questions.js'
+      - 'data/official_answer_keys_2015_2017_am2.json'
+      - 'tests/test_official_keys_and_data_sync.cjs'
+      - '.github/workflows/data-integrity.yml'
+  workflow_dispatch:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Validate all canonical question records
+        run: python3 tools/validate_data.py
+      - name: Check JavaScript bundle syntax
+        run: |
+          node --check data/a1_questions.js
+          node --check data/am2_questions.js
+      - name: Check canonical bundles and independent IPA answer keys
+        run: node tests/test_official_keys_and_data_sync.cjs
