@@ -1,0 +1,54 @@
+name: Validate Figure Restoration
+
+on:
+  pull_request:
+    paths:
+      - 'tools/figure_repair_manifest.json'
+      - 'tools/repair_figure_assets.py'
+      - 'a1/data/a1_questions.json'
+      - 'am2/data/am2_questions.json'
+      - '.github/workflows/deploy.yml'
+      - '.github/workflows/figure_repair_check.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  figures:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - name: Checkout sources and question assets
+        uses: actions/checkout@v4
+
+      - name: Install rasterizer
+        run: python3 -m pip install --disable-pip-version-check --quiet 'pymupdf>=1.24,<2'
+
+      - name: Rebuild all 22 figures from scanned source PDFs
+        run: |
+          python3 -m py_compile tools/repair_figure_assets.py
+          python3 tools/repair_figure_assets.py --report /tmp/figure_repair_report.json
+
+      - name: Validate all question data
+        run: |
+          python3 tools/build_data.py
+          python3 tools/validate_data.py
+
+      - name: Confirm every restored figure is present
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          from PIL import Image
+          root=Path('.')
+          files=json.loads(Path('/tmp/figure_repair_report.json').read_text())
+          assert len(files)==22, len(files)
+          assert sum(x['mode']=='manual_crop' for x in files)==6
+          assert sum(x['mode']=='full_page_fallback' for x in files)==16
+          for x in files:
+              with Image.open(root/x['target']) as im:
+                  im.verify()
+              assert (root/x['target']).stat().st_size > 1024
+          print('All 22 repaired images pass file verification.')
+          PY
