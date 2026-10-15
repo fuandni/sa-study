@@ -25,6 +25,28 @@ const legacy=classified.filter(q=>q.classification_status==='暫定（外部論�
 assert.equal(legacy.length,90);
 const ocrPending=classified.filter(q=>q.classification_status==='暫定（OCR本文）');
 assert.equal(ocrPending.length,60);
+assert.ok(ocrPending.every(q=>q.audit_status==='source_page_question_options_visually_checked_2026-10-15'));
+assert.ok(ocrPending.every(q=>q.content_review_status==='公式PDFで設問・選択肢を照合済み'));
+assert.ok(ocrPending.every(q=>q.content_review_source_url?.includes('github.com/fuandni/sa-study/blob/main/sources/')));
+assert.ok(ocrPending.every(q=>q.content_review_source_url.endsWith('#page='+q.source_page)));
+assert.equal(ocrPending.filter(q=>q.year===2015).length,25);
+assert.equal(ocrPending.filter(q=>q.year===2016).length,25);
+assert.equal(ocrPending.filter(q=>q.year===2017).length,10);
+assert.equal(classified.filter(q=>q.content_review_status&&q.classification_status!=='暫定（OCR本文）').length,0);
+for(const q of ocrPending){
+ assert.equal(q.source_file.startsWith(String(q.year)),true,'year mismatch '+q.id);
+ assert.equal(new Set(Object.keys(q.choices)).size,4,q.id);
+ assert.equal(q.source_image_required===true,Boolean(q.source_image_crop),q.id);
+}
+const fix2016=Object.fromEntries([5,8,9,21].map(n=>[n,ocrPending.find(q=>q.id==='SA-2016-AM2-Q'+String(n).padStart(2,'0'))]));
+assert.ok(fix2016[5].question_text.includes('ボトムアップアプローチに関する'));
+assert.ok(fix2016[5].choices['イ'].includes('論理データモデル'));
+assert.ok(fix2016[8].choices['イ'].includes('利用者ニーズ'));
+assert.ok(fix2016[9].question_text.includes('コーディング規則'));
+assert.ok(fix2016[21].question_text.includes('データベース状態'));
+assert.equal(ocrPending.find(q=>q.id==='SA-2015-AM2-Q23').subdomain,'暗号・認証');
+assert.equal(ocrPending.filter(q=>q.source_image_required).length,9);
+
 assert.ok(ocrPending.every(q=>q.classification_source_url?.startsWith('https://github.com/fuandni/sa-study/blob/main/sources/')));
 assert.ok(ocrPending.every(q=>q.classification_source_url.endsWith('.pdf')));
 assert.ok(legacy.every(q=>q.classification_source_url?.startsWith('https://www.nw-siken.com/')));
