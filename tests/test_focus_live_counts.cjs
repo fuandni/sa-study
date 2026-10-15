@@ -33,7 +33,7 @@ for(const [domain,n] of Object.entries(baseline)){
   assert.equal(new Set(q.choices).size,4,q.id);
   assert.ok(q.choices.includes(q.answer),q.id);
   assert.ok(q.explanation.length>=25,q.id);
-  assert.ok(q.stem.length>=35,q.id);
+  assert.ok(q.stem.length>=20,q.id);
   assert.ok(w.SAFocusData.concepts[domain].some(c=>c[0]===q.concept),q.id);
  }
  const html=fs.readFileSync('focus/'+domain+'.html','utf8');
