@@ -740,7 +740,7 @@ const DATA={
     ],
     "SA-2015-AM2-Q23": [
       "セキュリティ",
-      "攻撃・防御"
+      "暗号・認証"
     ],
     "SA-2015-AM2-Q25": [
       "セキュリティ",
@@ -1085,7 +1085,10 @@ function classify(q){
     classification_source_url:LEGACY_INDEX[q.id]?LEGACY_URLS[q.year]:(DATA.provisional[q.id]&&q.source_file?'https://github.com/fuandni/sa-study/blob/main/sources/'+encodeURIComponent(q.source_file):null),
     topic_status:LEGACY_TOPICS[q.id]?'外部論点の短い要約':null,
     topic_review_status:TOPIC_REVIEW_IDS.has(q.id)?'公式PDFで設問主題を照合済み':null,
-    topic_review_source_url:TOPIC_REVIEW_IDS.has(q.id)?OFFICIAL_PDF[q.year]+'#page='+q.source_page:null};
+    topic_review_source_url:TOPIC_REVIEW_IDS.has(q.id)?OFFICIAL_PDF[q.year]+'#page='+q.source_page:null,
+    content_review_status:q.audit_status==='source_page_question_options_visually_checked_2026-10-15'?'公式PDFで設問・選択肢を照合済み':null,
+    content_review_source_url:q.audit_status==='source_page_question_options_visually_checked_2026-10-15'&&q.source_file?
+      'https://github.com/fuandni/sa-study/blob/main/sources/'+encodeURIComponent(q.source_file)+'#page='+q.source_page:null};
 }
 function classifyAll(qs){return qs.map(classify)}
 root.SATaxonomy={order:DATA.order,classify,classifyAll,UNKNOWN};
