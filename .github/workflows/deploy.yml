@@ -26,6 +26,9 @@ jobs:
           python3 -m pip install --disable-pip-version-check --quiet 'pymupdf>=1.24,<2'
           python3 tools/repair_figure_assets.py
 
+      - name: Install DOM test dependency
+        run: npm install --no-save --no-package-lock --ignore-scripts jsdom@26
+
       - name: Validate question data
         run: |
           python3 tools/build_data.py
