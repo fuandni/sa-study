@@ -6,6 +6,7 @@ on:
       - 'tests/test_focus_questions.cjs'
       - 'tests/test_focus_applied.cjs'
       - 'tests/test_focus_compact.cjs'
+      - 'tests/test_focus_choice_reasons.cjs'
       - '.github/workflows/focus-test.yml'
   push:
     branches: [main]
@@ -37,6 +38,8 @@ jobs:
           node tests/test_focus_live_counts.cjs
           node tests/test_focus_home_migration.cjs
           node tests/test_focus_answer_audit.cjs
+          node --check focus/data/choice_reasons.js
+          node tests/test_focus_choice_reasons.cjs
           node --check focus/data/numeric.js
           node tests/test_focus_numeric.cjs
           node tests/test_focus_numeric_ui.cjs
