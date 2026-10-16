@@ -69,7 +69,8 @@ $('#begin').onclick=()=>start($('#kind').value,$('#concept').value,$('#size').va
 document.querySelectorAll('[data-concept]').forEach(btn=>btn.onclick=()=>{ $('#concept').value=btn.dataset.concept;$('#order').value='focus';if(!listFor('all',btn.dataset.concept,$('#level').value).length)$('#level').value='all';update();window.scrollTo(0,0)});
 }
 function start(kind,concept,size,order,level='smart'){
-if(level==='numeric'){const seed=Date.now();const total=size==='20'?20:10;const generated=window.SAFocusNumeric.make(seed,domain,total);if(!generated.length)return;session={domain,ids:generated.map(q=>q.id),generated,index:0,answers:{},started:new Date().toISOString(),seed};saveSession();renderQuestion();return}\nlet list=listFor(kind,concept,level),ordered=[...list];
+if(level==='numeric'){const seed=Date.now();const total=size==='20'?20:10;const generated=window.SAFocusNumeric.make(seed,domain,total);if(!generated.length)return;session={domain,ids:generated.map(q=>q.id),generated,index:0,answers:{},started:new Date().toISOString(),seed};saveSession();renderQuestion();return}
+let list=listFor(kind,concept,level),ordered=[...list];
 if(order==='mixed'&&level!=='smart'){ordered=D.randomize(ordered,Date.now())}else if(level!=='smart'){ordered.sort((a,b)=>a.concept.localeCompare(b.concept,'ja')||a.variant.localeCompare(b.variant))}
 if(size!=='all')ordered=ordered.slice(0,Number(size));
 if(!ordered.length)return;
