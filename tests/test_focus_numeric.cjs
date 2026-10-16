@@ -21,6 +21,17 @@ for(const [domain,concepts] of Object.entries(groups)){
  for(const concept of concepts){const filtered=G.make(456,domain,10,concept);assert.equal(filtered.length,10);assert.ok(filtered.every(q=>q.concept===concept),domain+':'+concept+' filter broken');}
  assert.equal(G.make(456,domain,10,'does-not-exist').length,0);
 }
+const reverseChecks=[
+ ['theory','サービス率は何件/分か'],
+ ['architecture','ヒット率は何%か'],
+ ['architecture','段数はいくつか'],
+ ['performance','平均CPIはいくつか'],
+ ['performance','ヒット率は何%か']
+];
+for(const [domain,fragment] of reverseChecks){
+ const pool=G.make(20261016,domain,30);
+ assert.ok(pool.some(q=>q.stem.includes(fragment)),domain+' missing inverse concept problem: '+fragment);
+}
 assert.equal(G.make(123,'lifecycle',10).length,0);
 for(const page of ['index','theory','architecture','performance','modeling','lifecycle','database']){
  const text=fs.readFileSync('focus/'+page+'.html','utf8');assert.ok(text.includes('data/numeric.js'));assert.ok(text.indexOf('data/numeric.js')<text.indexOf('assets/focus.js'));
