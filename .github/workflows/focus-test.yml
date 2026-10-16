@@ -38,3 +38,4 @@ jobs:
           node tests/test_focus_answer_audit.cjs
           node --check focus/data/numeric.js
           node tests/test_focus_numeric.cjs
+          node tests/test_focus_numeric_ui.cjs
