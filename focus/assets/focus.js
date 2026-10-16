@@ -94,7 +94,14 @@ function getChoiceReason(q,choice){
  const idx=q.choices.indexOf(choice),answerIdx=q.choices.indexOf(q.answer);
  if(idx<0)return null;
  if(idx===answerIdx)return q.explanation;
- if(!entry)return null;
+ if(!entry){
+  if(q.variant==='scenario'){
+   const definitions=D.concepts[q.domain]||[];
+   const wrong=definitions.find(row=>row[0]===choice),right=definitions.find(row=>row[0]===q.answer);
+   if(wrong&&right)return '「'+choice+'」は「'+wrong[1]+'」を表す。一方、設問で描かれているのは「'+q.answer+'」（'+right[1]+'）であり、着目する条件が異なる。';
+  }
+  return null;
+ }
  if(Array.isArray(entry)){return answerIdx===0?entry[idx-1]||null:null}
  return typeof entry[idx]==='string'?entry[idx]:null;
 }
@@ -109,14 +116,17 @@ function showFeedback(q,chosen){
  const bank=window.SAFocusChoiceReasons||{};
  const references=bank.sources&&bank.sources[q.concept]||[];
  const hasReviewed=!!(bank.wrong&&bank.wrong[q.id]);
+ const hasGlossaryComparison=q.variant==='scenario'&&(D.concepts[q.domain]||[]).length>0;
  let html='<div class="feedback '+(correct?'feedback-ok':'feedback-ng')+'"><b>'+(correct?'正解':'不正解')+'</b>';
  if(!correct){
   html+='<p><strong>あなたの選択：</strong>'+esc(chosen)+'</p>';
   if(why)html+='<div class="choice-explanation"><strong>この選択肢が違う理由</strong><p>'+esc(why)+'</p></div>';
  }
  html+='<p><strong>正解：</strong>'+esc(q.answer)+'</p><p><strong>正解になる根拠：</strong>'+esc(q.explanation)+'</p>';
- if(hasReviewed){
-  html+='<details class="choice-reasons" '+(!correct?'open':'')+'><summary>4つの選択肢を比較する（根拠を確認）</summary><ol>';
+ if(hasReviewed||hasGlossaryComparison){
+  html+='<details class="choice-reasons" '+(!correct?'open':'')+'><summary>'+(hasReviewed?'4つの選択肢を比較する（根拠を確認）':'4つの用語の定義を比較する')+'</summary>';
+  if(!hasReviewed)html+='<p class="reason-pending">教材内の用語定義に基づく補助比較です。選択肢ごとの独立した出典照合は未実施です。</p>';
+  html+='<ol>';
   for(const option of q.choices){
    const isAnswer=option===q.answer,reason=getChoiceReason(q,option);
    html+='<li class="'+(isAnswer?'right-option':option===chosen?'picked-option':'')+'"><span>'+(isAnswer?'○ 正しい：':'× 違う：')+esc(option)+'</span><p>'+esc(reason||'個別の根拠は確認中')+'</p></li>';
