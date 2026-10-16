@@ -36,7 +36,7 @@ function categorySource(q){
 
 function nav(active){return `<header><div><h1>${esc(C.title)}</h1><div class="sub">${esc(C.exam)} / データとUIを分離した拡張版</div></div><nav>
 <button class="${active==='home'?'on':''}" data-nav="home">ホーム</button><button class="${active==='practice'?'on':''}" data-nav="setup">演習</button>${AUDIT113?'<button class="'+(active==='audit113'?'on':'')+'" data-nav="audit113">差分113問</button>':''}<button class="${active==='stats'?'on':''}" data-nav="stats">成績</button>
-<a href="/home/focus/">弱点集中演習</a><a href="${C.links.morning_distribution||'morning_distribution.html'}">午前配分</a><a href="morning_status.html">整備状況</a><a href="${C.links.pm_reference}">午後I・II</a><a href="${C.links.source_index}">原資料</a><a href="sync_settings.html">同期</a></nav></header>`}
+<a href="/home/focus/">弱点集中演習</a><a href="/home/focus/uml/">UML集中演習</a><a href="${C.links.morning_distribution||'morning_distribution.html'}">午前配分</a><a href="morning_status.html">整備状況</a><a href="${C.links.pm_reference}">午後I・II</a><a href="${C.links.source_index}">原資料</a><a href="sync_settings.html">同期</a></nav></header>`}
 function bindNav(){document.querySelectorAll('[data-nav]').forEach(b=>b.onclick=()=>({home,setup,stats,audit113}[b.dataset.nav]||home)())}
 function home(){
  const st=allStats(), recent=S.loadRecent(), active=S.loadSession();
