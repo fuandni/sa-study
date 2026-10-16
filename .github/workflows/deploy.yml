@@ -118,6 +118,21 @@ jobs:
           sudo find "$WEBROOT" -type d -exec chmod 755 {} \;
           sudo find "$WEBROOT" -type f -exec chmod 644 {} \;
 
+          # Publish the focused practice collection directly beneath /home/.
+          # Keep /sa/focus/ as a working legacy path; never touch /home/index.html.
+          HOME_FOCUS=/var/www/ichirikutoku/home/focus
+          sudo test -f /var/www/ichirikutoku/home/index.html
+          sudo mkdir -p "$HOME_FOCUS"
+          sudo rsync -a --delete "$STAGING/focus/" "$HOME_FOCUS/"
+          sudo find "$HOME_FOCUS" -type d -exec chmod 755 {} \;
+          sudo find "$HOME_FOCUS" -type f -exec chmod 644 {} \;
+          sudo test -f "$HOME_FOCUS/index.html"
+          sudo test -f "$HOME_FOCUS/data/questions.js"
+          sudo test -f "$HOME_FOCUS/data/applied.js"
+          sudo test -f "$HOME_FOCUS/data/applied_extra.js"
+          sudo test -f "$HOME_FOCUS/assets/focus.js"
+
+
           # Maintenance scripts are kept outside the public web root.
           if [ -d "$STAGING/scripts" ]; then
             sudo mkdir -p /opt/sa-maintenance
@@ -167,6 +182,8 @@ jobs:
           # Nginx config + local HTTPS health check.
           sudo nginx -t
           curl -kfsS https://127.0.0.1/sa/ >/dev/null
+          curl -kfsS https://127.0.0.1/home/focus/ >/dev/null
+          curl -kfsS https://127.0.0.1/home/focus/assets/focus.js >/dev/null
 
           rm -rf "$STAGING" "$PUBLIC_STAGING"
           echo "Deploy OK: $TS"
