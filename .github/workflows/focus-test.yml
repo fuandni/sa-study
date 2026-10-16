@@ -35,3 +35,4 @@ jobs:
           node tests/test_focus_compact.cjs
           node --check focus/data/applied_extra.js
           node tests/test_focus_live_counts.cjs
+          node tests/test_focus_answer_audit.cjs
