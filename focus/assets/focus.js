@@ -2,7 +2,7 @@
 'use strict';
 const D=window.SAFocusData,KEY='sa_focus_progress_v1',SESSION='sa_focus_session_v1';
 const $=s=>document.querySelector(s),esc=s=>String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
-const root=$('#focus-app'),domain=document.body.dataset.domain||'',basic=D.questions,applied=[...(window.SAFocusAppliedQuestions||[]),...(window.SAFocusAppliedExtra||[])],all=[...basic,...applied];
+const root=$('#focus-app'),domain=document.body.dataset.domain||'',basic=D.questions,applied=[...(window.SAFocusAppliedQuestions||[]),...(window.SAFocusAppliedExtra||[]),...(window.SAFocusScenarioCases||[])],all=[...basic,...applied];
 const representative=basic.filter(q=>q.variant==='scenario'),representativeIds=new Set(representative.map(q=>q.id));
 let progress,session;
 try{progress=JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){progress={}}
