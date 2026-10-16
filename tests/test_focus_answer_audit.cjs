@@ -27,7 +27,7 @@ expect('advanced-performance-05',String(Math.round((2.2-.6)/(2.2-.2)*100))+'%');
 expect('advanced-performance-06',String(80*.25)+'件');
 expect('advanced2-theory-04','−0.6');
 expect('advanced2-architecture-01',String(4+10-1)+'クロック');
-expect('advanced2-architecture-02',String(.8*2+.2*102)+'ns');
+expect('advanced2-architecture-02',String(Math.round(.8*2+.2*102))+'ns');
 expect('advanced2-architecture-03',String(64/4));
 expect('advanced2-performance-01',String(1/.2)+'倍');
 expect('advanced2-performance-02',String(5e8*1.25/(2.5e9))+'秒');
