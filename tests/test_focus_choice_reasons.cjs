@@ -30,6 +30,12 @@ for(const q of target){
  assert.ok(q.explanation.length>=15,q.id+' correct proof missing');
 }
 for(const id of Object.keys(b.wrong))assert.ok(target.some(q=>q.id===id),'unknown/non-target question id '+id);
+const basics=w.SAFocusData.questions.filter(q=>q.variant==='scenario');
+assert.equal(basics.length,58,'one reference drill per concept');
+for(const q of basics){
+ assert.ok(w.SAFocusData.concepts[q.domain].some(x=>x[0]===q.answer),q.id);
+ for(const choice of q.choices)assert.ok(w.SAFocusData.concepts[q.domain].some(x=>x[0]===choice),q.id+' glossary missing '+choice);
+}
 for(const references of Object.values(b.sources)){
  assert.ok(Array.isArray(references));
  for(const ref of references)assert.match(ref.url,/^https:\/\/[^/\s]+\/.+/);
@@ -64,4 +70,23 @@ assert.ok(explanation.includes(q.explanation));
 assert.ok(browser.document.querySelector('.choice-reasons[open]'));
 assert.equal(browser.document.querySelectorAll('.choice-reasons li').length,4);
 assert.equal(browser.localStorage.getItem('sa_focus_progress_v1'),null,'do not finalize progress before end');
-console.log('PASS: 66 non-UML applied questions have full four-choice evidence, shuffled option selection and safe persisted session');
+
+const basic=basics.find(q=>q.domain==='theory');
+const baselineDom=new JSDOM('<!doctype html><html><body data-domain="theory"><div id="focus-app"></div></body></html>',{
+ url:'https://example.test/home/focus/theory.html',runScripts:'outside-only'
+});
+const basicBrowser=baselineDom.window;
+basicBrowser.localStorage.setItem('sa_focus_session_v1',JSON.stringify({
+ domain:'theory',ids:[basic.id],index:0,answers:{},started:'2026-10-17',seed:20261018
+}));
+for(const file of paths)basicBrowser.eval(fs.readFileSync(file,'utf8'));
+basicBrowser.document.querySelector('#resume').click();
+const basicWrong=[...basicBrowser.document.querySelectorAll('[data-answer]')].find(btn=>btn.textContent.slice(1)!==basic.answer);
+assert.ok(basicWrong);
+basicWrong.click();
+const basicText=basicBrowser.document.querySelector('#explain').textContent;
+assert.ok(basicText.includes('教材内の用語定義に基づく補助比較'));
+assert.ok(basicText.includes('この選択肢が違う理由'));
+assert.equal(basicBrowser.document.querySelectorAll('.choice-reasons li').length,4);
+console.log('PASS: 66 individually authored choice proofs + 58 definition-based basic comparisons; saved progress unchanged');
+
