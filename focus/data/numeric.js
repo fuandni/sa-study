@@ -13,6 +13,7 @@ function make(seed,domain,count=10){
  {domain:'performance',concept:'平均応答時間',fn:()=>{const hit=int(1,8)/10,miss=hit+int(4,14)/10,p=int(4,9)/10;return {stem:`キャッシュヒット時${hit.toFixed(1)}秒、ミス時${miss.toFixed(1)}秒、ヒット率${Math.round(p*100)}%。平均応答時間は何秒か（小数第2位まで）。`,v:p*hit+(1-p)*miss,unit:'秒',why:`${p}×${hit.toFixed(1)}＋(1−${p})×${miss.toFixed(1)}`}}}
  ];
  let templates=fns.filter(x=>!domain||x.domain===domain);
+ if(!templates.length)return out;
  for(let i=0;i<count;i++){
   const t=templates[i%templates.length],x=t.fn(),value=Number(x.v.toFixed(2)),fmt=n=>Number(n.toFixed(2)).toString()+x.unit;
   let vals=[value],step=x.unit==='クロック'?1:(value<.5?.1:value<3?.25:1);
