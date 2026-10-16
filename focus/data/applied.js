@@ -92,7 +92,7 @@ window.SAFocusAppliedQuestions=[
       "Yの方が高い",
       "平均値だけでは比較できない"
     ],
-    "answer": "XとYは等しい",
+    "answer": "Xの方が高い",
     "explanation": "X=(70−60)/5=2、Y=(80−70)/10=1。標準化ではXが高い。",
     "level": "standard"
   },
