@@ -118,7 +118,41 @@ else if(id[0]==="T"){
  }
  if(id==="T04"){z+=circle(95,190,13)+ln(110,190,252,190,true)+box(252,150,180,80,"処理中")+ln(432,190,615,190,true)+circle(635,190,19,"white")+circle(635,190,12);if(solved)z+=txt(635,252,"終了状態",17);}
 }
+const solvedNotes={
+ A01:"ひし形の先でガード条件に応じた経路へ分岐する",
+ A02:"横棒で並行開始し、下の横棒で合流・同期する",
+ A03:"[決済OK] が成立すると右の『通知を送る』へ進む",
+ A04:"処理の位置で申請者と承認者の担当を読み取る",
+ S01:"時間は上から下へ進み、要求から照会、結果へ進む",
+ S03:"alt は条件に応じて片方の経路を実行する",
+ S04:"loop の条件を満たす間、API再試行が繰り返される",
+ T01:"黒い小丸から出る矢印が初期状態への遷移を示す",
+ T02:"[与信OK] は承認遷移のガード（成立条件）",
+ T03:"『却下』から『発送済』へ向かう直接の矢印はない"
+};
+if(solved&&solvedNotes[id]){
+ z+='<rect x="58" y="350" width="644" height="31" rx="7" fill="#e7f6ed" stroke="#97ceb0"/>'+txt(380,366,solvedNotes[id],15);
+}
 return svg(z);
+}
+const VISUAL_OPTIONS=new Set(["C01","C02","C03","C04","C10"]);
+function choiceFigure(q,choiceIndex){
+ if(!VISUAL_OPTIONS.has(q.id))return "";
+ const v=q.choices[choiceIndex];
+ const cfg={
+  C01:["顧客","注文"],C02:["部門","社員"],C03:["社員","貸与PC"],
+  C04:["注文","注文明細"],C10:["注文","注文明細"]
+ }[q.id];
+ const w=550,mid=275;
+ const a='<rect x="12" y="23" width="145" height="83" rx="2" fill="#f1f7ff" stroke="#40628b" stroke-width="2"/>';
+ const b='<rect x="393" y="23" width="145" height="83" rx="2" fill="#f1f7ff" stroke="#40628b" stroke-width="2"/>';
+ const c='<line x1="157" y1="64" x2="393" y2="64" stroke="#355779" stroke-width="2"/>';
+ return '<span class="choice-figure"><svg viewBox="0 0 '+w+' 128" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="'+esc(cfg[0]+'と'+cfg[1]+'の関連。'+cfg[1]+'側の多重度は'+v)+'">'+a+b+c+
+ '<text x="84" y="70" text-anchor="middle" fill="#233851" font-size="22">'+esc(cfg[0])+'</text>'+
+ '<text x="465" y="70" text-anchor="middle" fill="#233851" font-size="22">'+esc(cfg[1])+'</text>'+
+ '<text x="178" y="52" text-anchor="start" fill="#233851" font-size="21">1</text>'+
+ '<text x="374" y="52" text-anchor="end" fill="#154e98" font-size="23" font-weight="bold">'+esc(v)+'</text>'+
+ '</svg></span>';
 }
 function hist(q){return Array.isArray(progress[q.id])?progress[q.id]:[]}
 function saveSession(){if(session)store(SESSION,session);else try{localStorage.removeItem(SESSION)}catch(e){}}
@@ -159,7 +193,7 @@ function renderQ(){
  const ord=session.orders[q.id];saveSession();
  root.innerHTML='<section class="card"><div class="question-meta"><strong>問'+(session.index+1)+' / '+session.ids.length+'　'+esc(name)+'</strong><span class="pill">'+q.id+'</span></div>'+
  '<div class="pbar"><div style="width:'+((session.index+1)/session.ids.length*100)+'%"></div></div><h2>'+esc(q.concept)+'</h2><p class="stem">'+esc(q.stem)+'</p>'+diagram(q,false)+
- '<div class="answers">'+ord.map((i,k)=>'<button data-choice="'+i+'" '+(answer?'disabled':'')+' class="'+(answer?(i===q.answer?'correct':i===answer.selected?'wrong':''):'')+'"><kbd>'+("1234"[k])+'</kbd><span>'+esc(q.choices[i])+'</span></button>').join('')+'</div>'+
+ '<div class="answers">'+ord.map((i,k)=>'<button data-choice="'+i+'" '+(answer?'disabled':'')+' class="'+(answer?(i===q.answer?'correct':i===answer.selected?'wrong':''):'')+'"><kbd>'+("1234"[k])+'</kbd><span class="option-content"><span>'+esc(q.choices[i])+'</span>'+choiceFigure(q,i)+'</span></button>').join('')+'</div>'+
  '<div id="feedback"></div><div class="controls"><button id="prev" '+(session.index===0?'disabled':'')+'>← 前へ</button><button id="home">途中保存して戻る</button><button class="primary" id="next">'+(session.index===session.ids.length-1?'結果を見る':'次へ →')+'</button></div></section>';
  if(answer)feedback(q,answer);
  document.querySelectorAll("[data-choice]").forEach(b=>b.onclick=()=>choose(q,Number(b.dataset.choice)));
