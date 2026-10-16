@@ -2,7 +2,7 @@
 (function(root){
 'use strict';
 function rand(seed){let s=seed>>>0;return ()=>((s=(Math.imul(s,1664525)+1013904223)>>>0)/4294967296);}
-function make(seed,domain,count=10){
+function make(seed,domain,count=10,concept=''){
  const rng=rand(seed),int=(a,b)=>a+Math.floor(rng()*(b-a+1));let out=[];
  const fns=[
  {domain:'performance',concept:'CPI',fn:()=>{const f=int(1,5),n=int(2,12),c=int(1,4);return {stem:`クロック周波数${f}GHzのCPUで${n}億命令を平均CPI=${c}で実行する。停止を無視した実行時間は何秒か。`,v:n*c/(10*f),unit:'秒',why:`${n}億命令×${c}÷(${f}×10億サイクル/秒)`}}},
@@ -12,7 +12,7 @@ function make(seed,domain,count=10){
  {domain:'theory',concept:'M/M/1待ち行列',fn:()=>{const diff=int(1,6),arrival=int(2,14);return {stem:`M/M/1待ち行列で到着率${arrival}件/分、サービス率${arrival+diff}件/分。系内平均滞在時間（待ち＋サービス）は何分か（小数第2位まで）。`,v:1/diff,unit:'分',why:`1÷(サービス率−到着率)＝1÷${diff}`}}},
  {domain:'performance',concept:'平均応答時間',fn:()=>{const hit=int(1,8)/10,miss=hit+int(4,14)/10,p=int(4,9)/10;return {stem:`キャッシュヒット時${hit.toFixed(1)}秒、ミス時${miss.toFixed(1)}秒、ヒット率${Math.round(p*100)}%。平均応答時間は何秒か（小数第2位まで）。`,v:p*hit+(1-p)*miss,unit:'秒',why:`${p}×${hit.toFixed(1)}＋(1−${p})×${miss.toFixed(1)}`}}}
  ];
- let templates=fns.filter(x=>!domain||x.domain===domain);
+ let templates=fns.filter(x=>(!domain||x.domain===domain)&&(!concept||x.concept===concept));
  if(!templates.length)return out;
  for(let i=0;i<count;i++){
   const t=templates[i%templates.length],x=t.fn(),value=Number(x.v.toFixed(2)),fmt=n=>Number(n.toFixed(2)).toString()+x.unit;

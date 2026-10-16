@@ -18,6 +18,8 @@ for(const [domain,concepts] of Object.entries(groups)){
   }
  }
  assert.ok(seen.size>60,domain+' does not diversify enough');
+ for(const concept of concepts){const filtered=G.make(456,domain,10,concept);assert.equal(filtered.length,10);assert.ok(filtered.every(q=>q.concept===concept),domain+':'+concept+' filter broken');}
+ assert.equal(G.make(456,domain,10,'does-not-exist').length,0);
 }
 assert.equal(G.make(123,'lifecycle',10).length,0);
 for(const page of ['index','theory','architecture','performance','modeling','lifecycle','database']){
