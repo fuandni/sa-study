@@ -20,7 +20,8 @@ body+='<section class="grid">'+Object.entries(D.meta).map(([k,v])=>{const set=al
 return body;
 }
 function conceptHistory(domainName,concept){
- const records=all.filter(q=>q.domain===domainName&&q.concept===concept).flatMap(q=>(progress[q.id]||[]).map(a=>({...a,id:q.id})));\n records.push(...(progress['numeric:'+domainName+':'+concept]||[]).map(a=>({...a,id:'numeric:'+domainName+':'+concept})));
+ const records=all.filter(q=>q.domain===domainName&&q.concept===concept).flatMap(q=>(progress[q.id]||[]).map(a=>({...a,id:q.id})));
+ records.push(...(progress['numeric:'+domainName+':'+concept]||[]).map(a=>({...a,id:'numeric:'+domainName+':'+concept})));
  return records.sort((a,b)=>String(a.ts||'').localeCompare(String(b.ts||'')));
 }
 function conceptQuality(domainName,concept){
