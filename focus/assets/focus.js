@@ -89,9 +89,48 @@ $('#next').onclick=()=>{if(session.index===session.ids.length-1)finish();else{se
 $('#stop').onclick=()=>{saveSession();renderHome()};
 }
 function hash(x){let h=2166136261;for(const c of x){h=Math.imul(h^c.charCodeAt(0),16777619)}return h>>>0}
+function getChoiceReason(q,choice){
+ const bank=window.SAFocusChoiceReasons||{},entry=bank.wrong&&bank.wrong[q.id];
+ const idx=q.choices.indexOf(choice),answerIdx=q.choices.indexOf(q.answer);
+ if(idx<0)return null;
+ if(idx===answerIdx)return q.explanation;
+ if(!entry)return null;
+ if(Array.isArray(entry)){return answerIdx===0?entry[idx-1]||null:null}
+ return typeof entry[idx]==='string'?entry[idx]:null;
+}
 function showFeedback(q,chosen){
-document.querySelectorAll('[data-answer]').forEach(btn=>{const actual=btn.textContent.slice(1);btn.classList.toggle('chosen',actual===chosen);btn.classList.toggle('correct',actual===q.answer);btn.classList.toggle('wrong',actual===chosen&&chosen!==q.answer)});
-$('#explain').innerHTML='<div class="feedback"><b>'+(chosen===q.answer?'正解':'不正解')+'</b><p>正解：'+esc(q.answer)+'</p><p>'+esc(q.explanation)+'</p></div>';
+ document.querySelectorAll('[data-answer]').forEach(btn=>{
+  const actual=btn.textContent.slice(1);
+  btn.classList.toggle('chosen',actual===chosen);
+  btn.classList.toggle('correct',actual===q.answer);
+  btn.classList.toggle('wrong',actual===chosen&&chosen!==q.answer);
+ });
+ const correct=chosen===q.answer,why=getChoiceReason(q,chosen);
+ const bank=window.SAFocusChoiceReasons||{};
+ const references=bank.sources&&bank.sources[q.concept]||[];
+ const hasReviewed=!!(bank.wrong&&bank.wrong[q.id]);
+ let html='<div class="feedback '+(correct?'feedback-ok':'feedback-ng')+'"><b>'+(correct?'正解':'不正解')+'</b>';
+ if(!correct){
+  html+='<p><strong>あなたの選択：</strong>'+esc(chosen)+'</p>';
+  if(why)html+='<div class="choice-explanation"><strong>この選択肢が違う理由</strong><p>'+esc(why)+'</p></div>';
+ }
+ html+='<p><strong>正解：</strong>'+esc(q.answer)+'</p><p><strong>正解になる根拠：</strong>'+esc(q.explanation)+'</p>';
+ if(hasReviewed){
+  html+='<details class="choice-reasons" '+(!correct?'open':'')+'><summary>4つの選択肢を比較する（根拠を確認）</summary><ol>';
+  for(const option of q.choices){
+   const isAnswer=option===q.answer,reason=getChoiceReason(q,option);
+   html+='<li class="'+(isAnswer?'right-option':option===chosen?'picked-option':'')+'"><span>'+(isAnswer?'○ 正しい：':'× 違う：')+esc(option)+'</span><p>'+esc(reason||'個別の根拠は確認中')+'</p></li>';
+  }
+  html+='</ol></details>';
+ }else if(!correct){
+  html+='<p class="reason-pending">この問題の誤答選択肢ごとの説明は未整備です。現在は上の正答解説を確認してください。</p>';
+ }
+ if(references.length){
+  html+='<div class="reference-links"><strong>関連する技術資料</strong><p>解説の補助資料です。出題元や公式解答であることを意味しません。</p>';
+  for(const ref of references)html+='<a href="'+esc(ref.url)+'" target="_blank" rel="noopener noreferrer">'+esc(ref.label)+' ↗</a>';
+  html+='</div>';
+ }
+ $('#explain').innerHTML=html+'</div>';
 }
 function finish(){
 const done=session;let count=0;for(const id of done.ids){const a=done.answers[id];if(a){const q=all.find(x=>x.id===id)||(done.generated||[]).find(x=>x.id===id);const key=q&&q.variant==='generated'?'numeric:'+q.domain+':'+q.concept:id;const p=progress[key]||[];p.push({correct:!!a.correct,ts:new Date().toISOString(),...(q&&q.variant==='generated'?{id:q.id}:{})});progress[key]=p.slice(-30);count+=a.correct?1:0}}save();session=null;saveSession();
