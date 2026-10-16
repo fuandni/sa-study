@@ -42,6 +42,8 @@ jobs:
           node --check focus/data/numeric.js
           node tests/test_focus_numeric.cjs
           node tests/test_focus_numeric_ui.cjs
+          node --check focus/data/scenario_cases.js
+          node tests/test_focus_scenario_cases.cjs
 
       - name: Validate sync backend syntax
         run: |
