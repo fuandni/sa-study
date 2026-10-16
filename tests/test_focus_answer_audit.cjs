@@ -23,7 +23,7 @@ expect('advanced-architecture-03',String(5+20-1));
 expect('advanced-architecture-05',String(2*2)+'TB');
 expect('advanced-performance-01',String(1/((1-0.8)+0.8/4))+'倍');
 expect('advanced-performance-02',String(1e9*2/(2e9))+'秒');
-expect('advanced-performance-05',String((2.2-.6)/(2.2-.2)*100)+'%');
+expect('advanced-performance-05',String(Math.round((2.2-.6)/(2.2-.2)*100))+'%');
 expect('advanced-performance-06',String(80*.25)+'件');
 expect('advanced2-theory-04','−0.6');
 expect('advanced2-architecture-01',String(4+10-1)+'クロック');
@@ -31,6 +31,6 @@ expect('advanced2-architecture-02',String(.8*2+.2*102)+'ns');
 expect('advanced2-architecture-03',String(64/4));
 expect('advanced2-performance-01',String(1/.2)+'倍');
 expect('advanced2-performance-02',String(5e8*1.25/(2.5e9))+'秒');
-expect('advanced2-performance-04',String((1.1-.4)/(1.1-.1)*100)+'%');
+expect('advanced2-performance-04',String(Math.round((1.1-.4)/(1.1-.1)*100))+'%');
 for(const q of questions){assert.equal(new Set(q.choices).size,4,q.id);assert.ok(q.explanation.length>20,q.id)}
 console.log('PASS: 60 applied question invariants and independent numeric regression checks');
