@@ -39,7 +39,7 @@ for(const [domain,n] of Object.entries(baseline)){
  }
  const html=fs.readFileSync('focus/'+domain+'.html','utf8');
  assert.ok(html.indexOf('data/applied_extra.js')<html.indexOf('assets/focus.js'),domain);
- assert.ok(html.includes('focus.js?v=6'),domain);
+ assert.ok(html.includes('focus.js?v=20261016-home'),domain);
 }
 assert.equal(new Set(allIds).size,24);
 let home=run('');
