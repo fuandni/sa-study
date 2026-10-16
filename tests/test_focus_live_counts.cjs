@@ -3,7 +3,7 @@ const assert=require('node:assert/strict');
 const fs=require('node:fs');
 const vm=require('node:vm');
 const {JSDOM}=require('jsdom');
-const sourceNames=['focus/data/questions.js','focus/data/applied.js','focus/data/applied_extra.js','focus/assets/focus.js'];
+const sourceNames=['focus/data/questions.js','focus/data/applied.js','focus/data/applied_extra.js','focus/data/numeric.js','focus/assets/focus.js'];
 const baseline={theory:10,architecture:10,performance:8,modeling:12,lifecycle:8,database:10};
 function run(domain){
   const w=new JSDOM('<!doctype html><html><body data-domain="'+domain+'"><div id="focus-app"></div></body></html>',{url:'https://example.test/sa/focus/'+(domain||'index')+'.html',runScripts:'outside-only'}).window;
@@ -38,7 +38,7 @@ for(const [domain,n] of Object.entries(baseline)){
  }
  const html=fs.readFileSync('focus/'+domain+'.html','utf8');
  assert.ok(html.indexOf('data/applied_extra.js')<html.indexOf('assets/focus.js'),domain);
- assert.ok(html.includes('focus.js?v=4'),domain);
+ assert.ok(html.includes('focus.js?v=5'),domain);
 }
 assert.equal(new Set(allIds).size,24);
 let home=run('');
