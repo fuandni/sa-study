@@ -39,7 +39,7 @@ for(const [domain,n] of Object.entries(baseline)){
  }
  const html=fs.readFileSync('focus/'+domain+'.html','utf8');
  assert.ok(html.indexOf('data/applied_extra.js')<html.indexOf('assets/focus.js'),domain);
- assert.ok(html.includes('focus.js?v=20261016-home'),domain);
+ assert.ok(/assets\/focus\.js\?v=[^"']+/.test(html),domain+' versioned runtime');
 }
 assert.equal(new Set(allIds).size,24);
 let home=run('');
@@ -47,9 +47,13 @@ const homeText=home.document.querySelector('.hero').textContent;
 assert.ok(homeText.includes('通常演習130問'),homeText);
 assert.ok(homeText.includes('応用72問'),homeText);
 assert.ok(homeText.includes('基本確認58問'),homeText);
-const cards=[...home.document.querySelectorAll('.tile')];
-assert.equal(cards.length,6);
+const cards=[...home.document.querySelectorAll('.tile[href$=".html"]')];
+assert.equal(cards.length,6,'exactly six original domain cards');
 for(const card of cards){assert.match(card.textContent,/応用(?:10|14)問・基本確認(?:8|10|12)問/);}
+const uml=home.document.querySelector('.tile[href="uml/"]');
+assert.ok(uml,'standalone UML drill link must remain visible');
+assert.match(uml.textContent,/UML集中演習/);
+assert.equal(home.document.querySelectorAll('.tile').length,7,'six domains plus separate UML drill');
 const all=home.SAFocusAppliedExtra;
 assert.equal(all.length,24);
 assert.ok(fs.readFileSync('focus/index.html','utf8').includes('applied_extra.js'));
