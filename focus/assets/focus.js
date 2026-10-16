@@ -8,7 +8,7 @@ let progress,session;
 try{progress=JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){progress={}}
 if(!progress||typeof progress!=='object')progress={};
 try{session=JSON.parse(localStorage.getItem(SESSION)||'null')}catch(e){session=null}
-if(!session||!Array.isArray(session.ids)||!session.ids.every(id=>all.some(q=>q.id===id)))session=null;
+if(!session||!Array.isArray(session.ids)||!session.ids.every(id=>all.some(q=>q.id===id)||(session.generated||[]).some(q=>q.id===id)))session=null;
 const save=()=>localStorage.setItem(KEY,JSON.stringify(progress));
 const saveSession=()=>session?localStorage.setItem(SESSION,JSON.stringify(session)):localStorage.removeItem(SESSION);
 function title(){return domain?D.meta[domain][0]:'弱点集中演習'}
@@ -20,7 +20,7 @@ body+='<section class="grid">'+Object.entries(D.meta).map(([k,v])=>{const set=al
 return body;
 }
 function conceptHistory(domainName,concept){
- const records=all.filter(q=>q.domain===domainName&&q.concept===concept).flatMap(q=>(progress[q.id]||[]).map(a=>({...a,id:q.id})));
+ const records=all.filter(q=>q.domain===domainName&&q.concept===concept).flatMap(q=>(progress[q.id]||[]).map(a=>({...a,id:q.id})));\n records.push(...(progress['numeric:'+domainName+':'+concept]||[]).map(a=>({...a,id:'numeric:'+domainName+':'+concept})));
  return records.sort((a,b)=>String(a.ts||'').localeCompare(String(b.ts||'')));
 }
 function conceptQuality(domainName,concept){
@@ -59,16 +59,16 @@ function listFor(kind,concept,level='standard'){
 function dashboard(){
 const pool=all.filter(q=>q.domain===domain),st=stats(pool),basicCount=pool.filter(q=>representativeIds.has(q.id)).length,appliedCount=pool.filter(q=>q.level==='standard').length,legacyCount=pool.length-basicCount-appliedCount;
 let main='<section class="hero"><h1>'+esc(title())+'</h1><p>通常演習：応用判断'+appliedCount+'問／基本確認'+basicCount+'問。旧基本問題'+(basicCount+legacyCount)+'問は削除せず保管しています。</p><p>通常対象の回答済み '+stats(pool.filter(q=>q.level==='standard'||representativeIds.has(q.id))).done+' / '+(basicCount+appliedCount)+'問｜全保存対象の回答済み '+st.done+' / '+pool.length+'問｜直近不正解 '+st.wrong+'問</p></section>';
-main+='<section class="panel"><h2>出題条件</h2><label>難度 <select id="level"><option value="smart">弱点優先・安定概念をスキップ（推奨）</option><option value="standard">応用判断</option><option value="basic">基本確認・各概念1問</option><option value="all">通常全問（応用＋基本）</option><option value="legacy">旧基本290問（保管）</option></select></label><label>対象 <select id="kind"><option value="all">全問</option><option value="unseen">未回答</option><option value="wrong">誤答経験</option><option value="unstable">不安定（2回以上誤答・正誤反転）</option></select></label><label>概念 <select id="concept"><option value="">全概念</option>'+D.concepts[domain].map(x=>'<option value="'+esc(x[0])+'">'+esc(x[0])+'</option>').join('')+'</select></label><label>問題数 <select id="size"><option value="10">10問</option><option value="20">20問</option><option value="all">該当全問</option></select></label><label>出題順 <select id="order"><option value="mixed">混合テスト</option><option value="focus">概念集中</option></select></label><p id="preview"></p><button class="primary" id="begin">演習開始</button></section>';
+main+='<section class="panel"><h2>出題条件</h2><label>難度 <select id="level"><option value="smart">弱点優先・安定概念をスキップ（推奨）</option><option value="standard">応用判断</option><option value="basic">基本確認・各概念1問</option><option value="all">通常全問（応用＋基本）</option><option value="legacy">旧基本290問（保管）</option><option value="numeric">数値変更・初見計算（10/20問）</option></select></label><label>対象 <select id="kind"><option value="all">全問</option><option value="unseen">未回答</option><option value="wrong">誤答経験</option><option value="unstable">不安定（2回以上誤答・正誤反転）</option></select></label><label>概念 <select id="concept"><option value="">全概念</option>'+D.concepts[domain].map(x=>'<option value="'+esc(x[0])+'">'+esc(x[0])+'</option>').join('')+'</select></label><label>問題数 <select id="size"><option value="10">10問</option><option value="20">20問</option><option value="all">該当全問</option></select></label><label>出題順 <select id="order"><option value="mixed">混合テスト</option><option value="focus">概念集中</option></select></label><p id="preview"></p><button class="primary" id="begin">演習開始</button></section>';
 main+='<section class="panel"><h2>概念別の記録</h2><div class="concepts">'+D.concepts[domain].map(x=>{const qs=pool.filter(q=>q.concept===x[0]);let s=stats(qs);return '<button data-concept="'+esc(x[0])+'"><b>'+esc(x[0])+'</b><small>回答済み '+s.done+'/'+qs.length+'・直近不正解 '+s.wrong+'</small></button>'}).join('')+'</div></section>';
 root.innerHTML=header()+main;
-const update=()=>{const list=listFor($('#kind').value,$('#concept').value,$('#level').value);const n=$('#size').value==='all'?list.length:Math.min(list.length,Number($('#size').value));$('#preview').textContent='今回の出題：'+n+'問（候補'+list.length+'問）';$('#begin').disabled=n===0};
+const update=()=>{const numeric=$('#level').value==='numeric';const types=domain==='theory'?1:domain==='architecture'?2:domain==='performance'?3:0;const list=numeric?Array.from({length:types*10}):listFor($('#kind').value,$('#concept').value,$('#level').value);const n=numeric?($('#size').value==='20'?20:10)*(types?1:0):($('#size').value==='all'?list.length:Math.min(list.length,Number($('#size').value)));$('#preview').textContent='今回の出題：'+n+'問（候補'+list.length+'問）';$('#begin').disabled=n===0};
 for(const el of document.querySelectorAll('select'))el.addEventListener('change',update);update();
 $('#begin').onclick=()=>start($('#kind').value,$('#concept').value,$('#size').value,$('#order').value,$('#level').value);
 document.querySelectorAll('[data-concept]').forEach(btn=>btn.onclick=()=>{ $('#concept').value=btn.dataset.concept;$('#order').value='focus';if(!listFor('all',btn.dataset.concept,$('#level').value).length)$('#level').value='all';update();window.scrollTo(0,0)});
 }
 function start(kind,concept,size,order,level='smart'){
-let list=listFor(kind,concept,level),ordered=[...list];
+if(level==='numeric'){const seed=Date.now();const total=size==='20'?20:10;const generated=window.SAFocusNumeric.make(seed,domain,total);if(!generated.length)return;session={domain,ids:generated.map(q=>q.id),generated,index:0,answers:{},started:new Date().toISOString(),seed};saveSession();renderQuestion();return}\nlet list=listFor(kind,concept,level),ordered=[...list];
 if(order==='mixed'&&level!=='smart'){ordered=D.randomize(ordered,Date.now())}else if(level!=='smart'){ordered.sort((a,b)=>a.concept.localeCompare(b.concept,'ja')||a.variant.localeCompare(b.variant))}
 if(size!=='all')ordered=ordered.slice(0,Number(size));
 if(!ordered.length)return;
@@ -76,7 +76,7 @@ if(session&&!confirm('途中の演習を破棄して開始しますか？'))retu
 session={domain,ids:ordered.map(q=>q.id),index:0,answers:{},started:new Date().toISOString(),seed:Date.now()};saveSession();renderQuestion();
 }
 function renderQuestion(){
-const q=all.find(q=>q.id===session.ids[session.index]);if(!q){finish();return}
+const q=all.find(q=>q.id===session.ids[session.index])||(session.generated||[]).find(q=>q.id===session.ids[session.index]);if(!q){finish();return}
 const existing=session.answers[q.id],options=D.randomize([...q.choices],hash(q.id+session.seed));
 root.innerHTML=header()+'<section class="panel"><p class="muted">'+esc(title())+'　'+(session.index+1)+' / '+session.ids.length+'問　｜　'+esc(q.concept)+'</p><h2 class="stem">'+esc(q.stem).replace(/\n/g,'<br>')+'</h2><div class="answers">'+options.map((a,i)=>'<button data-answer="'+i+'" class="'+(existing&&existing.selected===a?'chosen':'')+'"><kbd>'+('ABCD'[i])+'</kbd>'+esc(a)+'</button>').join('')+'</div><div id="explain"></div><div class="controls"><button id="prev" '+(session.index===0?'disabled':'')+'>前へ</button><button id="next">'+(session.index===session.ids.length-1?'結果を見る':'次へ')+'</button><button id="stop">途中保存して戻る</button></div></section>';
 document.querySelectorAll('[data-answer]').forEach(btn=>btn.onclick=()=>{const selected=options[Number(btn.dataset.answer)];session.answers[q.id]={selected,correct:selected===q.answer};saveSession();showFeedback(q,selected)});
@@ -91,8 +91,8 @@ document.querySelectorAll('[data-answer]').forEach(btn=>{const actual=btn.textCo
 $('#explain').innerHTML='<div class="feedback"><b>'+(chosen===q.answer?'正解':'不正解')+'</b><p>正解：'+esc(q.answer)+'</p><p>'+esc(q.explanation)+'</p></div>';
 }
 function finish(){
-const done=session;let count=0;for(const id of done.ids){const a=done.answers[id];if(a){const p=progress[id]||[];p.push({correct:!!a.correct,ts:new Date().toISOString()});progress[id]=p.slice(-30);count+=a.correct?1:0}}save();session=null;saveSession();
-root.innerHTML=header()+'<section class="hero"><h1>演習結果</h1><p>正解 '+count+' / '+done.ids.length+'問　回答済み '+Object.keys(done.answers).length+'問</p><button class="primary" id="return">この分野に戻る</button></section><section class="panel"><h2>今回の問題</h2><div class="result">'+done.ids.map(id=>{const q=all.find(x=>x.id===id);const answer=done.answers[id];return '<p><strong>'+esc(q.concept)+'</strong>　'+(answer?(answer.correct?'○':'×'):'未回答')+'　'+esc(q.stem.split('\n')[0])+'</p>'}).join('')+'</div></section>';
+const done=session;let count=0;for(const id of done.ids){const a=done.answers[id];if(a){const q=all.find(x=>x.id===id)||(done.generated||[]).find(x=>x.id===id);const key=q&&q.variant==='generated'?'numeric:'+q.domain+':'+q.concept:id;const p=progress[key]||[];p.push({correct:!!a.correct,ts:new Date().toISOString()});progress[key]=p.slice(-30);count+=a.correct?1:0}}save();session=null;saveSession();
+root.innerHTML=header()+'<section class="hero"><h1>演習結果</h1><p>正解 '+count+' / '+done.ids.length+'問　回答済み '+Object.keys(done.answers).length+'問</p><button class="primary" id="return">この分野に戻る</button></section><section class="panel"><h2>今回の問題</h2><div class="result">'+done.ids.map(id=>{const q=all.find(x=>x.id===id)||(done.generated||[]).find(x=>x.id===id);const answer=done.answers[id];return '<p><strong>'+esc(q.concept)+'</strong>　'+(answer?(answer.correct?'○':'×'):'未回答')+'　'+esc(q.stem.split('\n')[0])+'</p>'}).join('')+'</div></section>';
 $('#return').onclick=renderHome;
 }
 function renderHome(){
